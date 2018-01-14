@@ -1,0 +1,30 @@
+Problem of Implemention for time-frequency peak filtering
+-----------
+Dear Prof. Boashash:
+
+I am trying to implement the algorithms in "Boashash B, Mesbah M. Signal enhancement by time-frequency peak filtering [J]. IEEE Transactions on Signal Processing, 2004". It's very useful for signal enhancement or denoising. However, something get wrong when I iteratively implement the algorithms in the LFM signal, as showed in the attachment. 
+
+This confused me a lot. And it is very kind of you to guide me to the problems in my code, or, the corresponding code and data of the demonstrate in your paper may help me a lot. All your guidance will be cherished by me.
+
+Thank you very much for your help and contributions. 
+
+Comments:
+I am using the Time-Frequency Toolbox 2.0 for convenience in Matlab 2014a.
+
+Sincerely,
+He Liang
+School of Electronics and Information Engineering
+Harbin Institute of Technology
+
+
+
+
+
+
+
+
+
+
+
+
+
