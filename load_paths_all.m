@@ -1,0 +1,13 @@
+%% 加载必要的目录
+
+cur_path = pwd();
+paths = [
+    cur_path,'/tfr_generate;',...
+    cur_path,'/parameter_estimate;',...
+    cur_path,'/freq_use_func;',...
+    cur_path,'/denoise;',...
+    cur_path,'/time_vary_filter;',
+    ];
+addpath( paths );
+
+
