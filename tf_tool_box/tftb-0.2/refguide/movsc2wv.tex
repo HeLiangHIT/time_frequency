@@ -1,0 +1,70 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{movsc2wv}
+\section*{\hspace*{-1.6cm} movsc2wv}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Movie illustrating the passage from the scalogram to the WVD.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+M = movsc2wv(N)
+M = movsc2wv(N,Np)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty movsc2wv} generates the movie frames illustrating the passage
+        from the scalogram to the WVD using the affine smoothed pseudo-WVD
+        with different smoothing gaussian windows. \\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points of the analyzed signal\\
+        {\ty Np} & number of snapshots & {\ty 8}\\
+\hline  {\ty M} & matrix of movie frames\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         M=movsc2wv(64,8); 
+         movie(M,10);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+movpwjph, movpwdph, movcw4at, movsp2wv, movwv2at.
+\end{verbatim}
+\end{minipage}

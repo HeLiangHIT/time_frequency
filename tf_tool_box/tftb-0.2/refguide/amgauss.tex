@@ -1,0 +1,73 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{amgauss}
+\section*{\hspace*{-1.6cm} amgauss}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Gaussian amplitude modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+y = amgauss(N)
+y = amgauss(N,t0)
+y = amgauss(N,t0,T)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty amgauss} generates a gaussian amplitude modulation centered on
+        a time {\ty t0}, and with a spread proportional to {\ty T}.  This
+        modulation is scaled such that {\ty y(t0)=1} and {\ty y(t0+T/2)}
+        and {\ty y(t0-T/2)} are approximately equal to 0.5~:
+        $$y(t)=e^{-\pi\left({t-t_0\over T}\right)^2}$$
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points\\
+        {\ty t0} & time center       &         {\ty N/2}\\
+        {\ty T}  & time spreading    &         {\ty 2*sqrt(N)}\\
+  \hline {\ty y}  & signal\\
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}
+\begin{verbatim}
+         z=amgauss(160);        plot(z);
+         z=amgauss(160,90,40);  plot(z);
+         z=amgauss(160,180,50); plot(z);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+amexpo1s, amexpo2s, amrect, amtriang.
+\end{verbatim}
+\end{minipage}
+

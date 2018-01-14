@@ -1,0 +1,92 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{midpoint}
+\section*{\hspace*{-1.6cm} midscomp}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Mid-point construction used in the interference diagram. 
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[ti,fi] = midpoint(t1,f1,t2,f2,K)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty midscomp} gives the coordinates in the
+        time-frequency plane of the interference-term corresponding to
+        the points {\ty (t1,f1)} and {\ty (t2,f2)}, for a distribution in the
+        affine class perfectly localized on power-law group-delays of 
+        the form $t_x(\nu)=t_0+c\ \nu^{K-1}.$ This function is mainly 
+        called by {\ty  plotsid}.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{11cm} c} Name &
+Description \\ \hline {\ty t1} & time-coordinate of the first point\\ {\ty
+f1} & frequency-coordinate of the first point ($>0$)\\ {\ty t2} &
+time-coordinate of the second point\\ {\ty f2} & frequency-coordinate of
+the second point ($>0$)\\ {\ty K} & power of the group-delay law. Example
+of distributions satisfying this interference construction :\\ &
+\hspace*{.5cm} {\ty K = 2} : Wigner-Ville distribution\\ &
+\hspace*{.5cm} {\ty K = 1/2} : D-Flandrin distribution\\ & \hspace*{.5cm}
+{\ty K = 0 } : Bertrand (unitary) distribution \\ & \hspace*{.5cm} {\ty K =
+-1} : Unterberger (active) distribution\\ & \hspace*{.5cm} {\ty K =
+Inf} : Margenau-Hill-Rihaczek distribution\\ \hline {\ty ti} &
+time-coordinate (abscissa) of the interference-point\\ {\ty fi} &
+frequency-coordinate (ordinate) of the interference-point\\ \hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Here is the locus of the interference terms between two points, for {\ty K} going
+from -15 to 15\,:
+\begin{verbatim}
+         t1=10; f1=0.45; t2=90; f2=0.05; hold on
+         for K=-15:15,
+          [ti(2*K+31),fi(2*K+31)]=midscomp(t1,f1,t2,f2,K);
+         end
+\end{verbatim}
+\end{minipage}
+%\newpage
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+         plot(ti,fi,'g*'); plot(t1,f1,'go'); plot(t2,f2,'go');
+         line([t1,t2],[f1,f2]); hold off
+         xlabel('Time'); ylabel('Normalized frequency');
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+plotsid.
+\end{verbatim}
+\end{minipage}
+

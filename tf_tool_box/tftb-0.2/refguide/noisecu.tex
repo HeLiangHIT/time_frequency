@@ -1,0 +1,64 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{noisecu}
+\section*{\hspace*{-1.6cm} noisecu}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Analytic complex uniform white noise.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+noise = noisecu(N)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty noisecu} computes an analytic complex white uniform
+         noise of length {\ty N} with mean 0 and variance 1.0.\\ 
+ 
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         N=512; noise=noisecu(N);
+         [abs(mean(noise)),std(noise).^2]
+         ans = 
+               0.0099    1.0000
+
+         subplot(211); plot(real(noise)); axis([1 N -1.5 1.5]);
+         subplot(212); f=linspace(-0.5,0.5,N); 
+         plot(f,abs(fftshift(fft(noise))).^2);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+rand, randn, noisecg.
+\end{verbatim}
+\end{minipage}

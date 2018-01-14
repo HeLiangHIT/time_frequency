@@ -1,0 +1,71 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{amexpo1s}
+\section*{\hspace*{-1.6cm} amexpo1s}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+One-sided exponential amplitude modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+y = amexpo1s(N)
+y = amexpo1s(N,t0)
+y = amexpo1s(N,t0,T)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty amexpo1s} generates a one-sided exponential amplitude
+        modulation starting at time {\ty t0}, and with a spread proportional to
+        {\ty T}.\\ This modulation is scaled such that {\ty y(t0)=1}.\\
+  
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points\\
+        {\ty t0} & arrival time of the exponential   & {\ty N/2}\\
+        {\ty T}  & time spreading                    & {\ty 2*sqrt(N)}\\
+  \hline {\ty y}  & signal\\
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}
+\begin{verbatim}
+         z=amexpo1s(160);       plot(z);
+         z=amexpo1s(160,20,40); plot(z);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+amexpo2s, amgauss, amrect, amtriang.
+\end{verbatim}
+\end{minipage}
+
+

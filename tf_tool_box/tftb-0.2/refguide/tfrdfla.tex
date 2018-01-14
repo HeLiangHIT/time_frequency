@@ -1,0 +1,107 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\renewcommand{\footnoterule}{}
+\markright{tfrdfla}
+\section*{\hspace*{-1.6cm} tfrdfla}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+D-Flandrin time-frequency distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrdfla(x)
+[tfr,t,f] = tfrdfla(x,t)
+[tfr,t,f] = tfrdfla(x,t,fmin,fmax)
+[tfr,t,f] = tfrdfla(x,t,fmin,fmax,N)
+[tfr,t,f] = tfrdfla(x,t,fmin,fmax,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrdfla} generates the auto- or cross- D-Flandrin
+        distribution.  This distribution has the
+        following expression :
+\begin{eqnarray*}
+D_x(t,\nu)=\nu\ \int_{-\infty}^{+\infty} (1-(\gamma/4)^2)\
+X\left(\nu (1-\gamma/4)^2\right)\ X^*\left(\nu (1+\gamma/4)^2\right)\
+e^{-j2\pi\gamma t\nu}\ d\gamma.
+\end{eqnarray*}
+
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x} & signal (in time) to be analyzed. If {\ty x=[x1 x2]}, {\ty tfrdfla} 
+           computes the cross-D-Flandrin distribution ({\ty Nx=length(X)})\\
+        {\ty t} & time instant(s) on which the {\ty tfr} is evaluated & {\ty (1:Nx)}\\
+        {\ty fmin, fmax} & respectively lower and upper frequency bounds of 
+           the analyzed signal. These parameters fix the equivalent 
+           frequency bandwidth (expressed in Hz). When unspecified, you
+           have to enter them at the command line from the plot of the
+           spectrum. {\ty fmin} and {\ty fmax} must be $>0$ and $\leq 0.5$\\         
+        {\ty N} & number of analyzed voices & auto\footnote{This value,
+	determined from {\ty fmin} and {\ty fmax}, is the 
+	next-power-of-two of the minimum value checking the non-overlapping
+	condition in the fast Mellin transform.}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                           & {\ty 0}\\
+
+\hline\end{tabular*}\end{minipage} \newpage
+\hspace*{1.5cm}\begin{minipage}[t]{13.5cm}
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\\hline
+
+     \hline {\ty tfr} & time-frequency matrix containing the coefficients of the 
+           decomposition (abscissa correspond to uniformly sampled
+           time, and ordonates correspond to a geometrically sampled 
+           frequency). First row of {\ty tfr} corresponds to the lowest 
+           frequency\\
+        {\ty f} & vector of normalized frequencies (geometrically sampled 
+           from {\ty fmin} to {\ty fmax})\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrdfla} runs {\ty tfrqview}.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=altes(64,0.1,0.45); 
+         tfrdfla(sig); 
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] P. Flandrin ``Temps-fréquence'' Traité des Nouvelles Technologies,
+		  série Traitement du Signal, Herm\`es, 1993.
+\end{minipage}

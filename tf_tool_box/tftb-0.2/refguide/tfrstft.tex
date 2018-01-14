@@ -1,0 +1,92 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrstft}
+\section*{\hspace*{-1.6cm} tfrstft}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Short time Fourier transform.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrstft(x)
+[tfr,t,f] = tfrstft(x,t)
+[tfr,t,f] = tfrstft(x,t,N)
+[tfr,t,f] = tfrstft(x,t,N,h)
+[tfr,t,f] = tfrstft(x,t,N,h,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrstft} computes the short-time Fourier transform of a
+        discrete-time signal {\ty x}. Its continuous expression writes
+\[F_x(t,\nu;h) = \int_{-\infty}^{+\infty} x(u)\ h^*(u-t)\ e^{-j2\pi
+\nu u}\ du\] where $h(t)$ is a {\it short time analysis window} localized
+around $t=0$ and $\nu=0$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal ({\ty Nx=length(x)}) \\
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins & {\ty Nx}\\
+        {\ty h}     & smoothing window, {\ty h} being normalized so as to
+                be  of unit energy.      & {\ty window(odd(N/4))}\\ 
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr}   & time-frequency decomposition (complex values). The
+                frequency axis is graduated from {\ty -0.5} to {\ty 0.5}\\
+        {\ty f}     & vector of normalized frequencies\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrstft} runs {\ty tfrqview},
+which displays the squared modulus of the short-time Fourier transform.
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=[fmlin(128,0.05,.45);fmlin(128,0.35,.15)]; 
+         tfr=tfrstft(sig);
+         subplot(211); imagesc(abs(tfr(1:128,:))); axis('xy')
+         subplot(212); imagesc(angle(tfr(1:128,:))); axis('xy')
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf References}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] J. Allen, L. Rabiner ``A Unified Approach to Short-Time Fourier
+Analysis and Synthesis'' Proc. of the IEEE, Vol. 65, No. 11, pp. 1558-64,
+Nov. 1977.\\
+
+[2] S. Nawab, T. Quatieri ``Short-Time Fourier Transform'', chapter in {\it
+Advanced Topics in Signal Processing} J. Lim and A. Oppenheim
+eds. Prentice Hall, Englewood Cliffs, NJ, 1988.
+\end{minipage}

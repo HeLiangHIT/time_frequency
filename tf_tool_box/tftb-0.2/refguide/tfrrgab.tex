@@ -1,0 +1,108 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrrgab}
+\section*{\hspace*{-1.6cm} tfrrgab}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Reassigned Gabor spectrogram time-frequency distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,rtfr,hat] = tfrrgab(x) 
+[tfr,rtfr,hat] = tfrrgab(x,t) 
+[tfr,rtfr,hat] = tfrrgab(x,t,N) 
+[tfr,rtfr,hat] = tfrrgab(x,t,N,Nh) 
+[tfr,rtfr,hat] = tfrrgab(x,t,N,Nh,trace) 
+[tfr,rtfr,hat] = tfrrgab(x,t,N,Nh,trace,k) 
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrrgab} computes the Gabor spectrogram and its reassigned
+        version.  The analysis window $h$ used in this spectrogram is a
+        gaussian window, which allows a 20 \% faster algorithm than with
+        the {\ty tfrrsp} function (windows $\ens{T}_h$ and $\ens{D}_h$
+        defined above are colinear in this case). The reassigned Gabor
+        spectrogram is given by the following expressions :
+\begin{eqnarray*}
+ S_x^{(r)}(t',\nu';h)=\iint_{-\infty}^{+\infty} S_x(t,\nu;h)\
+\delta(t'-\hat{t}(x;t,\nu))\ \delta(\nu'-\hat{\nu}(x;t,\nu))\ dt\ d\nu,
+\end{eqnarray*}
+where 
+\begin{eqnarray*}
+\hat{t}(x;t,\nu)=t-\Re\left\{\dfrac{F_x(t,\nu;\ens{T}_h)\ F_x^*(t,\nu;h)}
+{|F_x(t,\nu;h)|^2}\right\} \\
+\hat{\nu}(x;t,\nu)=\nu+\Im\left\{\dfrac{F_x(t,\nu;\ens{D}_h)\ F_x^*(t,\nu;h)}
+{2\pi\ |F_x(t,\nu;h)|^2}\right\}    
+\end{eqnarray*}
+with $\ens{T}_h(t)=t\ h(t)$ and $\ens{D}_h(t)=\frac{dh}{dt}(t)$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & analyzed signal ({\ty Nx=length(x)})\\
+        {\ty t}     & the time instant(s)           & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins      & {\ty Nx}\\
+        {\ty Nh}    & length of the gaussian window & {\ty N/4}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                              & {\ty 0}\\
+        {\ty k}     & value at both extremities     & {\ty 0.001}\\
+
+\hline \end{tabular*} \end{minipage}
+
+%\newpage
+
+\hspace*{1.5cm} \begin{minipage}[t]{13.5cm} 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr, rtfr} & time-frequency representation and its reassigned
+              version\\
+        {\ty hat}   & complex matrix of the reassignment vectors\\
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrrgab} runs {\ty tfrqview}.
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmlin(128,0.1,0.4); 
+         tfrrgab(sig,1:128,128,19,1);
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] F. Auger, P. Flandrin ``Improving the Readability of Time-Frequency and
+Time-Scale Representations by the Reassignment Method'' IEEE Transactions
+on Signal Processing, Vol. 43, No. 5, pp. 1068-89, 1995.
+\end{minipage}
+

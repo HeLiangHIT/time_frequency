@@ -1,0 +1,87 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{plotsid}
+\section*{\hspace*{-1.6cm} plotsid}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Schematic interference diagram of FM signals. 
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+plotsid(t,iflaws)
+plotsid(t,iflaws,K)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty plotsid} plots the schematic interference diagram of any
+        distribution in the affine class which is perfectly localized for
+        signals with a power-law group-delay of the form $t_x(\nu)=t_0+c\
+        \nu^{K-1}.$ This diagram is computed for any (analytic) FM
+        signal. \\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty t} & time instants\\
+        {\ty iflaws} & matrix of instantaneous frequencies, 
+                 with as many columns as signal components\\ 
+        {\ty K} & distribution parameter                & {\ty 2}\\ 
+        &      {\ty K = 2}   : Wigner-Ville distribution\\ 
+        &      {\ty K = 1/2} : D-Flandrin distribution\\
+        &      {\ty K = 0 }  : Bertrand (unitary) distribution\\ 
+        &      {\ty K = -1}  : Unterberger (active) distribution\\
+        &      {\ty K = inf} : Margenhau-Hill-Rihaczek dist.\\
+  
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Here is the interference diagram corresponding to the Bertrand
+distribution, for a signal composed of two components : a linear and a
+constant frequency modulation\,:
+\begin{verbatim}
+         Nt=90; [y,iflaw]=fmlin(Nt,0.05,0.25); 
+         [y2,iflaw2]=fmconst(50,0.4); 
+         iflaw(:,2)=[NaN*ones(10,1);iflaw2;NaN*ones(Nt-60,1)]; 
+         plotsid(1:Nt,iflaw,0); 
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+plotifl, midpoint, tfrqview, tfrview.
+\end{verbatim}
+\end{minipage}
+

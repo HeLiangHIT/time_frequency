@@ -1,0 +1,55 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{divider}
+\section*{\hspace*{-1.6cm} divider}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Find dividers of an integer, closest from the square root of the integer.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[N,M] = divider(N1)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty divider} find two integers {\ty N} and {\ty M} such that {\ty
+        M*N=N1}, with {\ty M} and {\ty N} as close as possible from {\ty
+        sqrt(N1)}.\\
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Examples}
+\begin{verbatim}
+         N1=256; [N,M]=divider(N1); [N,M]
+         ans = 
+               16    16 
+         N1=258; [N,M]=divider(N1); [N,M]
+         ans = 
+               6     43 
+\end{verbatim}
+
+
+

@@ -1,0 +1,99 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrwv}
+\section*{\hspace*{-1.6cm} tfrwv}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Wigner-Ville time-frequency distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrwv(x)
+[tfr,t,f] = tfrwv(x,t)
+[tfr,t,f] = tfrwv(x,t,N)
+[tfr,t,f] = tfrwv(x,t,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrwv} computes the Wigner-Ville distribution of a
+        discrete-time signal {\ty x}, or the cross Wigner-Ville
+        representation between two signals. The continuous expression of
+        the Wigner-Ville distribution writes
+\begin{eqnarray*}
+W_x(t,\nu)=\int_{-\infty}^{+\infty} x(t+\tau/2)\ x^*(t-\tau/2)\ e^{-j2\pi
+\nu \tau}\ d\tau,   
+\end{eqnarray*}
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal if auto-WV, or {\ty [x1,x2]} if cross-WV {\ty
+			(Nx=length(x))}\\ 
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins & {\ty Nx}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr}   & time-frequency representation. \\
+        {\ty f}     & vector of normalized frequencies\\
+ 
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrwv} runs {\ty tfrqview}.
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+The Wigner-Ville distribution is perfectly localized on linear chirp
+signals. Here is what we obtain in the discrete case :
+\begin{verbatim}
+         sig=fmlin(128,0.1,0.4);  
+         tfrwv(sig);
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+
+%\newpage
+
+{\bf \large \sf References}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] E. Wigner ``On the Quantum Correction for Thermodynamic Equilibrium''
+Phys. Res., Vol. 40, pp. 749-759, 1932.\\
+
+[2] J. Ville ``Théorie et Application de la Notion de Signal Analytique''
+Câbles et Transmission, 2eme A. , No. 1, pp. 61-74, 1948.\\
+
+[3] T. Claasen, W. Mecklenbrauker ``The Wigner Distribution - A Tool for
+Time-Frequency Signal Analysis'' {\it 3 parts} Philips
+J. Res., Vol. 35, No. 3, 4/5, 6, pp. 217-250, 276-300, 372-389, 1980.
+\end{minipage}
+

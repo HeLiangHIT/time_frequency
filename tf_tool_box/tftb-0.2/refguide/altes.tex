@@ -1,0 +1,81 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{altes}
+\section*{\hspace*{-1.6cm} altes}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Altes signal in time domain.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+x = altes(N)
+x = altes(N,fmin)
+x = altes(N,fmin,fmax)
+x = altes(N,fmin,fmax,alpha)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty altes} generates the Altes signal in
+        the time domain.\\
+ 
+\hspace*{-.5cm}
+\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+	{\ty N}&number of points in time&  \\ 
+	{\ty fmin}&lower frequency bound (value of the hyperbolic
+                instantaneous frequency law at the sample {\ty N}), 
+                in normalized frequency&{\ty 0.05}\\
+	{\ty fmax}&upper frequency bound (value of the hyperbolic
+                instantaneous frequency law at the first sample), 
+                in normalized frequency            &{\ty 0.5}\\
+        {\ty alpha}&attenuation factor of the envelope & {\ty 300}\\
+  \hline {\ty x}&time row vector containing the Altes signal samples\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+         x=altes(128,0.1,0.45); plot(x);
+\end{verbatim}
+plots an Altes signal of 128 points whose normalized frequency goes from
+0.45 down to 0.1.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+klauder, anasing, anapulse, anastep, doppler.
+\end{verbatim}
+\end{minipage}
+

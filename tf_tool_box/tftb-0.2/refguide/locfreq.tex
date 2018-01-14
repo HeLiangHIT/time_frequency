@@ -1,0 +1,82 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{locfreq}
+\section*{\hspace*{-1.6cm} locfreq}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Frequency localization characteristics.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[fm,B] = locfreq(x)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty locfreq} computes the frequency localization characteristics of
+        signal {\ty x}. The definition used for the averaged frequency
+        and the frequency spreading are the following\,:
+\begin{eqnarray*}
+f_m &=& \frac{1}{E_x}\ \int_{-\infty}^{+\infty} \nu\ |X(\nu)|^2\ d\nu\\
+B &=& 2\ \sqrt{\frac{\pi}{E_x}\ \int_{-\infty}^{+\infty} (\nu-f_m)^2\
+|X(\nu)|^2\ d\nu }
+\end{eqnarray*}
+where $E_x$ is the energy of the signal and $X(\nu)$ the Fourier transform
+of $x(t)$. With this definition (and the one used in {\ty loctime}), the
+Heisenberg-Gabor inequality writes $B\ T\geq 1$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal\\
+\hline  {\ty fm}    & averaged normalized frequency center\\
+        {\ty B}     & frequency spreading\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         z=amgauss(160,80,50).*fmconst(160,0.2);
+         [fm,B]=locfreq(z); [fm,B]
+         ans = 
+               0.2000    0.0200
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+loctime.
+\end{verbatim}
+\end{minipage}
+
+
+
+

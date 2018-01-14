@@ -1,0 +1,104 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{friedman}
+\section*{\hspace*{-1.6cm} friedman}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Instantaneous frequency density.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tifd = friedman(tfr,hat)
+tifd = friedman(tfr,hat,t)
+tifd = friedman(tfr,hat,t,method)
+tifd = friedman(tfr,hat,t,method,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty friedman} computes the time-instantaneous frequency density
+        (defined by Friedman [1]) of a reassigned time-frequency
+        representation.\\
+  
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr}   & time-frequency representation, {\ty (N,M)} matrix\\
+        {\ty hat}   & complex matrix of the reassignment vectors\\
+        {\ty t }    & time instant(s)     & {\ty (1:M)}\\
+        {\ty method}& chosen representation   & {\ty 'tfrrsp'}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                        & {\ty 0}\\
+ \hline {\ty tifd}  & time instantaneous-frequency density. When called without 
+                output arguments, {\ty friedman} runs {\ty tfrqview}\\
+
+\hline
+\end{tabular*}
+\vspace*{.1cm}
+
+Warning : {\ty tifd} is not an energy distribution, but an estimated
+               probability distribution.
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Here is an example of such an estimated probability distribution operated
+on the reassigned pseudo-Wigner-Ville distribution of a linear frequency
+modulation :
+\begin{verbatim}
+         sig=fmlin(128,0.1,0.4); 
+         [tfr,rtfr,hat]=tfrrpwv(sig);
+         friedman(tfr,hat,1:128,'tfrrpwv',1); 
+\end{verbatim}
+The result is almost perfectly concentrated on a line in the time-frequency
+plane. 
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+ridges.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] D.H. Friedman, "Instantaneous Frequency vs Time : An
+Interpretation of the Phase Structure of Speech", Proc. IEEE
+ICASSP, pp. 29.10.1-4, Tampa, 1985.	
+\end{minipage}
+
+
+
+

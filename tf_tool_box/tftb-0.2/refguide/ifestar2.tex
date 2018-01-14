@@ -1,0 +1,104 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{ifestar2}
+\section*{\hspace*{-1.6cm} ifestar2}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Instantaneous frequency estimation using AR2 modelisation. 
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[fnorm,t2,ratio] = ifestar2(x)
+[fnorm,t2,ratio] = ifestar2(x,t)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty ifestar2} computes an estimation of the instantaneous
+        frequency of the real signal {\ty x} at time instant(s) {\ty t}
+        using an auto-regressive model of order 2. The result {\ty fnorm}
+        lies between 0.0 and 0.5. This estimate is based only on the 4 last
+        signal points, and has therefore an approximate delay of 2.5
+        points. \\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & real signal to be analyzed\\
+        {\ty t}     & time instants (must be greater than 4) &
+         {\ty (4:length(x))}\\
+\hline  {\ty fnorm} & output (normalized) instantaneous frequency\\
+        {\ty t2}    & time instants coresponding to {\ty fnorm}. Since the
+                algorithm do not systematically give a value, {\ty t2} is 
+                different from {\ty t} in general\\
+        {\ty ratio} & proportion of instants where the algorithm yields
+                an estimation\\
+\hline
+\end{tabular*}
+\vspace*{.1cm}
+
+This estimator is the causal version of the estimator called "4 points
+Prony estimator" in article [1].
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Here is a comparison between the instantaneous frequency estimated by {\ty
+ifestar2} and the exact instantaneous frequency law, obtained on a
+sinusoidal frequency modulation :
+\begin{verbatim}
+         [x,if]=fmsin(100,0.1,0.4); x=real(x); 
+         [if2,t]=ifestar2(x);
+         plot(t,if(t),t,if2);
+\end{verbatim}
+The estimation follows quite correctly the right law, but with a small bias
+and with some weak oscillations.
+\end{minipage}
+
+%\newpage
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+instfreq, kaytth, sgrpdlay.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] Prony "Instantaneous frequency estimation using linear prediction with
+	comparisons to the dESAs", IEEE Signal Processing Letters, Vol 3,
+	No 2, p 54-56, February 1996.
+\end{minipage}
+
+
+
+
+

@@ -1,0 +1,96 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrridbn}
+\hspace*{-1.6cm}{\Large \bf tfrridbn}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Reduced Interference Distribution with a binomial kernel.
+\end{minipage}
+\vspace*{.2cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrridbn(x)
+[tfr,t,f] = tfrridbn(x,t)
+[tfr,t,f] = tfrridbn(x,t,N)
+[tfr,t,f] = tfrridbn(x,t,N,g)
+[tfr,t,f] = tfrridbn(x,t,N,g,h)
+[tfr,t,f] = tfrridbn(x,t,N,g,h,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        Reduced Interference Distribution with a kernel based on the
+        binomial coefficients.  {\ty tfrridbn} computes either the
+        distribution of a discrete-time signal {\ty x}, or the cross
+        representation between two signals. This distribution has the
+        following discrete-time continuous-frequency expression :
+
+\[RIDBN_x(t,\nu)=\sum_{\tau=-\infty}^{+\infty} \sum_{v=-|\tau|}^{+|\tau|} 
+{1\over 2^{2|\tau|+1}}\ { 2|\tau|+1\choose |\tau|+v+1}\ 
+x[t+v+\tau]\ x^*[t+v-\tau]\ e^{-\jmath 4\pi\nu\tau}.\]
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal if auto-RIDBN, or {\ty [x1,x2]} if cross-RIDBN ({\ty
+			Nx=length(x)})\\
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins & {\ty Nx}\\ 
+        {\ty g}     & time smoothing window, {\ty G(0)} being forced to {\ty 1}, where {\ty G(f)} is the Fourier transform of {\ty g(t)}
+                                         & {\ty window(odd(N/10))}\\ 
+        {\ty h}     & frequency smoothing window, {\ty h(0)} being forced to {\ty 1}
+                                         & {\ty window(odd(N/4))}\\ 
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr}   & time-frequency representation. \\
+        {\ty f}     & vector of normalized frequencies\\
+ 
+\hline
+\end{tabular*}
+\vspace*{.1cm}
+
+When called without output arguments, {\ty tfrridbn} runs {\ty tfrqview}.
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=[fmlin(128,.05,.3)+fmlin(128,.15,.4)]; 
+         tfrridbn(sig); 
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] W. Williams, J. Jeong ``Reduced Interference Time-Frequency
+Distributions'' in {\it Time-Frequency Analysis - Methods and
+Applications} Edited by B. Boashash, Longman-Cheshire, Melbourne, 1992.
+\end{minipage}
+
+

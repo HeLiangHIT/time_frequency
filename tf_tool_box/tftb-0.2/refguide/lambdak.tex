@@ -1,0 +1,62 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{lambdak}
+\hspace*{-1.6cm}{\Large \bf lambdak}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Evaluate lambda function for Affine Wigner distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+Y=lambdak(U,K)
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        Y=lambdak(U,K) evaluates the parametrization lambda function
+        involved in the affine smoothed pseudo Bertrand distribution.\\
+
+         $LAMBDAK(U,0) = -U/(exp(-U)-1)$ for K = 0
+         $LAMBDAK(U,1) = exp(1+U exp(-U)/(exp(-U)-1))$ for K = 1
+         $LAMBDAK(U,K) = (K (exp(-U)-1)/(exp(-KU)-1))^(1/(K-1))$ otherwise\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        U & real vector\\
+        Y & value of LAMBDAD at point(s) U\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+LAMBDAB, LAMBDAU, LAMBDAD.
+\end{minipage}
+

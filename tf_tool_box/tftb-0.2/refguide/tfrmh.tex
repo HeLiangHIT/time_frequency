@@ -1,0 +1,85 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrmh}
+\section*{\hspace*{-1.6cm} tfrmh}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Margenau-Hill time-frequency distribution.
+\end{minipage}
+\vspace*{.2cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrmh(x)
+[tfr,t,f] = tfrmh(x,t)
+[tfr,t,f] = tfrmh(x,t,N)
+[tfr,t,f] = tfrmh(x,t,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.3cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrmh} computes the Margenau-Hill distribution of a
+        discrete-time signal {\ty x}, or the cross Margenau-Hill
+        representation between two signals. This distribution has the
+        following expression :
+\begin{eqnarray*}
+MH_x(t,\nu)&=&\Re\left\{x(t)\ X^*(\nu)\ e^{-j2\pi \nu t}\right\}\\
+&=&\int_{-\infty}^{+\infty} \frac{1}{2}\ (x(t+\tau)\ x^*(t)+x(t)\
+x^*(t-\tau))\ e^{-j2\pi \nu \tau}\ d\tau.
+\end{eqnarray*}
+It corresponds to the real part of the Rihaczek distribution (see {\ty
+tfrri}).\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{10cm} c}
+Name & Description & Default\\
+\hline
+        {\ty x}     & signal if auto-MH, or {\ty [x1,x2]} if cross-MH. {\ty
+			(Nx=length(x))}\\
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins & {\ty Nx}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr}   & time-frequency representation\\
+        {\ty f}     & vector of normalized frequencies\\
+
+\hline
+\end{tabular*}
+\vspace*{.1cm}
+
+When called without output arguments, {\ty tfrmh} runs {\ty tfrqview}.
+\end{minipage}
+\vspace*{.3cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmlin(128,0.1,0.4); tfrmh(sig,1:128,128,1);
+\end{verbatim}
+\vspace*{.3cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.3cm}
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] H. Margenhau, R. Hill ``Correlation between Measurements in Quantum
+Theory'', Prog. Theor. Phys. Vol. 26, pp. 722-738, 1961.
+\end{minipage}

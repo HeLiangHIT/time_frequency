@@ -1,0 +1,98 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrview}
+\section*{\hspace*{-1.6cm} tfrview}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Visualization of time-frequency representations.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tfrview(tfr,sig,t,method,param,map) 
+tfrview(tfr,sig,t,method,param,map,p1) 
+tfrview(tfr,sig,t,method,param,map,p1,p2) 
+tfrview(tfr,sig,t,method,param,map,p1,p2,p3) 
+tfrview(tfr,sig,t,method,param,map,p1,p2,p3,p4) 
+tfrview(tfr,sig,t,method,param,map,p1,p2,p3,p4,p5) 
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrview} visualizes a time-frequency representation. It is
+        called through {\ty tfrqview} from any {\ty tfr*} function when
+        this function is called without output argument. {\bf Use {\ty
+        tfrqview} preferably}.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{11.5cm}}
+Name & Description\\
+\hline
+        {\ty tfr}    & time-frequency representation\\
+        {\ty sig}    & signal in the time-domain\\
+        {\ty t}      & time instants\\
+        {\ty method} & chosen representation (name of the corresponding M-file)\\
+        {\ty param}  & visualization parameter vector :\\
+         &  {\ty param = [display linlog threshold levnumb nf2} ... \\
+			& \hspace*{2cm} {\ty layout access state fs isgrid]} where\\ 
+          & - {\ty display=1..5} for {\ty contour, imagesc, pcolor, surf} or {\ty mesh}\\ 
+          & - {\ty linlog=0/1} for linearly/logarithmically
+			spaced levels for the amplitude of {\ty tfr}\\ 
+          & - {\ty threshold}  is the visualization threshold, in \% \\
+          & - {\ty levelnumb}  is the number of levels used with {\ty contour}\\
+          & - {\ty nf2}        is the number of frequency bins displayed\\ 
+          & - {\ty layout} determines the layout of the figure\,: {\ty
+		tfr} alone (1), {\ty tfr} and {\ty sig} (2), {\ty tfr} and
+		spectrum (3), {\ty tfr} and {\ty sig} and spectrum (4), add/remove
+		the colorbar (5)\\ 
+          & - {\ty access} depends on the way you access to {\ty
+	tfrview}\,: from the command line (0) ; from {\ty tfrqview}, except
+	after a change in the sampling frequency or in the layout (1) ;
+	from {\ty tfrqview}, after a change in the layout (2) ; 
+	from {\ty tfrqview}, after a change in the sampling frequency (3)\\  
+
+\hline\end{tabular*}\end{minipage} 
+%\newpage
+\hspace*{1.5cm}\begin{minipage}[t]{13.5cm}
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\\hline
+
+          & - {\ty state} depends on the signal/colorbar presence\,:
+		no signal, no colorbar (0) ; signal, no colorbar (1) ; no
+		signal, colorbar (2) ; signal and colorbar (3)\\ 
+          & - {\ty fs} is the sampling frequency\\ 
+          & - {\ty isgrid} depends on the grids' presence\,:\\ & {\ty
+		isgrid=isgridsig+2*isgridspe+4*isgridtfr}\\ & where {\ty isgridsig=1} if
+		a grid is present on the signal and {\ty =0} if not, and so on\\ 
+        {\ty map}    & selected colormap\\ 
+        {\ty p1..p5} & parameters of the representation. Run 
+                 {\ty tfrparam(method)} to know the meaning of {\ty p1..p5}\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tfrqview, tfrparam, tfrsave.
+\end{verbatim}
+\end{minipage}
+

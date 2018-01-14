@@ -1,0 +1,97 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrcw}
+\section*{\hspace*{-1.6cm} tfrcw}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Choi-Williams time-frequency distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrcw(x)
+[tfr,t,f] = tfrcw(x,t)
+[tfr,t,f] = tfrcw(x,t,N)
+[tfr,t,f] = tfrcw(x,t,N,g)
+[tfr,t,f] = tfrcw(x,t,N,g,h)
+[tfr,t,f] = tfrcw(x,t,N,g,h,sigma)
+[tfr,t,f] = tfrcw(x,t,N,g,h,sigma,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrcw} computes the Choi-Williams distribution of a
+        discrete-time signal {\ty x}, or the cross Choi-Williams
+        representation between two signals. This distribution has the
+        following expression :
+
+\[CW_x(t,\nu)=2
+\iint_{-\infty}^{+\infty} \dfrac{\sqrt{\sigma}}{4\sqrt{\pi}|\tau|}\
+e^{-v^2\sigma/(16\tau^2)}\ x(t+v+\frac{\tau}{2})\
+x^*(t+v-\frac{\tau}{2})\ e^{-j2\pi \nu \tau}\ dv\ d\tau.\]
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal if auto-CW, or {\ty [x1,x2]} if cross-CW {\ty
+			(Nx=length(x))}\\
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins & {\ty Nx}\\
+        {\ty g}     & time smoothing window, {\ty G(0)} being forced to {\ty 1}, where {\ty G(f)} is the Fourier transform of {\ty g(t)}
+              &                           {\ty window(odd(N/10))}\\
+        {\ty h}     & frequency smoothing window, {\ty h(0)} being forced to {\ty 1}
+              &                           {\ty window(odd(N/4))}\\ 
+        {\ty sigma} & kernel width             & {\ty 1}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+              &                           {\ty 0}\\
+     \hline {\ty tfr}   & time-frequency representation\\
+        {\ty f}     & vector of normalized frequencies\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrcw} runs {\ty tfrqview}.
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmlin(128,0.05,0.3)+fmlin(128,0.15,0.4);  
+         g=window(9,'Kaiser'); h=window(27,'Kaiser'); 
+         t=1:128; tfrcw(sig,t,128,g,h,3.6,1);
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] H. Choi, W. Williams ``Improved Time-Frequency Representation of
+Multicomponent Signals Using Exponential Kernels'', IEEE Trans. on
+Acoustics, Speech and Signal Processing, Vol. 37, No. 6, June 1989.
+\end{minipage}
+

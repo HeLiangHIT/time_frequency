@@ -1,0 +1,81 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{fmpar}
+\section*{\hspace*{-1.6cm} fmpar}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with parabolic frequency modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[x,iflaw] = fmpar(N,P1)
+[x,iflaw] = fmpar(N,P1,P2,P3)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmpar} generates a signal with parabolic frequency modulation
+        law : \[x(t) = \exp(j2\pi(a_0 t + \frac{a_1}{2} t^2 +\frac{a_2}{3} t^3)).\]
+\vspace*{.2cm}
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points in time\\
+        {\ty P1} & if {\ty nargin=2}, {\ty P1} is a vector containing the three 
+            coefficients {\ty (a0 a1 a2)} of the polynomial instantaneous phase.
+            If {\ty nargin=4}, P1 (as {\ty P2} and {\ty P3}) is a
+	    time-frequency point of the form {\ty (ti fi)}.
+            The coefficients {\ty (a0,a1,a2)} are then deduced such that  
+            the frequency modulation law fits these three points\\
+        {\ty P2, P3} & same as {\ty P1} if {\ty nargin=4}.       & optional\\
+  \hline {\ty x}     & time row vector containing the modulated signal samples \\
+        {\ty iflaw} & instantaneous frequency law\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}
+\begin{verbatim}
+         [x,iflaw]=fmpar(200,[1 0.4],[100 0.05],[200 0.4]);
+         subplot(211);plot(real(x));subplot(212);plot(iflaw);
+         [x,iflaw]=fmpar(100,[0.4 -0.0112 8.6806e-05]);
+         subplot(211);plot(real(x));subplot(212);plot(iflaw);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmconst, fmhyp, fmlin, fmsin, fmodany, fmpower.
+\end{verbatim}
+\end{minipage}
+
+
+

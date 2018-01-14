@@ -1,0 +1,109 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\renewcommand{\footnoterule}{}
+\markright{tfrbert}
+\section*{\hspace*{-1.6cm} tfrbert}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Unitary Bertrand time-frequency distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrbert(x)
+[tfr,t,f] = tfrbert(x,t)
+[tfr,t,f] = tfrbert(x,t,fmin,fmax)
+[tfr,t,f] = tfrbert(x,t,fmin,fmax,N)
+[tfr,t,f] = tfrbert(x,t,fmin,fmax,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrbert} generates the auto- or cross- unitary Bertrand
+        distribution, defined as
+\begin{eqnarray*}
+B_x(t,\nu) =\nu \int_{-\infty}^{+\infty}
+  \frac{u/2}{\sinh\left(\frac{u}{2}\right)}\ X\left(\frac{\nu\ u\
+  e^{-u/2}}{2 \sinh\left(\frac{u}{2}\right)}\right)\ X^*\left(\frac{\nu\ u\
+  e^{+u/2}}{2 \sinh\left(\frac{u}{2}\right)}\right)\ e^{-j2\pi\nu ut}\ du
+\end{eqnarray*}
+where $X(\nu)$ is the Fourier transform of $x(t)$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x} & signal (in time) to be analyzed. If {\ty x=[x1 x2]}, {\ty tfrbert} 
+           computes the cross-unitary Bertrand distribution {\ty (Nx=length(x))}\\
+        {\ty t} & time instant(s) on which the {\ty tfr} is evaluated & {\ty (1:Nx)}\\
+        {\ty fmin, fmax} & respectively lower and upper frequency bounds of 
+           the analyzed signal. These parameters fix the equivalent 
+           frequency bandwidth (expressed in Hz). When unspecified, you
+           have to enter them at the command line from the plot of the
+           spectrum. {\ty fmin} and {\ty fmax} must be $>0$ and $\leq 0.5$\\
+        {\ty N} & number of analyzed voices & auto\footnote{This value,
+	determined from {\ty fmin} and {\ty fmax}, is the 
+	next-power-of-two of the minimum value checking the non-overlapping
+	condition in the fast Mellin transform.}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                                & {\ty 0}\\
+
+\hline\end{tabular*}\end{minipage} \newpage
+\hspace*{1.5cm}\begin{minipage}[t]{13.5cm}
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\\hline
+
+     \hline {\ty tfr} & time-frequency matrix containing the coefficients of the
+           distribution (x-coordinate corresponds to uniformly sampled 
+           time, and y-coordinate corresponds to a geometrically sampled
+           frequency). First row of {\ty tfr} corresponds to the lowest 
+           frequency\\
+        {\ty f} & vector of normalized frequencies (geometrically sampled 
+           from {\ty fmin} to {\ty fmax})\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrbert} runs {\ty tfrqview}
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=altes(64,0.1,0.45); 
+         tfrbert(sig);
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf References}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] J. Bertrand, P. Bertrand ``Time-Frequency Representations of Broad-Band
+Signals'' IEEE ICASSP-88, pp. 2196-2199, New-York, 1988.\\
+
+[2] J. Bertrand, P. Bertrand ``A Class of Affine Wigner Functions with
+		  Extended Covariance Properties'', J. Math. Phys.,
+		  Vol. 33, No. 7, July 1992.
+\end{minipage}

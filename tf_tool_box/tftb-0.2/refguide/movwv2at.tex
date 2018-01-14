@@ -1,0 +1,70 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{movwv2at}
+\section*{\hspace*{-1.6cm} movwv2at}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Oscillating structure of the interferences of the WVD. 
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+M = movwv2at(N)
+M = movwv2at(N,Np)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty movwv2at} generates the movie frames illustrating the
+        influence of the distance between two components on the oscillating
+        structure of the interferences of the WVD.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points of the analyzed signal\\
+        {\ty Np} & number of snapshots & {\ty 9}\\
+\hline  {\ty M} & matrix of movie frames\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         M=movwv2at(128,15); 
+         movie(M,10);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+movpwjph, movpwdph, movsc2wv, movsp2wv, movcw4at.
+\end{verbatim}
+\end{minipage}
+

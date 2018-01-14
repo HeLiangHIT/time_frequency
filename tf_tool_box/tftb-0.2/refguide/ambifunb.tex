@@ -1,0 +1,115 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{ambifunb}
+\section*{\hspace*{-1.6cm} ambifunb}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Narrow-band ambiguity function.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[naf,tau,xi] = ambifunb(x)
+[naf,tau,xi] = ambifunb(x,tau)
+[naf,tau,xi] = ambifunb(x,tau,N)
+[naf,tau,xi] = ambifunb(x,tau,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty ambifunb} computes the narrow-band ambiguity function of a
+        signal, or the cross-ambiguity function between two signals. Its
+        definition is given by
+\[A_x(\xi,\tau)=\int_{-\infty}^{+\infty} x(s+\tau/2)\ x^*(s-\tau/2)\
+e^{-j2\pi \xi s}\ ds.\] 
+
+\hspace*{-.5cm}
+\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\ 
+\hline 
+{\ty x} & signal if auto-AF, or {\ty [x1,x2]} if cross-AF ({\ty length(x)=Nx})&\\ 
+{\ty tau} & vector of lag values &{\ty (-Nx/2:Nx/2)}\\ 
+{\ty N} & number of frequency bins &{\ty Nx}\\ 
+{\ty trace} & if non-zero, the progression of the algorithm is shown&{\ty 0}\\ 
+\hline
+{\ty naf} & doppler-lag representation, with the doppler bins stored in the rows
+and the time-lags stored in the columns&\\ 
+{\ty xi} & vector of doppler values\\\hline
+\end{tabular*}
+\vspace*{.5cm}
+
+This representation is computed such as its 2D Fourier transform equals the
+Wigner-Ville distribution.  When called without output arguments, {\ty
+ambifunb} displays the squared modulus of the ambiguity function by means
+of {\ty contour}.
+
+The ambiguity function is a measure of the time-frequency correlation of a
+signal $x$, i.e. the degree of similarity between $x$ and its translated
+versions in the time-frequency plane.
+\end{minipage}
+\vspace*{1cm}
+
+\newpage
+
+{\bf \large \sf Examples}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Consider a BPSK signal (see {\ty anabpsk}) of 256 points, with a keying
+period of 8 points, and analyze it with the narrow-band ambiguity
+function\,:
+\begin{verbatim}
+         sig=anabpsk(256,8);
+         ambifunb(sig);
+\end{verbatim}
+The resulting function presents a high thin peak at the origin of the
+ambiguity plane, with small sidelobes around. This means that the
+inter-correlation between this signal and a time/frequency-shifted version
+of it is nearly zero (the ambiguity in the estimation of its arrival time
+and mean-frequency is very small).\\
+
+Here is an other example that checks the correspondance between the WVD and
+the narrow-band ambiguity function by means of a 2D Fourier transform\,:
+\begin{verbatim}
+         N=128; sig=fmlin(N); amb=ambifunb(sig);
+         amb=amb([N/2+1:N 1:N/2],:);
+         ambi=ifft(amb).';
+         tdr=zeros(N); 		% Time-delay representation
+         tdr(1:N/2,:)=ambi(N/2:N-1,:);
+         tdr(N:-1:N/2+2,:)=ambi(N/2-1:-1:1,:);
+         wvd1=real(fft(tdr));
+
+         wvd2=tfrwv(sig);
+         diff=max(max(abs(wvd1-wvd2)))
+         diff = 
+                1.5632e-13
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+ambifuwb.
+\end{verbatim}
+\end{minipage}
+

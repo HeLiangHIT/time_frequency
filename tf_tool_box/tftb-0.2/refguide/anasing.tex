@@ -1,0 +1,81 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{anasing}
+\section*{\hspace*{-1.6cm} anasing}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Lipschitz singularity.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+x = anasing(N)
+x = anasing(N,t0)
+x = anasing(N,t0,H)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty anasing} generates the N-points Lipschitz singularity centered
+        around {\ty t0} : $x(t) = |t-t0|^H$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points in time\\
+        {\ty t0} & time localization of the singularity  & {\ty N/2}\\
+        {\ty H}  & strength of the Lipschitz singularity (positive or
+             negative)                             & {\ty 0}\\
+  \hline {\ty x}  & the time row vector containing the signal samples\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         x=anasing(128); plot(real(x));
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+anastep, anapulse, anabpsk, doppler, holder.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] S. Mallat and W.L. Hwang ``Singularity Detection and Processing with
+Wavelets'' IEEE Trans. on Information Theory, Vol 38, No 2, March 1992,
+pp. 617-643.
+\end{minipage}
+

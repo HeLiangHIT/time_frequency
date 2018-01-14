@@ -1,0 +1,80 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{fmconst}
+\section*{\hspace*{-1.6cm} fmconst}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with constant frequency modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,iflaw] = fmconst(N)
+[y,iflaw] = fmconst(N,fnorm)
+[y,iflaw] = fmconst(N,fnorm,t0)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmconst} generates a frequency modulation with a constant
+        frequency {\ty fnorm} and unit amplitude. The phase of this
+        modulation, determined by {\ty t0}, is such that {\ty y(t0)=1}. The
+        signal is analytic.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N }    & number of points\\
+        {\ty fnorm} & normalised frequency       & {\ty 0.25}\\
+        {\ty t0}    & time center                & {\ty N/2}\\
+  \hline {\ty y}    & signal\\
+        {\ty iflaw} & instantaneous frequency law  \\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+         z=amgauss(128,50,30).*fmconst(128,0.05,50);
+         plot(real(z));
+\end{verbatim}
+represents the real part of a complex sinusoid of normalized frequency {\ty
+0.05}, centered at {\ty t0=50}, and with a gaussian amplitude modulation
+maximum at {\ty t=t0}.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmlin, fmsin, fmodany, fmhyp, fmpar, fmpower.
+\end{verbatim}
+\end{minipage}

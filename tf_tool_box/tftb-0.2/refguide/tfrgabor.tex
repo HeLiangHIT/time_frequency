@@ -1,0 +1,109 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrgabor}
+\section*{\hspace*{-1.6cm} tfrgabor}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Gabor representation of a signal.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,dgr,gam] = tfrgabor(x)
+[tfr,dgr,gam] = tfrgabor(x,N)
+[tfr,dgr,gam] = tfrgabor(x,N,Q)
+[tfr,dgr,gam] = tfrgabor(x,N,Q,h)
+[tfr,dgr,gam] = tfrgabor(x,N,Q,h,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+	{\ty tfrgabor} computes the Gabor representation of signal {\ty x},
+        for a given synthesis window {\ty h}, on a rectangular grid of size
+        {\ty (N,M)} in the time-frequency plane. {\ty M} and {\ty N} must
+        be such that {\ty N1 = M * N / Q} where {\ty N1=length(x)} and {\ty
+        Q} is an integer corresponding to the degree of oversampling. The
+        expression of the Gabor representation is the following :
+\begin{eqnarray*}
+G_x[n,m;h] &=& \sum_k x[k]\ h^*[k-n]\ \exp{[-j2\pi m k]} 
+\end{eqnarray*}
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}   & signal to be analyzed ({\ty length(x)=N1})\\
+        {\ty N}   & number of Gabor coefficients in time ({\ty N1} must be a multiple
+              of {\ty N})                 & {\ty divider(N1)}\\
+        {\ty Q}   & degree of oversampling ; must be a divider of {\ty N} &
+		{\ty Q=divider(N)}\\ 
+        {\ty h}   & synthesis window, which was originally chosen & {\ty
+			window(odd(N),}\\
+		& as a Gaussian window by Gabor. {\ty Length(h)} should be
+		as closed as possible from {\ty N}, and must be $\geq${\ty N}.
+              {\ty h} must be of unit energy, and centered & {\ty
+			'gauss')}\\  
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr} & square modulus of the Gabor coefficients\\
+        {\ty dgr} & Gabor coefficients (complex values)\\ 
+        {\ty gam} & biorthogonal (dual frame) window associated to {\ty h}\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrgabor} runs {\ty tfrqview}.\\
+\end{minipage}
+
+\newpage
+
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+If {\ty Q=1}, the time-frequency plane (TFP) is critically sampled, so
+there is no redundancy.\\
+If {\ty Q>1}, the TFP is oversampled, allowing a greater numerical
+stability of the algorithm. \\
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmlin(128); 
+         tfrgabor(sig,64,32); 
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf References}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] Zibulski, Zeevi "Oversampling in the Gabor Scheme" IEEE Trans. on
+	    Signal Processing, Vol. 41, No. 8, pp. 2679-87, August 1993.\\ 
+
+[2] Wexler, Raz "Discrete Gabor Expansions" Signal Processing, Vol. 21, No.
+	    3, pp. 207-221, Nov 1990.
+
+\end{minipage}

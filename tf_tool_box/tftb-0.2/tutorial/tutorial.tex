@@ -1,0 +1,175 @@
+\documentclass[12pt,a4paper]{book}%
+
+%_____Options utilisees____________
+\usepackage{indentfirst}
+%\usepackage{a4}
+%\usepackage{amstex}
+%\usepackage{amssymb}
+\input{epsf}
+\usepackage{makeidx}
+\usepackage{newlfont}%times} % 
+%\usepackage{fancyheadings}
+
+\usepackage{graphicx,html}
+
+%___________________________________
+
+\newcommand{\Rset}{{\cal R}}
+\newcommand{\Nset}{{\cal N}}
+\newcommand{\Zset}{{\cal Z}}
+
+\makeindex
+
+%______Entete de chaque page________
+%\pagestyle{fancyplain}
+\newlength{\dimfig}\setlength{\dimfig}{0.55\textwidth}
+%\addtolength{\headwidth}{0.3cm}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+%\lhead[\fancyplain{ }{ }]{\fancyplain{ }{\bf\rightmark}}
+%\rhead[\fancyplain{ }{\bf\leftmark}]{\fancyplain{ }{ }}
+%\lfoot[\bf \thepage]{Time-Frequency Toolbox User's Guide}
+%\rfoot[]{\bf \thepage}
+%\cfoot[]{}
+%\setlength{\headrulewidth}{0pt}
+
+%___________________________________
+%%%%%%%%%%%%%%%%%%%%%%% headline routines %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+%  \pagestyle{STYLE}     : sets the page style of the current and succeeding
+%                          pages to STYLE
+%
+%  \thispagestyle{STYLE} : sets the page style of the current page only
+%                          to STYLE
+%
+%  To define a page style STYLE, you must define \ps@STYLE to set the page 
+%  style parameters.  
+%  
+%  HOW A PAGE STYLE MAKES RUNNING HEADS AND FEET:
+%  
+% The \ps@... command defines the macros \@oddhead, \@oddfoot,
+% \@evenhead, and \@evenfoot to define the running heads and feet.  
+% (See output routine.)  To make headings determined by the sectioning
+% commands, the page style defines the commands \chaptermark,
+% \sectionmark, etc., where \chaptermark{TEXT} is called by \chapter to
+% set a mark.  The \...mark commands and the \...head macros are defined
+% with the help of the following macros.  (All the \...mark commands
+% should be initialized to no-ops.)
+
+\newlength{\pagewidth}
+\setlength{\pagewidth}{\textwidth}
+%\addtolength\pagewidth\marginparwidth
+%\addtolength\pagewidth\marginparsep
+
+\makeatletter
+
+\def\ps@myheadings{
+\def\@oddfoot{$\overline{\hfill\hbox{\it Time-Frequency Toolbox 
+Tutorial, \today}}$}
+\def\@oddhead{}
+%\makebox[\textwidth][l]{\underline{\hbox to \pagewidth{\bf
+%\firstmark\hfill\thepage}}}}%
+\def\@evenfoot{$\overline{\hbox{
+\thepage\quad F. Auger, P. Flandrin, P. Gon\c{c}alv\`es, 
+O. Lemoine\hfill}}$} %
+\def\@evenhead{}
+%\makebox[\textwidth][r]
+%{\underline{\hbox to \pagewidth{\bf\hfill\@lhead}}}}%
+\def\chaptermark##1{
+%\let\protect\noexpand
+\mark{}\def\@lhead{##1}}%
+\def\sectionmark##1{{\let\protect\noexpand\mark{\thesection 
+    \hskip 1em##1}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\begin{htmlonly}
+\title{Time-frequency toolbox -- Tutorial}
+\author{Fran\c{c}ois Auger, Patrick Flandrin, Paulo Gon\c{c}alv\`es and Olivier Lemoine\\[5mm] CNRS (France), Rice University (USA)}
+\date{1995--1996}
+\end{htmlonly}
+
+\begin{document}
+
+\begin{htmlonly}
+\maketitle
+\end{htmlonly}
+
+\begin{latexonly}
+\pagestyle{empty}
+\input{covertu}
+\end{latexonly}
+
+\cleardoublepage
+
+\begin{htmlonly}
+\chapter*{Forewords}
+\end{htmlonly}
+
+\centerline{\includegraphics[width=5cm]{figure/cnrs}\hspace{2cm}
+            \includegraphics[width=5cm]{figure/isis}}
+
+\vspace{2 cm}
+Copyright (C)  1996 CNRS (France) and Rice University (USA).\\
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+\vspace{2 cm}
+The Time-Frequency Toolbox has been mainly developed under the auspices of
+the French CNRS ({\em Centre National de la Recherche Scientifique}). It
+results from a research effort conducted within its Groupements de
+Recherche "Traitement du Signal et Images" (O. Macchi) and "Information,
+Signal et Images" (J.-M. Chassery). Parts of the Toolbox have also been
+developed at Rice University, when one of the authors (PG) was visiting the
+Department of Electrical and Computer Engineering, supported by NSF.
+Supporting institutions are gratefully acknowledged, as well as M.
+Guglielmi, M. Najim, R. Settineri, R.G. Baraniuk, M. Chausse, D. Roche,
+E. Chassande-Mottin, O. Michel and P. Abry for their help at different 
+phases of the development.
+
+\cleardoublepage
+
+\tableofcontents
+\cleardoublepage
+\pagestyle{myheadings}
+\chapter{Introduction}
+\input{intro}
+
+\chapter{Non stationary signals}
+\input{nonstat}
+
+\chapter{First class of solutions : the atomic decompositions}
+\input{atomdec}
+
+\chapter{Second class of solutions : the energy distributions}
+\input{enedist1}
+\input{enedist2}
+\input{reassign}
+
+\chapter{Extraction of information from a time-frequency image}
+\input{extract}
+
+
+\clearpage
+\newpage 
+
+\input{gfdl}
+
+\newpage
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{alpha}
+\bibliography{tutorial}
+
+\newpage 
+
+\printindex
+
+
+\end{document} 
+

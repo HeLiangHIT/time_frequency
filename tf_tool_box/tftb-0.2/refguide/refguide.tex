@@ -1,0 +1,272 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+\documentclass[11pt,a4paper,twoside]{book} %,twoside ,a4paper
+\usepackage{times}
+
+%_____Options utilisees____________
+%\usepackage{indentfirst}
+%\usepackage{a4}
+%\usepackage{amstex}
+%\usepackage{amssymb}
+%\usepackage{newlfont}
+%\usepackage{fancyheadings}
+\usepackage{makeidx}
+
+\usepackage{graphicx,html}
+
+\textheight 22 cm
+\columnsep 1cm
+\headsep 0.5cm
+\topmargin -1cm
+\oddsidemargin  -0.0cm
+\evensidemargin -0.0cm
+\textwidth 17cm
+\topskip 2.0cm
+\footskip 1.0cm
+
+%___________________________________
+
+\font\ensemble=cmsy10              % Permet de disposer des lettres
+\def\ens#1{\mbox{\ensemble #1}}    % cursives par \ens{X} p. ex.
+
+%______Haut et bas de chaque page________
+%\pagestyle{fancyplain}
+%\addtolength{\headwidth}{1cm}
+%\lhead[\rightmark]{}
+%\rhead[]{\rightmark}
+%\lfoot[\thepage]{Time-Frequency Toolbox Reference Guide}
+%\rfoot[]{\thepage}
+%\cfoot[]{}
+%\setlength{\headrulewidth}{0pt} 
+%___________________________________
+
+%%%%%%%%%%%%%%%%%%%%%%% headline routines %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+%  \pagestyle{STYLE}     : sets the page style of the current and succeeding
+%                          pages to STYLE
+%
+%  \thispagestyle{STYLE} : sets the page style of the current page only
+%                          to STYLE
+%
+%  To define a page style STYLE, you must define \ps@STYLE to set the page 
+%  style parameters.  
+%  
+%  HOW A PAGE STYLE MAKES RUNNING HEADS AND FEET:
+%  
+% The \ps@... command defines the macros \@oddhead, \@oddfoot,
+% \@evenhead, and \@evenfoot to define the running heads and feet.  
+% (See output routine.)  To make headings determined by the sectioning
+% commands, the page style defines the commands \chaptermark,
+% \sectionmark, etc., where \chaptermark{TEXT} is called by \chapter to
+% set a mark.  The \...mark commands and the \...head macros are defined
+% with the help of the following macros.  (All the \...mark commands
+% should be initialized to no-ops.)
+
+\newlength{\pagewidth}
+\setlength{\pagewidth}{\textwidth}
+%\addtolength\pagewidth\marginparwidth
+%\addtolength\pagewidth\marginparsep
+
+\makeatletter
+
+\def\ps@myheadings{
+\def\@oddfoot{$\overline{\hfill\hbox{\it Time-Frequency Toolbox Reference 
+Guide, \today}}$}
+\def\@oddhead{}
+%\makebox[\textwidth][l]{\underline{\hbox to \pagewidth{\bf
+%\firstmark\hfill\thepage}}}}%
+\def\@evenfoot{$\overline{\hbox{
+\thepage\quad F. Auger, P. Flandrin, P. Gon\c{c}alv\`es, 
+O. Lemoine\hfill}}$} %
+\def\@evenhead{}
+%\makebox[\textwidth][r]
+%{\underline{\hbox to \pagewidth{\bf\hfill\@lhead}}}}%
+\def\chaptermark##1{
+%\let\protect\noexpand
+\mark{}\def\@lhead{##1}}%
+\def\sectionmark##1{{\let\protect\noexpand\mark{\thesection 
+    \hskip 1em##1}}}}
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\newcommand{\ty}{\ttfamily}
+%\renewcommand{\footnoterule}{}
+
+\newcommand{\dfrac}[2]{\frac{#1}{#2}}
+\newcommand{\iint}{\int\!\!\int}
+
+\newcommand{\indexsection}[1]{
+\index{#1} \addcontentsline{toc}{section}{#1}}
+
+\makeindex
+
+\begin{htmlonly}
+\title{Time-frequency toolbox -- Reference guide}
+\author{Fran\c{c}ois Auger, Patrick Flandrin, Paulo Gon\c{c}alv\`es and Olivier Lemoine\\[5mm] CNRS (France), Rice University (USA)}
+\date{1995--1996}
+\end{htmlonly}
+
+\begin{document}
+
+\begin{htmlonly}
+\maketitle
+\end{htmlonly}
+
+\begin{latexonly}
+\pagestyle{empty}
+\input{coverrg}
+\end{latexonly}
+
+\cleardoublepage
+
+\begin{htmlonly}
+\section*{Forewords}
+\end{htmlonly}
+
+\centerline{\includegraphics[width=5cm]{figure/cnrs}\hspace{2cm}
+            \includegraphics[width=5cm]{figure/isis}}
+
+\vspace{2 cm}
+Copyright (C)  1996 CNRS (France) and Rice University (USA).\\
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+\vspace{2 cm}
+The Time-Frequency Toolbox has been mainly developed under the auspices of
+the French CNRS ({\em Centre National de la Recherche Scientifique}). It
+results from a research effort conducted within its Groupements de
+Recherche "Traitement du Signal et Images" (O. Macchi) and "Information,
+Signal et Images" (J.-M. Chassery). Parts of the Toolbox have also been
+developed at Rice University, when one of the authors (PG) was visiting the
+Department of Electrical and Computer Engineering, supported by NSF.
+Supporting institutions are gratefully acknowledged, as well as M.
+Guglielmi, M. Najim, R. Settineri, R.G. Baraniuk, M. Chausse, D. Roche,
+E. Chassande-Mottin, O. Michel and P. Abry for their help at different 
+phases of the development.
+
+\cleardoublepage
+
+\pagestyle{myheadings}
+\input{introrg}
+\addcontentsline{toc}{chapter}{Reference Guide}
+\addcontentsline{toc}{section}{Tables}
+\newpage \input{tables}
+\tableofcontents
+\newpage \indexsection{altes} \input{altes}
+\newpage \indexsection{ambifunb} \input{ambifunb} 
+\newpage \indexsection{ambifuwb} \input{ambifuwb} 
+\newpage \indexsection{amexpo1s} \input{amexpo1s} 
+\newpage \indexsection{amexpo2s} \input{amexpo2s} 
+\newpage \indexsection{amgauss} \input{amgauss} 
+\newpage \indexsection{amrect} \input{amrect} 
+\newpage \indexsection{amtriang} \input{amtriang} 
+\newpage \indexsection{anaask} \input{anaask} 
+\newpage \indexsection{anabpsk} \input{anabpsk} 
+\newpage \indexsection{anafsk}\input{anafsk} 
+\newpage \indexsection{anapulse}\input{anapulse} 
+\newpage \indexsection{anaqpsk}\input{anaqpsk}
+\newpage \indexsection{anasing}\input{anasing}
+\newpage \indexsection{anastep}\input{anastep}
+\newpage \indexsection{atoms}\input{atoms}
+\newpage \indexsection{disprog}\input{disprog}
+\newpage \indexsection{divider}\input{divider}
+\newpage \indexsection{dopnoise}\input{dopnoise}
+\newpage \indexsection{doppler}\input{doppler}
+\newpage \indexsection{dwindow}\input{dwindow}
+\newpage \indexsection{fmconst}\input{fmconst}
+\newpage \indexsection{fmhyp}\input{fmhyp}
+\newpage \indexsection{fmlin}\input{fmlin}
+\newpage \indexsection{fmodany}\input{fmodany}
+\newpage \indexsection{fmpar}\input{fmpar}
+\newpage \indexsection{fmpower}\input{fmpower}
+\newpage \indexsection{fmsin}\input{fmsin}
+\newpage \indexsection{fmt}\input{fmt}
+\newpage \indexsection{friedman}\input{friedman}
+\newpage \indexsection{gdpower}\input{gdpower}
+\newpage \indexsection{holder}\input{holder}
+\newpage \indexsection{htl}\input{htl}
+\newpage \indexsection{ifestar2}\input{ifestar2}
+\newpage \indexsection{ifmt}\input{ifmt}
+\newpage \indexsection{instfreq}\input{instfreq}
+\newpage \indexsection{integ}\input{integ}
+\newpage \indexsection{integ2d}\input{integ2d}
+\newpage \indexsection{izak}\input{izak}
+\newpage \indexsection{kaytth}\input{kaytth}
+\newpage \indexsection{klauder}\input{klauder}
+\newpage \indexsection{locfreq}\input{locfreq}
+\newpage \indexsection{loctime}\input{loctime}
+\newpage \indexsection{margtfr}\input{margtfr}
+\newpage \indexsection{mexhat}\input{mexhat}
+\newpage \indexsection{midscomp}\input{midpoint}
+\newpage \indexsection{modulo}\input{modulo}
+\newpage \indexsection{momftfr}\input{momftfr}
+\newpage \indexsection{momttfr}\input{momttfr}
+\newpage \indexsection{movcw4at}\input{movcw4at}
+\newpage \indexsection{movpwdph}\input{movpwdph}
+\newpage \indexsection{movpwjph}\input{movpwjph}
+\newpage \indexsection{movsc2wv}\input{movsc2wv}
+\newpage \indexsection{movsp2wv}\input{movsp2wv}
+\newpage \indexsection{movwv2at}\input{movwv2at}
+\newpage \indexsection{noisecg}\input{noisecg}
+\newpage \indexsection{noisecu}\input{noisecu}
+\newpage \indexsection{odd}\input{odd}
+\newpage \indexsection{plotifl}\input{plotifl}
+\newpage \indexsection{plotsid}\input{plotsid}
+\newpage \indexsection{renyi}\input{renyi}
+\newpage \indexsection{ridges}\input{ridges}
+\newpage \indexsection{scale}\input{scale}
+\newpage \indexsection{sgrpdlay}\input{sgrpdlay}
+\newpage \indexsection{sigmerge}\input{sigmerge}
+\newpage \indexsection{tfrbert}\input{tfrbert}
+\newpage \indexsection{tfrbj}\input{tfrbj}
+\newpage \indexsection{tfrbud}\input{tfrbud}
+\newpage \indexsection{tfrcw}\input{tfrcw}
+\newpage \indexsection{tfrdfla}\input{tfrdfla}
+\newpage \indexsection{tfrgabor}\input{tfrgabor}
+\newpage \indexsection{tfrgrd}\input{tfrgrd}
+\newpage \indexsection{tfrideal}\input{tfrideal}
+\newpage \indexsection{tfrmh}\input{tfrmh}
+\newpage \indexsection{tfrmhs}\input{tfrmhs}
+\newpage \indexsection{tfrmmce}\input{tfrmmce}
+\newpage \indexsection{tfrpage}\input{tfrpage}
+\newpage \indexsection{tfrparam}\input{tfrparam}
+\newpage \indexsection{tfrpmh}\input{tfrpmh}
+\newpage \indexsection{tfrppage}\input{tfrppage}
+\newpage \indexsection{tfrpwv}\input{tfrpwv}
+\newpage \indexsection{tfrqview}\input{tfrqview}
+\newpage \indexsection{tfrrgab}\input{tfrrgab}
+\newpage \indexsection{tfrri}\input{tfrri}
+\newpage \indexsection{tfrridb}\input{tfrridb}
+\newpage \indexsection{tfrridbn}\input{tfrridbn}
+\newpage \indexsection{tfrridh}\input{tfrridh}
+\newpage \indexsection{tfrridt}\input{tfrridt}
+\newpage \indexsection{tfrrmsc}\input{tfrrmsc}
+\newpage \indexsection{tfrrpmh}\input{tfrrpmh}
+\newpage \indexsection{tfrrppag}\input{tfrrppag}
+\newpage \indexsection{tfrrpwv}\input{tfrrpwv}
+\newpage \indexsection{tfrrsp}\input{tfrrsp}
+\newpage \indexsection{tfrrspwv}\input{tfrrspwv}
+\newpage \indexsection{tfrsave}\input{tfrsave}
+\newpage \indexsection{tfrscalo}\input{tfrscalo}
+\newpage \indexsection{tfrsp}\input{tfrsp}
+\newpage \indexsection{tfrspaw}\input{tfrspaw}
+\newpage \indexsection{tfrspwv}\input{tfrspwv}
+\newpage \indexsection{tfrstft}\input{tfrstft}
+\newpage \indexsection{tfrunter}\input{tfrunter}
+\newpage \indexsection{tfrview}\input{tfrview}
+\newpage \indexsection{tfrwv}\input{tfrwv}
+\newpage \indexsection{tfrzam}\input{tfrzam}
+\newpage \indexsection{tftb\_window}\input{tftb_window}
+\newpage \indexsection{zak}\input{zak}
+\newpage \indexsection{GNU Free Documentation License} \input{gfdl}
+
+\end{document} 
+

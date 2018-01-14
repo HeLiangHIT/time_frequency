@@ -1,0 +1,8 @@
+
+#plotsid 函数绘制的干扰是黄色不利于观察
+修改之处：
+lin56:col=['y','m','c','r'];  --> col=['b','m','c','r'];
+
+#tfrideal函数绘制的TF不立于观察的黄色
+修改之处：
+line87:contour(t,f,tfr,1,'y'); -->contour(t,f,tfr,1,'k');

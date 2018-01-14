@@ -1,0 +1,85 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{anaqpsk}
+\section*{\hspace*{-1.6cm} anaqpsk}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Quaternary Phase Shift Keyed (QPSK) signal.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,pm0] = anaqpsk(N)
+[y,pm0] = anaqpsk(N,ncomp)
+[y,pm0] = anaqpsk(N,ncomp,f0)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty anaqpsk} returns a complex phase modulated signal of
+        normalized frequency {\ty f0}, whose phase changes every {\ty
+        ncomp} point according to a discrete uniform law, between the
+        values {\ty (0, pi/2, pi, 3*pi/2)}.  Such signal is only
+        'quasi'-analytic.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}     & number of points\\
+        {\ty ncomp} & number of points of each component & {\ty N/5}\\
+        {\ty f0}    & normalized frequency               & {\ty 0.25}\\
+  \hline {\ty y}     & signal\\
+        {\ty pm0}   & initial phase of each component    \\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         [signal,pm0]=anaqpsk(512,64,0.05); 
+         subplot(211); plot(real(signal)); 
+         subplot(212); plot(pm0);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+anafsk, anabpsk, anaask.
+\end{verbatim}
+\end{minipage}
+ \vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] W. Gardner {\it Introduction to Random Processes, with Applications to
+Signals and Systems}, 2nd Edition, McGraw-Hill, New-York, p. 362 ,1990.  
+\end{minipage}
+

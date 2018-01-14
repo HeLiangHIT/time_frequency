@@ -1,0 +1,98 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{dopnoise}
+\section*{\hspace*{-1.6cm} dopnoise}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Complex doppler random signal.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,iflaw] = dopnoise(N,fs,f0,d,v)
+[y,iflaw] = dopnoise(N,fs,f0,d,v,t0)
+[y,iflaw] = dopnoise(N,fs,f0,d,v,t0,c)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty dopnoise} generates a complex noisy doppler signal, normalized
+        so as to be of unit energy. \\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+         {\ty N } & number of points\\  
+         {\ty fs} & sampling frequency (in Hz)\\ 
+         {\ty f0} & target frequency   (in Hz)\\  
+         {\ty d } & distance from the line to the observer (in meters)\\  
+         {\ty v } & target velocity    (in m/s)\\  
+         {\ty t0} & time center                &   {\ty N/2}\\ 
+         {\ty c}  & wave velocity      (in m/s) &  {\ty 340}\\
+   \hline {\ty y}  & output signal\\
+         {\ty iflaw} & model used as instantaneous frequency law\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+{\ty [y,iflaw] = dopnoise(N,fs,f0,d,v,t0,c)} returns the signal received by
+a fixed observer from a moving target emitting a random broad-band white
+gaussian signal whose central frequency is {\ty f0}. The target is moving
+along a straight line, which gets closer to the observer up to a distance
+{\ty d}, and then moves away. {\ty t0} is the time center (i.e. the time at
+which the target is at the closest distance from the observer), and {\ty c}
+is the wave velocity in the medium.
+
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Consider such a noisy doppler signal and estimate its instantaneous
+frequency (see {\ty instfreq}) :
+\begin{verbatim}
+         [z,iflaw]=dopnoise(500,200,60,10,70,128);
+         subplot(211);    plot(real(z)); 
+         subplot(212);    plot(iflaw);   hold; 
+         ifl=instfreq(z); plot(ifl,'g'); hold; 
+         sum(abs(z).^2)
+         ans = 
+               1.0000
+\end{verbatim}
+The frequency evolution is hardly visible  from the time representation,
+whereas the instantaneous frequency estimation shows it with success. We
+check that the energy is equal to 1.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+doppler, noisecg.
+\end{verbatim}
+\end{minipage}

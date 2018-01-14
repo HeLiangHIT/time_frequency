@@ -1,0 +1,87 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{fmsin}
+\section*{\hspace*{-1.6cm} fmsin}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with sinusoidal frequency modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,iflaw] = fmsin(N)
+[y,iflaw] = fmsin(N,fmin)
+[y,iflaw] = fmsin(N,fmin,fmax)
+[y,iflaw] = fmsin(N,fmin,fmax,period)
+[y,iflaw] = fmsin(N,fmin,fmax,period,t0)
+[y,iflaw] = fmsin(N,fmin,fmax,period,t0,f0)
+[y,iflaw] = fmsin(N,fmin,fmax,period,t0,f0,pm1)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmsin} generates a sinusoidal frequency modulation, whose
+minimum frequency value is {\ty fmin} and maximum is {\ty fmax}.  This
+sinusoidal modulation is designed such that the instantaneous frequency at
+time {\ty t0} is equal to {\ty f0}, and the ambiguity between increasing or
+decreasing frequency is solved by {\ty pm1}.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}       & number of points\\
+        {\ty fmin}    & smallest normalized frequency          & {\ty 0.05}\\
+        {\ty fmax}    & highest normalized frequency           & {\ty 0.45}\\
+        {\ty period}  & period of the sinusoidal frequency modulation  & {\ty N}  \\ 
+        {\ty t0}      & time reference for the phase           & {\ty N/2} \\
+        {\ty f0}      & normalized frequency at time {\ty t0}     & {\ty 0.25}\\
+        {\ty pm1}     & frequency direction at {\ty t0} (-1 or +1)& {\ty +1}  \\
+  \hline {\ty y}       & signal\\
+        {\ty iflaw}   & instantaneous frequency law \\
+ 
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         z=fmsin(140,0.05,0.45,100,20,0.3,-1.0);
+         plot(real(z));
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmconst, fmlin, fmodany, fmhyp, fmpar, fmpower.
+\end{verbatim}
+\end{minipage}
+ 
+
+
+

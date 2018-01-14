@@ -1,0 +1,75 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{fmhyp}
+\section*{\hspace*{-1.6cm} fmhyp}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with hyperbolic frequency modulation or group delay law.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[x,iflaw] = fmhyp(N,P1)
+[x,iflaw] = fmhyp(N,P1,P2)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmhyp} generates a signal with a hyperbolic frequency
+        modulation
+\[        x(t) = \exp\left(i2\pi\left(f_0 t +
+\frac{c}{log|t|}\right)\right).\]   
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c} Name &
+Description & Default value\\ \hline {\ty N} & number of points in time\\
+{\ty P1} & if {\ty nargin==2, P1} is a vector containing the two
+coefficients {\ty [f0 c]}.  If {\ty nargin==3, P1} (as {\ty P2}) is a
+time-frequency point of the form {\ty [ti fi]}. {\ty ti} is in seconds and
+{\ty fi} is a normalized frequency (between 0 and 0.5). The coefficients
+{\ty f0} and {\ty c} are then deduced such that the frequency modulation
+law fits the points {\ty P1} and {\ty P2}\\ {\ty P2} & same as {\ty P1} if
+{\ty nargin==3} & optional\\ \hline {\ty x } & time row vector containing
+the modulated signal samples \\ {\ty iflaw} & instantaneous frequency law\\
+ 
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace*{.5cm}
+ 
+{\bf \large \sf Examples}
+\begin{verbatim}
+         [X,iflaw]=fmhyp(100,[1 .5],[32 0.1]); 
+         subplot(211); plot(real(X));
+         subplot(212); plot(iflaw);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmlin, fmsin, fmpar, fmconst, fmodany, fmpower.
+\end{verbatim}
+\end{minipage}
+
+

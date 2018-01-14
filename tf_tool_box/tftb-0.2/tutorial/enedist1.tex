@@ -1,0 +1,927 @@
+% This is part of the TFTB Tutorial.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file tutorial.tex for copying conditions.
+
+In contrast with the linear time-frequency representations which
+decompose the signal on elementary components (the atoms), the purpose of
+the energy distributions is to distribute the {\it energy} of the signal
+over the two description variables\,: time and frequency.
+
+  The starting point is that since the energy of a signal $x$ can be deduced
+from the squared modulus of either the signal or its Fourier transform,
+\begin{eqnarray}
+\label{Ex1}
+E_x = \int_{-\infty}^{+\infty} |x(t)|^2\ dt\ =\ \int_{-\infty}^{+\infty}
+|X(\nu)|^2\ d\nu,  
+\end{eqnarray}
+we can interpret $|x(t)|^2$ and $|X(\nu)|^2$ as energy densities, respectively
+in time and in frequency. It is then natural to look for a j{\it oint time and
+frequency} energy density $\rho_x(t,\nu)$, such that
+\begin{eqnarray}
+\label{Ex2}
+E_x = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} \rho_x(t,\nu)\ dt\
+d\nu,               
+\end{eqnarray}
+which is an intermediary situation between those described by
+(\ref{Ex1}). As the energy is a quadratic function of the signal, the
+time-frequency energy distributions will be in general quadratic
+representations.
+
+Two other properties that an energy density should satisfy are the
+following {\it marginal properties}\,:\index{marginal properties}
+\begin{eqnarray}
+\label{fmarg}
+\int_{-\infty}^{+\infty} \rho_x(t,\nu)\ dt   &=& |X(\nu)|^2\\
+\label{tmarg}
+\int_{-\infty}^{+\infty} \rho_x(t,\nu)\ d\nu &=& |x(t) |^2,
+\end{eqnarray}
+which mean that if we integrate the time-frequency energy density along one
+variable, we obtain the energy density corresponding to the other variable.
+
+The main references for this chapter are \cite{FLA93}, \cite{COH89},
+\cite{AUG91}, \cite{HLA91} and \cite{HLA92}.
+
+
+\section{The Cohen's class}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~
+\label{cohenclass}
+\index{Cohen's class} 
+Since there is much more than one distribution satisfying properties
+(\ref{Ex2}), (\ref{fmarg}) and (\ref{tmarg}), we can impose additional
+constraints on $\rho_x$ so that this distribution satisfies other desirable
+properties. Among these, the covariance principles are of fundamental
+importance. The {\it Cohen's class}, to which is dedicated this section,
+and whose definition can be found in subsection \ref{cohendef}, is the
+class of time-frequency energy distributions {\it covariant by translations
+in time and in frequency} \cite{COH89}.
+
+  The spectrogram, that we considered in the previous part, is an element
+of the Cohen's class since it is quadratic, time- and frequency- covariant,
+and preserves energy (property (\ref{Ex2})).  However, taking the squared
+modulus of an atomic decomposition is only a restrictive possibility to
+define a quadratic representation, and this definition presents the
+drawback that the marginal properties (\ref{fmarg}) and (\ref{tmarg}) are
+not satisfied.
+
+
+\subsection{The Wigner-Ville distribution}
+%'''''''''''''''''''''''''''''''''''''''''
+\label{WVD}
+\subsubsection{Definition}
+\index{Wigner-Ville distribution}A time-frequency energy distribution which
+is particularly interesting is the {\it Wigner-Ville distribution} (WVD)
+defined as\,:
+\begin{eqnarray}
+\label{wvd}
+W_x(t,\nu)=\int_{-\infty}^{+\infty} x(t+\tau/2)\ x^*(t-\tau/2)\ e^{-j2\pi
+\nu \tau}\ d\tau,   
+\end{eqnarray}
+or equivalently as
+\[W_x(t,\nu)=\int_{-\infty}^{+\infty} X(\nu+\xi/2)\ X^*(\nu-\xi/2)\
+e^{j2\pi \xi t}\ d\xi.\] This distribution satisfies a large number of
+desirable mathematical properties, as summarized in the next
+sub-section. In particular, the WVD is always real-valued, it preserves
+time and frequency shifts and satisfies the marginal properties.
+
+  An interpretation of this expression can be found in terms of probability
+density\,: expression (\ref{wvd}) is the Fourier transform of an acceptable
+form of characteristic function for the distribution of the energy.
+
+  Before looking at the theoretical properties of the WVD, let us see what
+we obtain on two particular synthetic signals.
+\begin{itemize}
+\item {\it Example 1}\,: The first signal is the academic linear chirp
+signal that we already considered. The WVD is available thanks to the
+M-file \index{\ttfamily tfrwv}{\ttfamily tfrwv.m} of the Time-Frequency
+Toolbox (see fig. \ref{En1fig1}).
+\begin{verbatim}
+     >> sig=fmlin(256);
+     >> tfrwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig1.eps}}
+\caption{\label{En1fig1}Wigner-Ville distribution of a linear chirp signal
+: almost perfect localization in the time-frequency plane}
+\end{figure}
+If we choose a 3-dimension plot to represent it, we can see that the WVD
+can take negative values, and that the localization obtained in the
+time-frequency plane for this signal is almost perfect.
+
+\item {\it Example 2}\,: When a car goes in front of an observer with a
+constant speed, the signal heard by this person from the engine changes
+with time\,: the main frequency decreases (at a first level of
+approximation) from one value to another. This phenomenon, known as the
+{\it doppler effect}\index{Doppler effect}, expresses the dependence of the
+frequency received by an observer from a transmitter on the relative speed
+between the observer and the transmitter. The corresponding signal can be
+generated thanks to the M-file \index{\ttfamily doppler}{\ttfamily
+doppler.m} of the Time-Frequency Toolbox. Here is an example of such a
+signal (see fig. \ref{En1fig2})\,:
+\begin{verbatim}
+     >> [fm,am,iflaw]=doppler(256,50,13,10,200);
+     >> sig=am.*fm;
+     >> tfrwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig2.eps}}
+\caption{\label{En1fig2}WVD of a doppler signal : many interference terms
+are present, due to the bilinearity of the distribution}
+\end{figure}
+Looking at this time-frequency distribution, we notice that the energy is
+not distributed as we could expect for this signal. Although the signal
+term is well localized in the time-frequency plane, numerous other terms
+(the interference terms, due to the bilinearity of the WVD) are present at
+positions in time and frequency where the energy should be null. We will
+see earlier how to get rid of these terms.
+\end{itemize}
+
+\subsubsection{Properties}
+\label{propertieswvd}
+  Here is a list of the main properties of the WVD \cite{FLA93}.
+\begin{enumerate}
+\item {\it Energy conservation}\index{energy conservation}\,: by
+integrating the WVD of x all over the time-frequency plane, we obtain the
+energy of $x$\,:
+\[E_x = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} W_x(t,\nu)\ dt\
+d\nu\] 
+
+\item {\it Marginal properties}\index{marginal properties}\,: the energy
+spectral density and the instantaneous power can be obtained as marginal
+distributions of $W_x$\,:
+\begin{eqnarray*}
+\int_{-\infty}^{+\infty} W_x(t,\nu)\ dt &=& |X(\nu)|^2\\ 
+\int_{-\infty}^{+\infty} W_x(t,\nu)\ d\nu &=& |x(t)|^2 
+\end{eqnarray*}
+
+\item {\it Real-valued}\,: \[W_x(t,\nu)\ \in \Rset,\ \forall\ t, \nu\]
+
+\item {\it Translation covariance}\index{translation covariance}\,: the WVD
+is time and frequency covariant\,:
+\begin{eqnarray*}
+y(t)=x(t-t_0) &\Rightarrow & W_y(t,\nu)=W_x(t-t_0,\nu)\\
+y(t)=x(t) e^{j2\pi \nu_0 t} &\Rightarrow & W_y(t,\nu)=W_x(t,\nu-\nu_0)
+\end{eqnarray*}
+
+\item {\it Dilation covariance}\index{dilation covariance}\,: the WVD also
+preserves dilations\,:
+\begin{eqnarray*}
+y(t)=\sqrt{k}\ x(kt)\ ;\ k>0\ \Rightarrow\  W_y(t,\nu)=W_x(kt,\frac{\nu}{k})
+\end{eqnarray*}
+
+\item {\it Compatibility with filterings}\index{compatibility with
+filterings}\,: it expresses the fact that if a signal $y$ is the
+convolution of $x$ and $h$ (i.e. the output of filter $h$ whose input is
+$x$), the WVD of $y$ is the time-convolution between the WVD of $h$ and the
+WVD of $x$\,:
+\[y(t)=\int_{-\infty}^{+\infty} h(t-s)\ x(s)\ ds\  \Rightarrow\
+W_y(t,\nu)=\int_{-\infty}^{+\infty} W_h(t-s,\nu)\ W_x(s,\nu)\ ds\] 
+
+\item {\it Compatibility with modulations}\index{compatibility with
+modulations}\,: this is the dual property of the previous one\,: if $y$ is
+the modulation of $x$ by a function $m$, the WVD of $y$ is the
+frequency-convolution between the WVD of $x$ and the WVD of $m$\,:
+\[y(t)=m(t)\ x(t)\ \Rightarrow\ W_y(t,\nu)=\int_{-\infty}^{+\infty}
+W_m(t,\nu-\xi)\ W_x(t,\xi)\ d\xi\] 
+
+\item {\it Wide-sense support conservation}\index{support conservation}\,:
+if a signal has a compact support in time (respectively in frequency), then
+its WVD also has the same compact support in time (respectively in
+frequency)\,:
+\begin{eqnarray*}
+	x(t)=0,\ |t|>T  &\Rightarrow &  W_x(t,\nu)=0,\ |t|>T\\
+	X(\nu)=0,\ |\nu|>B  &\Rightarrow &  W_x(t,\nu)=0,\ |\nu|>B
+\end{eqnarray*}
+
+\item {\it Unitarity}\label{unitarity}\index{unitarity}\,: the unitarity property
+expresses the conservation of the scalar product from the time-domain to
+the time-frequency domain (apart from the squared modulus)\,:
+\[\left|\int_{-\infty}^{+\infty} x(t)\ y^*(t)\ dt\right|^2 = \int_{-\infty}^{+\infty}
+\int_{-\infty}^{+\infty} W_x(t,\nu)\ W_y^*(t,\nu)\ dt\ d\nu.\] 
+This formula is also known as the Moyal's formula.
+
+\item {\it Instantaneous frequency}\index{instantaneous frequency}\,: the
+instantaneous frequency of a signal $x$ can be recovered from the WVD as
+its first order moment (or center of gravity) in frequency\,:
+\[f_x(t)=
+{\int_{-\infty}^{+\infty} \nu W_{x_a}(t,\nu)\ d\nu
+\over 
+\int_{-\infty}^{+\infty} W_{x_a}(t,\nu)\ d\nu}\] 
+where $x_a$ is the analytic signal associated to $x$.
+
+\item {\it Group delay}\index{group delay}\,: in a dual way, the group
+delay of $x$ can be obtained as the first order moment in time of its WVD\,:
+\[t_x(\nu)={\int_{-\infty}^{+\infty} t\ W_{x_a}(t,\nu)\
+dt\over \int_{-\infty}^{+\infty} W_{x_a}(t,\nu)\ dt}\] 
+
+\item {\it Perfect localization on linear chirp signals}\index{perfect
+localization}\,:
+\[x(t)=e^{j2\pi \nu_x(t) t}  \mbox{ with }  \nu_x(t)=\nu_0+2\beta t\
+		  \Rightarrow\ W_x(t,\nu)=\delta(\nu-(\nu_0+\beta t)).\]
+\end{enumerate}
+
+\subsubsection{Interferences}
+\index{interferences} As the WVD is a bilinear function of the signal $x$,
+the {\it quadratic superposition principle}\index{quadratic superposition
+principle} applies\,:
+\[W_{x+y}(t,\nu)\ =\ W_x(t,\nu)\ +\ W_y(t,\nu)\ +\
+2\Re{\{W_{x,y}(t,\nu)\}}\] 
+where 
+\[W_{x,y}(t,\nu)\ =\ \int_{-\infty}^{+\infty} x(t+\tau/2)\ y^*(t-\tau/2)\
+e^{-j2\pi \nu \tau}\ d\tau\] 
+is the cross-WVD of $x$ and $y$. This can be easily generalized to $N$
+components, but for the sake of clarity, we will only consider the
+two-component case.
+
+  Unlike the spectrogram interference terms, the WVD interference terms
+will be non-zero regardless of the time-frequency distance between the two
+signal terms. These interference terms are troublesome since they may
+overlap with auto-terms (signal terms) and thus make it difficult to
+visually interpret the WVD image. However, it appears that these terms must
+be present or the good properties of the WVD (marginal properties,
+instantaneous frequency and group delay, localization, unitarity \ldots)
+cannot be satisfied. Actually, there is a trade-off between the quantity of
+interferences and the number of good properties.\\
+
+  o {\it Interference geometry}\\
+  The rule of interference construction of the WVD can be summarized as
+follows\,: two points of the time-frequency plane interfere to create a
+contribution on a third point which is located at their geometrical
+midpoint. Besides, these interference terms oscillate perpendicularly to
+the line joining the two points interfering, with a frequency proportional
+to the distance between these two points.
+
+  This can be seen on the following example\,: we consider two atoms in the
+time-frequency plane, analyzed by the WVD, whose relative distance is
+increasing from one realization to the other, and then decreasing. The WVDs
+were calculated and saved on the file {\ttfamily movwv2at.mat}. We load
+them and run the sequence using the function {\ttfamily movie} (see
+fig. \ref{En1fig3})\,:
+\begin{verbatim}
+     >> load movwv2at
+     >> clf; movie(M,10);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/en1fig3.eps}}
+\caption{\label{En1fig3}Structure of the interferences between
+2 components with different locations in time and frequency : we can notice
+the change in the direction of the oscillations, as well as the change in
+the period of these oscillations}
+\end{figure}
+
+We can notice, from this movie, the evolution of the interferences
+when the distance between the two interfering terms changes, and in
+particular the change in the direction of the oscillations.
+
+\subsubsection{Pseudo-WVD}
+\label{PWVD}\index{pseudo Wigner-Ville distribution}
+  The definition (\ref{wvd}) requires the knowledge of the quantity
+\[q_x(t,\tau)=x(t+\tau/2)\ x^*(t-\tau/2)\] from $\tau=-\infty$ to
+$\tau=+\infty$, which can be a problem in practice. That is why we often
+replace $q_x(t,\tau)$ in (\ref{wvd}) by a windowed version of it, leading
+to the new distribution\,:
+\[PW_x(t,\nu)=\int_{-\infty}^{+\infty} h(\tau)\ x(t+\tau/2)\ x^*(t-\tau/2)\
+e^{-j2\pi \nu \tau}\ d\tau\] where $h(t)$ is a regular window. This
+distribution is called the {\it pseudo Wigner-Ville distribution} (noted
+pseudo-WVD or PWVD in the following). This windowing operation is
+equivalent to a frequency smoothing of the WVD since
+\[PW_x(t,\nu) = \int_{-\infty}^{+\infty} H(\nu-\xi)\ W_x(t,\xi)\ d\xi\]
+where $H(\nu)$ is the Fourier transform of $h(t)$. Thus, because of their
+oscillating nature, the interferences will be attenuated in the pseudo-WVD
+compared to the WVD. However, the consequence of this improved readability
+is that many properties of the WVD are lost\,: the marginal properties, the
+unitarity, and also the frequency-support conservation\,; the
+frequency-widths of the auto-terms are increased by this operation.\\
+
+  * {\it Example}\,: The M-file \index{\ttfamily tfrpwv}{\ttfamily
+tfrpwv.m} calculates the pseudo-WVD of a signal, with the possibility to
+change the length and shape of the smoothing window. If we consider a
+signal composed of four gaussian atoms (obtained thanks to \index{\ttfamily
+atoms}{\ttfamily atoms.m}), each localized at a corner of a rectangle,
+\begin{verbatim}
+     >> sig=atoms(128,[32,.15,20,1;96,.15,20,1;...
+                       32,.35,20,1;96,.35,20,1]);
+\end{verbatim}
+and compute its WVD (see fig. \ref{En1fig4})
+\begin{verbatim}
+     >> tfrwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig4.eps}}
+\caption{\label{En1fig4}WVD of 4 gaussian atoms : many interferences are
+present} 
+\end{figure}
+we can see the four signal terms, along with six interference terms (two of
+them are superimposed). If we now compute the pseudo-WVD (see
+fig. \ref{En1fig5}),
+\begin{verbatim}
+     >> tfrpwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig5.eps}}
+\caption{\label{En1fig5}The frequency-smoothing operated by the pseudo-WVD
+attenuates the interferences oscillating perpendicularly to the frequency
+axis}
+\end{figure}
+we can note the important attenuation of the interferences oscillating
+perpendicularly to the frequency axis, and in return the spreading in
+frequency of the signal terms.
+
+\subsubsection{Sampling the WVD\,; the analytic signal} 
+\index{analytic signal}
+  Because of the quadratic nature of the WVD, its sampling has to be done
+with care. Let us write it as follows\,:
+\[W_x(t,\nu)=2\int_{-\infty}^{+\infty} x(t+\tau)\ x^*(t-\tau)\ e^{-j4\pi
+\nu \tau}\ d\tau\] 
+If we sample $x$ with a period $T_e$, write $x[n]=x(nT_e)$, and evaluate
+the WVD at the sampling points $nT_e$ in time, we obtain a discrete-time
+continuous-frequency expression of it\,:
+\[W_x[n,\nu)=2\ T_e \sum_k x[n+k]\ x^*[n-k]\ e^{-j4\pi \nu k}.\]
+As this expression is periodic in frequency with period $\frac{1}{2\ T_e}$
+(contrary to period $\frac{1}{T_e}$ obtained for the Fourier transform of a
+signal sampled at the Nyquist rate), the discrete version of the WVD may be
+affected by a spectral aliasing, in particular if the signal $x$ is
+real-valued and sampled at the Nyquist rate.  Two alternatives to this
+problem can be found. The first one consists in oversampling the signal by
+a factor of at least 2, and the second one in using the analytic
+signal. Indeed, as its bandwidth is half the one of the real signal, the
+aliasing will not take place in the useful spectral domain $[0,1/2]$ of
+this signal. This second solution presents another advantage\,: since the
+spectral domain is divided by two, the number of components in the
+time-frequency plane is also divided by two. Consequently, the number of
+interference terms decreases significantly. To illustrate this phenomenon,
+we consider the WVD of the real part of a signal composed of two atoms (see
+fig. \ref{En1fig6})\,:
+\begin{verbatim}
+     >> sig=atoms(128,[32,0.15,20,1;96,0.32,20,1]);
+     >> tfrwv(real(sig));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig6.eps}}
+\caption{\label{En1fig6}WVD of a real signal composed of 2 gaussian atoms :
+when the analytic signal is not considered, spectral aliasing and additional
+interferences appear in the time-frequency plane}
+\end{figure}
+We can see that four signal terms are present instead of two, due to the
+spectral aliasing. Besides, because of the components located at negative
+frequencies (between -1/2 and 0), additional interference terms are
+present. If we now consider the WVD of the same signal, but in its complex
+analytic form (see fig. \ref{En1fig7}),
+\begin{verbatim}
+     >> tfrwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig7.eps}}
+\caption{\label{En1fig7}WVD of the previous signal, but in its analytic
+form}
+\end{figure}
+the aliasing effect has disappeared, as well as the terms corresponding to
+interferences between negative- and positive- frequency components.
+
+
+\subsection{The Cohen's class}
+%'''''''''''''''''''''''''''''
+\label{cohendef}\index{Cohen's class}
+\subsubsection{Presentation}
+
+  Among the desirable properties of an energy time-frequency distribution,
+two of them are of particular importance\,: {\it time and frequency
+covariance}. Indeed, these properties guaranty that, if the signal is
+delayed in time and modulated, its time-frequency distribution is
+translated of the same quantities in the time-frequency plane. It has been
+shown that the class of energy time-frequency distributions verifying these
+covariance properties possesses the following general expression\,:
+\[C_x(t,\nu;f)=\int\int\int_{-\infty}^{+\infty}
+e^{j2\pi \xi(s-t)}\ f(\xi,\tau)\ x(s+\tau/2)\ x^*(s-\tau/2)\ e^{-j2\pi \nu
+\tau}\ d\xi\ ds\ d\tau,\] where $f(\xi,\tau)$ is a two-dimensional function
+called the {\it parameterization function}\index{parameterization
+function}. This class of distributions is known as the {\it Cohen's class},
+which can also be written\,:
+\begin{eqnarray}
+\label{defcohen1}
+C_x(t,\nu;\Pi)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+\Pi(s-t,\xi-\nu)\ W_x(s,\xi)\ ds\ d\xi, 
+\end{eqnarray}
+where 
+\[\Pi(t,\nu)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} f(\xi,\tau)\
+e^{-j2\pi(\nu \tau+\xi t)}\ dt\ d\nu\]  
+is the two-dimensional Fourier transform of the parameterization function
+$f$. This class is of significant importance since it includes a large number
+of the existing time-frequency energy distributions.  Of course, the WVD is
+the element of the Cohen's class for which the function $\Pi$ is a double
+Dirac\,: $\Pi(t,\nu)=\delta(t)\ \delta(\nu)$, i.e. $f(\xi,\tau)=1$.
+
+  In the case where $\Pi$ is a smoothing function, expression
+(\ref{defcohen1}) allows one to interpret $C_x$ as a smoothed version of
+the WVD\,; consequently, such a distribution will attenuate in a particular
+way the interferences of the WVD.
+
+  Before considering different kinds of smoothing functions $\Pi$, let us
+point out the different advantages of such a unified formulation\,:
+\begin{enumerate}
+\item by specifying the parameterization function $f$ arbitrarily, it is
+possible to obtain most of the known energy distributions\,;
+\item it is easy to convert a constraint that we wish for the distribution
+in an admissibility condition for the parameterization function\,;
+\item it is possible, by using such admissibility arguments, to
+check {\it a priori} the properties of a particular definition, or to construct a
+class of solutions according to a specified schedule of conditions.
+\end{enumerate}
+
+\subsubsection{Coupled smoothing}
+
+  If we look at the Moyal's formula (property 9. see page
+\pageref{unitarity}), it is easy to express the spectrogram as a smoothing
+of the WVD\,:
+\begin{eqnarray}
+\label{spectro}
+S_x(t,\nu)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+W_h(s-t,\xi-\nu)\ W_x(s,\xi)\ ds\ d\xi.	 
+\end{eqnarray}
+Thus, the spectrogram is the element of the Cohen's class for which
+$\Pi(s,\xi)$ is the WVD of the window $h$. This new formulation provides us
+with another interpretation of the embarrassing trade-off between the time
+and frequency- resolutions of the spectrogram\,: if we choose a short
+window $h$, the smoothing function will be narrow in time and wide in
+frequency, leading to a good time resolution but bad
+frequency resolution\,; and vice-versa.
+
+\subsubsection{Separable smoothing}
+\label{SPWVD}\index{smoothed-pseudo Wigner-Ville distribution}
+  The problem with the previous smoothing function $\Pi(s,\xi)=W_h(s,\xi)$
+is that it is controlled only by the short-time window $h(t)$. If we add a
+degree of freedom by considering a separable smoothing function
+\[\Pi(t,\nu)=g(t)\ H(-\nu)\] (where $H(\nu)$ is the Fourier transform of a
+smoothing window $h(t)$), we allow a progressive and independent control,
+in both time and frequency, of the smoothing applied to the WVD. The
+obtained distribution
+\[SPW_x(t,\nu)=\int_{-\infty}^{+\infty} h(\tau)\ \int_{-\infty}^{+\infty}
+g(s-t)\ x(s+\tau/2)\ x^*(s-\tau/2)\ ds\ e^{-j2\pi \nu \tau}\ d\tau\] is
+known as the {\it smoothed-pseudo Wigner-Ville distribution} (noted
+smoothed-pseudo-WVD or SPWVD). The previous compromise of the spectrogram
+between time and frequency- resolutions is now replaced by a compromise
+between the joint time-frequency resolution and the level of the
+interference terms\,: the more you smooth in time and/or frequency, the
+poorer the resolution in time and/or frequency.
+
+Note that if we only consider a smoothing in frequency  i.e. if
+$g(t)=\delta(t)$, we obtain the pseudo-WVD.\\
+
+  * {\it Example}\,: The signal that we consider here is composed of two
+components\,: the first one is a complex sinusoid (normalized frequency
+0.15) and the second one is a Gaussian signal shifted in time and
+frequency\,:  
+\begin{verbatim}
+     >> sig=fmconst(128,.15) + amgauss(128).*fmconst(128,0.4);
+\end{verbatim}
+If we display the WVD, the pseudo-WV and the smoothed-pseudo-WVD of this signal (see
+fig. \ref{En1fig8}, fig. \ref{En1fig9} and fig. \ref{En1fig10}),
+\begin{verbatim}
+     >> tfrwv(sig);  
+     >> tfrpwv(sig); 
+     >> tfrspwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig8.eps}}
+\caption{\label{En1fig8}WVD of a signal composed of a gaussian atom and a
+complex sinusoid. Interferences are present between the two components}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig9.eps}}
+\caption{\label{En1fig9}Pseudo-WVD of the same signal : the frequency
+smoothing done by the pseudo-WVD degrades the frequency resolution without
+really attenuating the interferences}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig10.eps}}
+\caption{\label{En1fig10}Smoothed-pseudo-WVD of the same signal : the
+time-smoothing carried out by the smoothed-pseudo-WVD considerably reduces
+these interferences}
+\end{figure}
+we can make the following remarks\,: from the WVD, we can see the two signal
+terms located at the right positions in the time-frequency plane, as well
+as the interference terms between them. As these interference terms
+oscillate globally perpendicularly to the time-axis, the frequency
+smoothing done by the pseudo-WVD degrades the frequency resolution without
+really attenuating the interferences. On the other hand, the time-smoothing
+carried out by the smoothed-pseudo-WVD considerably reduces these
+interferences\,; and as the time resolution is not of fundamental importance
+here, this representation is suitable for this signal.
+
+  An interesting property of the smoothed-pseudo WVD is that it allows a
+continuous passage from the spectrogram to the WVD, under the condition
+that the smoothing functions $g$ and $h$ are gaussian. The time-bandwidth
+product then goes from 1 (spectrogram) to 0 (WVD), with an independent
+control of the time and frequency resolutions. This is clearly illustrated
+by the function \index{\ttfamily movsp2wv}{\ttfamily movsp2wv.m}, which
+considers different transitions, on a signal composed of four atoms. To
+visualize these snapshots, load the mat-file {\ttfamily movsp2wv} (obtained
+by running {\ttfamily movsp2wv.m}\,; but as it takes a long time to run, we
+saved the result in a mat file) and run {\ttfamily movie} (see
+fig. \ref{En1fig11})\,:
+\begin{verbatim}
+     >> load movsp2wv
+     >> clf; movie(M,10);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/en1fig11.eps}}
+\caption{\label{En1fig11}Different transitions from the spectrogram to the
+WVD, using the smoothed-pseudo-WVD. The signal is composed of 4 gaussian
+atoms}
+\end{figure}
+This movie shows the effect of a (time/frequency) smoothing on the
+interferences and on the resolutions\,: the WVD gives the best resolutions
+(in time and in frequency), but presents the most important interferences,
+whereas the spectrogram gives the worst resolutions, but with nearly no
+interferences\,; and the smoothed-pseudo WVD allows to choose the best
+compromise between these two extremes.
+
+
+\subsection{Link with the narrow-band ambiguity function}
+%''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+\subsubsection{Definition and properties}
+\label{NBAF}\index{narrow-band ambiguity function}
+  A function of particular interest, especially in the field of radar
+signal processing, is the {\it narrow-band ambiguity function} (noted AF),
+defined as
+\[A_x(\xi,\tau)=\int_{-\infty}^{+\infty} x(s+\tau/2)\ x^*(s-\tau/2)\
+e^{-j2\pi \xi s}\ ds.\] 
+
+This function, also known as the (symmetric) {\it Sussman ambiguity
+function}, is a measure of the time-frequency correlation of a signal $x$,
+i.e. the degree of similarity between $x$ and its translated versions in
+the time-frequency plane. Unlike the variables '$t$' and '$\nu$' which are
+"absolute" time and frequency coordinates, the variables '$\tau$' and
+'$\xi$' are "relative" coordinates (respectively called {\it delay} and
+{\it doppler}).\index{delay}\index{doppler} 
+ 
+  The AF is generally complex-valued, and satisfies the Hermitian even
+symmetry\,:
+\[A_x(\xi,\tau) = A_x^*(-\xi,-\tau).\]
+
+  An important relation exists between the narrow-band ambiguity function
+and the WVD, which says that the ambiguity function is the two-dimensional
+Fourier transform of the WVD\,:
+\[A_x(\xi,\tau)=\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}
+W_x(t,\nu)\ e^{j2\pi(\nu \tau-\xi t)}\ dt\ d\nu.\] 
+Thus, the AF is the dual of the WVD in the sense of the Fourier
+transform. Consequently, for the AF, a dual property corresponds to nearly
+all the properties of the WVD. Among these properties, we will
+restrict ourselves to only three of them, which are important for the
+following\,:
+\begin{itemize} 
+\item Marginal properties
+
+  The temporal and spectral auto-correlations are the cuts of the AF along
+the $\tau$-axis and $\xi$-axis respectively\,:
+\[ r_x(\tau)=A_x(0,\tau) \mbox{ and } R_x(\xi)=A_x(\xi,0).\] 
+The energy of $x$ is the value of the AF at the origin of the
+$(\xi,\tau)$-plane, which corresponds to its maximum value\,:
+\[|A_x(\xi,\tau)|\ \leq\ A_x(0,0)\ =\ E_x,\ \forall \xi, \tau.\]
+
+\item TF-shift invariance
+
+  Shifting a signal in the time-frequency plane leaves its AF invariant
+apart from a phase factor (modulation)\,:
+\[y(t) = x(t-t_0)\ e^{j2\pi \nu_0 t}\ 
+ \Rightarrow A_y(\xi,\tau) = A_x(\xi,\tau)\ e^{j2\pi(\nu_0 \tau-t_0 \xi)}\]  
+
+\item Interference geometry
+
+  In the case of a multi-component signal, the elements of the AF
+corresponding to the signal components (denoted as the AF-signal terms) are
+mainly located around the origin, whereas the elements corresponding to
+interferences between the signal components (AF-interference terms) appear
+at a distance from the origin which is proportional to the time-frequency
+distance between the involved components. This can be noticed on a simple
+example\,:\\
+ 
+  * {\it Example}\,: The M-file \index{\ttfamily ambifunb}{\ttfamily
+ambifunb.m} of the TF Toolbox implements the narrow-band ambiguity
+function. We apply it on a signal composed of two linear FM signals with
+gaussian amplitudes\,:
+\begin{verbatim}
+     >> N=64; sig1=fmlin(N,0.2,0.5).*amgauss(N);
+     >> sig2=fmlin(N,0.3,0).*amgauss(N);
+     >> sig=[sig1;sig2]; 
+\end{verbatim}
+Let us first have a look at the WVD (see fig. \ref{En1fig12})\,:
+\begin{verbatim}
+     >> tfrwv(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig12.eps}}
+\caption{\label{En1fig12}WVD of  2 chirps with gaussian amplitudes and
+different slopes}
+\end{figure}
+We have two distinct signal terms, and some interferences oscillating in
+the middle. If we look at the ambiguity function of this signal (see
+fig. \ref{En1fig13}),
+\begin{verbatim}
+     >> ambifunb(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig13.eps}}
+\caption{\label{En1fig13}Narrow-band ambiguity function of the previous
+signal : the AF-signal terms are located around the origin, whereas the
+AF-interference terms are located away from the origin}
+\end{figure}
+we have around the origin (in the middle of the image) the AF-signal terms,
+whereas the AF-interference terms are located away from the origin. Thus,
+applying a 2-D low pass filtering around the origin on the ambiguity
+function, and returning to the WVD by 2-D Fourier transform will attenuate
+the interference terms. Actually, this 2-D filtering is operated, in the
+general expression of the Cohen's class, by the parameterization function $f$,
+as we discuss it now.
+\end{itemize}
+
+\subsubsection{New interpretation of the Cohen's class}
+
+  The dual expression of the Cohen's class formulation (expression
+(\ref{defcohen1})) in terms of AF writes
+\begin{eqnarray}
+\label{defcohen2}
+C_x(t,\nu;f) = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}
+f(\xi,\tau)\ A_x(\xi,\tau)\ e^{-j2\pi(\nu \tau+\xi t)}\ d\xi\ d\tau  
+\end{eqnarray}
+(recall that $f$ is the two-dimensional Fourier transform of $\Pi$).  This
+expression is very instructive about the role played by the parameterization
+function $f(\xi,\tau)$. Indeed, $f$ acts as a weighting function that tries to
+let the signal terms unchanged, and to reject the interference
+terms. Actually, the change from the time-frequency plane to the ambiguity
+plane allows a precise characterization of the weighting function $f$, and
+thus of the smoothing function $\Pi(t,\nu)$.
+  
+  For example, the WVD corresponds to a constant parameterization
+function\,: $f(\xi,\tau)=1,\ \forall\ \xi,\ \tau$\,: no difference is made
+between the different regions of the ambiguity plane. For the spectrogram,
+$f(\xi,\tau)=A_h^*(\xi,\tau)$\,: the ambiguity function of the window $h$
+determines the shape of the weighting function. And for the
+smoothed-pseudo-WVD, we have $f(\xi,\tau)=G(\xi)\ h(\tau)$\,: the weighting
+function is separable in time and frequency, which is very useful to adapt
+it to the shape of the AF-signal terms.
+
+  We will end this section by presenting other energy distributions that
+are members of the Cohen's class.
+
+
+\subsection{Other important energy distributions}
+%''''''''''''''''''''''''''''''''''''''''''''''''
+\subsubsection{The Rihaczek and Margenau-Hill distributions}\label{MHD}
+\index{Rihaczek distribution}\index{Margenau-Hill distribution} Another
+  possible definition of a time-frequency energy density is given by the
+  Rihaczek distribution. If we consider the interaction energy between a
+  signal $x$ restricted to an infinitesimal interval $\delta_T$ centered on
+  $t$, and $x$ passed through an infinitesimal bandpass filter $\delta_B$
+  centered on $\nu$, it can be approximated by the following expression\,:
+\[\delta_T\ \delta_B\ [x(t)\ X^*(\nu)\ e^{-j2\pi \nu t}].\]
+This leads us to interpret the quantity
+\[R_x(t,\nu)=x(t)\ X^*(\nu)\ e^{-j2\pi \nu t},\]
+called the {\it Rihaczek distribution}, as a complex energy density at
+point $(t,\nu)$.  This distribution, which corresponds to the element of
+the Cohen's class for which $f(\xi,\tau)=e^{j\pi \xi \tau}$, verifies many
+good properties (1-2, 4-11, see section \ref{propertieswvd}). However, it
+is complex valued, which can be awkward in practice. It is implemented
+under the name \index{\ttfamily tfrri}{\ttfamily tfrri.m}. The real part of
+the Rihaczek distribution is also a time-frequency distribution of the
+Cohen's class ($f(\xi,\tau)=\cos{(\pi \xi \tau)}$), known as the {\it
+Margenau-Hill distribution} (see the M-file \index{\ttfamily
+tfrmh}{\ttfamily tfrmh.m}). It has also numerous interesting properties\,:
+1-5, 8, 10-11. As for the WVD, we can define smoothed versions of the
+Rihaczek and Margenau-Hill distributions. The file \index{\ttfamily
+tfrpmh}{\ttfamily tfrpmh.m} computes the pseudo Margenau-Hill distribution.
+
+  The interference structure of the Rihaczek and Margenau-Hill
+distributions is different from the Wigner-Ville one\,: the interference
+terms corresponding to two points located on $(t_1,\nu_1)$ and
+$(t_2,\nu_2)$ are positioned at the coordinates $(t_1,\nu_2)$ and
+$(t_2,\nu_1)$. This can be seen on the following example (see
+fig. \ref{En1fig14})\,:
+\begin{verbatim}
+     >> sig=atoms(128,[32,0.15,20,1;96,0.32,20,1]);
+     >> tfrmh(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig14.eps}}
+\caption{\label{En1fig14}Margenau-Hill distribution of 2 atoms : the
+position of the interferences is quite different from the one obtained with
+the WVD}
+\end{figure}
+Thus, the use of the Rihaczek (or Margenau-Hill) distribution for signals
+composed of multi-components located at the same position in time or in
+frequency is not advised, since the interference terms will then be
+superposed to the signal terms.
+
+\subsubsection{The Page distribution}
+\index{Page distribution}
+  Motivated by the construction of a causal energy density, Page proposed
+the following distribution (the {\it Page distribution})\,:
+\begin{eqnarray*}
+P_x(t,\nu) &=& {d\over dt}\,
+\left\{{
+|\int_{-\infty}^t x(u)\ e^{-j2\pi \nu u}\
+du|^2]
+}\right\}\\ 
+ &=& 2\ \Re{\left\{x(t)\ \left(\int_{-\infty}^t\ x(u)\ e^{-j2\pi \nu
+u}du\right)^* \ e^{-j2\pi \nu t}\right\}}
+\end{eqnarray*}
+It is the derivative of the energy spectral density of the signal
+considered before time $t$. It corresponds to the element of the Cohen's
+class with parameterization function $f(\xi,\tau)=e^{-j\pi \xi |\tau|}$, and
+verifies the properties 1-5, 7-10 (see section \ref{propertieswvd}).
+Actually, it is the only distribution of the Cohen's class which is
+simultaneously causal, unitary, compatible with modulations, and preserves
+time-support.  
+
+\index{pseudo-Page distribution} The function \index{\ttfamily
+tfrpage}{\ttfamily tfrpage.m} computes this distribution. A
+frequency-smoothed version of the Page distribution, called the {\it
+pseudo-Page distribution}, is also available (see the file \index{\ttfamily
+tfrppage}{\ttfamily tfrppage.m}).
+
+\subsubsection{Joint-smoothings of the WVD}
+
+  The following distributions correspond to particular cases of the Cohen's
+class for which the parameterization function depends only on the product of
+the variables $\tau$ and $\xi$\,:
+\begin{eqnarray}
+\label{paramfun}
+f(\xi,\tau)=\Phi(\tau\xi)	       
+\end{eqnarray}
+where $\Phi$ is a decreasing function such that $\Phi(0)=1$ (the Rihaczek
+and Margenau-Hill distributions are particular elements of this class). A
+direct consequence of this definition is that the marginal properties will
+be respected. Besides, since $\Phi$ is a decreasing function, $f$ is a
+low-pass function, and according to (\ref{defcohen2}), this parameterization
+function will reduce the interferences. That is why these distributions are
+also known as the {\it Reduced Interference Distributions}.\index{Reduced
+Interference Distributions}
+\label{RID}
+\begin{itemize}
+\item The {\it Choi-Williams distribution	}
+
+\index{Choi-Williams distribution}
+  One natural choice for Phi is to consider a gaussian function\,:
+\[f(\xi,\tau)=\exp{\left[-\frac{(\pi \xi \tau)^2}{2\sigma^2}\right]}.\]
+The corresponding distribution,
+\[CW_x(t,\nu)=\sqrt{\frac{2}{\pi}}
+\int\int_{-\infty}^{+\infty} 
+{\sigma\over |\tau|}\
+e^{-2\sigma^2(s-t)^2/\tau^2}\ x(s+\frac{\tau}{2})\ x^*(s-\frac{\tau}{2})\
+e^{-j2\pi \nu \tau}\ ds\ d\tau\] is the Choi-Williams distribution. Note
+that when $\sigma\ \longrightarrow\ +\infty$, we obtain the WVD. Inversely,
+the smaller $\sigma$, the better the reduction of the interferences. This
+distribution verifies properties 1-5, 10-11, and can be computed with the
+M-file \index{\ttfamily tfrcw}{\ttfamily tfrcw.m}.  The "cross"-shape of
+the parameterization function of the Choi-Williams distribution implies that
+the efficiency of this distribution strongly depends on the nature of the
+analyzed signal. For instance, if the signal is composed of synchronized
+components in time or in frequency, the Choi-Williams distribution will
+present strong interferences. This can be observed on the following
+example\,: we analyze four gaussian atoms positioned at the corners of a
+rectangle rotating around the center of the time-frequency plane (see
+fig. \ref{En1fig15})\,:
+\begin{verbatim}
+     >> load movcw4at
+     >> clf; movie(M,5);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig15.eps}}
+\caption{\label{En1fig15}Choi-Williams distribution of 4 atoms rotating
+around the middle of the time-frequency plane : when the time/frequency
+supports of the atoms overlap, strong interferences appear on the overlap
+support}
+\end{figure}
+When the time/frequency supports of the atoms overlap, some AF-interference
+terms are not completely attenuated (those present around the axes of
+the ambiguity plane), and the efficiency of the distribution is quite poor. 
+
+\item The {\it Born-Jordan} and {\it Zhao-Atlas-Marks distributions}
+\index{Born-Jordan distribution}\index{Zhao-Atlas-Marks distribution}
+
+  If we impose to the distributions defined by (\ref{paramfun}) the further
+condition to preserve time- and frequency- supports, the simplest choice
+for $f$ is then\,:
+\[f(\xi,\tau)={\sin{(\pi \xi \tau)}\over\pi \xi \tau}\]    	
+which defines the {\it Born-Jordan distribution}\,:
+\[BJ_x(t,\nu)=\int_{-\infty}^{+\infty} \frac{1}{|\tau|}\
+\int_{t-|\tau|/2}^{t+|\tau|/2} x(s+\tau/2)\ x^*(s-\tau/2)\ ds\ e^{-j2\pi
+\nu \tau} d\tau.\]  
+
+Properties 1-5, 8, 10-11 are verified by this distribution, and the
+corresponding M-file of the Time-Frequency Toolbox is \index{\ttfamily
+tfrbj}{\ttfamily tfrbj.m}.
+
+  If we smooth the Born-Jordan distribution along the frequency axis, we
+obtain the {\it Zhao-Atlas-Marks distribution}, defined as
+\[ZAM_x(t,\nu)=\int_{-\infty}^{+\infty} \left[\ h(\tau)\
+\int_{t-|\tau|/2}^{t+|\tau|/2} x(s+\tau/2)\ x^*(s-\tau/2)\ ds\right]\
+e^{-j2\pi \nu \tau}\ d\tau. \] 
+  
+This distribution, also known as the {\it Cone-Shaped Kernel distribution},
+validates properties 3-4 and 8 (only for time) (see the M-file
+\index{\ttfamily tfrzam}{\ttfamily tfrzam.m} for its computation).
+\end{itemize}
+
+\subsubsection{Comparison of the parameterization functions}
+
+  To illustrate the differences between some of the presented
+distributions, we represent their weighting (parameterization) function in
+the ambiguity plane, along with the result obtained by applying them on a
+two-component signal embedded in white gaussian noise\,: the signal is the
+sum of two linear FM signals, the first one with a frequency going from
+0.05 to 0.15, and the second one from 0.2 to 0.5. The signal to noise ratio
+is 10\,dB.
+
+  On the left-hand side of the figures \ref{En1fig16} and \ref{En1fig17},
+the parameterization functions are represented in a schematic way by the
+bold contour lines (the weighting functions are mainly non-zeros inside
+these lines), superimposed to the ambiguity function of the signal. The
+AF-signal terms are in the middle of the ambiguity plane, whereas the
+AF-interference terms are distant from the center. On the right-hand side,
+the corresponding time-frequency distributions are represented.
+\begin{figure}[htb]
+\epsfxsize=12cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/en1fig16.eps}}
+\caption{\label{En1fig16}Two chirps embedded in a 10 dB white gaussian
+noise analyzed by different quadratic distributions. On the left-hand side,
+the parameterization function is represented by a bold contour line,
+superimposed to the ambiguity function of the signal. The AF-signal terms
+are in the middle of the ambiguity plane, whereas the AF-interference terms
+are distant from the center. On the right-hand side, the corresponding
+time-frequency distribution is represented}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=12cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/en1fig17.eps}}
+\caption{\label{En1fig17}Two chirps embedded in a 10 dB white gaussian
+noise analyzed by different quadratic distributions (concluding)}
+\end{figure}
+
+From these plots, we can conclude that the ambiguity plane is very
+enlightening with regard to interference reduction in the case of
+multicomponent signals. On this example, we notice that the
+smoothed-pseudo-WVD is a particularly convenient and versatile
+candidate. This is due to the fact that we can adapt independently the
+time-width and frequency-width of its weighting function. But in the
+general case, it is interesting to have several distributions at our
+disposal since each one is well adapted to a certain type of
+signal. Besides, for a given signal, as a result of the different
+interference geometries, these distributions offer complementary
+descriptions of this signal.
+
+
+\subsection{Conclusion}
+%''''''''''''''''''''''
+  The Cohen's class, which gather all the quadratic time-frequency
+distributions covariant by shifts in time and in frequency, offers a wide
+set of powerful tools to analyze non-stationary signals. The basic idea is
+to devise a joint function of time and frequency that describes the energy
+density or intensity of a signal simultaneously in time and in
+frequency. The most important element of this class is probably the
+Wigner-Ville distribution, which satisfies many desirable properties. Since
+these distributions are quadratic, they introduce cross-terms in the
+time-frequency plane which can disturb the readability of the
+representation. One way to attenuate these interferences is to smooth the
+distribution in time and in frequency, according to their structure. But
+the consequence of this is a decrease of the time and frequency
+resolutions, and more generally a loss of theoretical properties. The
+general formulation proposed by Cohen is very useful to have a better
+understanding of the existing solutions, as well as the connection with the
+ambiguity function.
+
+But there exists other time-frequency energy distributions, which are not
+elements of the Cohen's class, i.e. which are not covariant by shifts in
+time or in frequency. This is the case for example of the affine
+distributions, which are presented in the next chapter.

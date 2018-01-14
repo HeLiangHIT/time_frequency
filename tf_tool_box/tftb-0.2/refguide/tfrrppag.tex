@@ -1,0 +1,100 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrrppag}
+\section*{\hspace*{-1.6cm} tfrrppag}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Reassigned pseudo Page time-frequency distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,rtfr,hat] = tfrrppag(x)
+[tfr,rtfr,hat] = tfrrppag(x,t)
+[tfr,rtfr,hat] = tfrrppag(x,t,N)
+[tfr,rtfr,hat] = tfrrppag(x,t,N,h)
+[tfr,rtfr,hat] = tfrrppag(x,t,N,h,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrrppag} computes the pseudo Page distribution and its
+        reassigned version. The reassigned pseudo Page distribution is
+        given by the following expressions\,:
+\begin{eqnarray*}
+\hspace*{-.5cm}PP_x^{(r)}(t',\nu';h)=\iint_{-\infty}^{+\infty}
+PP_x(t,\nu;h)\ \delta(t'-\hat{t}(x;t,\nu))\
+\delta(\nu'-\hat{\nu}(x;t,\nu))\ dt\ d\nu,
+\end{eqnarray*}
+where 
+\begin{eqnarray*}
+\hat{t}(x;t,\nu)=t\ \ \mbox{ and }\ \ 
+\hat{\nu}(x;t,\nu)=\nu+\Im\left\{\dfrac{F_x(t,\nu;\ens{D}_h)\ F_x^*(t,\nu;h)}
+{2\pi|F_x(t,\nu;h)|^2}\right\}.    
+\end{eqnarray*}
+$\ens{D}_h(t)=\frac{dh}{dt}(t)$ and $F_x(t,\nu;h)$ is the short-time
+Fourier transform of $x(t)$ with a causal analysis window $h(t)$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & analyzed signal ({\ty Nx=length(x)})\\
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty N}     & number of frequency bins & {\ty Nx}\\
+        {\ty h}     & frequency smoothing window, {\ty h(0)} being forced to {\ty 1}
+                                         & {\ty window(odd(N/4))}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr, rtfr} & time-frequency representation and its reassigned
+            version\\
+        {\ty hat}   & complex matrix of the reassignment vectors\\ 
+  
+\hline
+\end{tabular*}
+\vspace*{.5cm}
+
+When called without output arguments, {\ty tfrrpmh} runs {\ty tfrqview}.
+\end{minipage}
+
+%\newpage
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmlin(128,.1,.4);
+         h=window(65,'gauss'); 
+         tfrrppag(sig,1:128,128,h,1);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] F. Auger, P. Flandrin ``Improving the Readability of Time-Frequency and
+Time-Scale Representations by the Reassignment Method'' IEEE Transactions
+on Signal Processing, Vol. 43, No. 5, pp. 1068-89, 1995.
+\end{minipage}
+

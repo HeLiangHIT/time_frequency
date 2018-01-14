@@ -1,0 +1,120 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{instfreq}
+\section*{\hspace*{-1.6cm} instfreq}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Instantaneous frequency estimation.
+\end{minipage}
+\vspace*{.1cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[fnormhat,t] = instfreq(x)
+[fnormhat,t] = instfreq(x,t)
+[fnormhat,t] = instfreq(x,t,l)
+[fnormhat,t] = instfreq(x,t,l,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty instfreq} computes the estimation of the instantaneous
+        frequency of the analytic signal {\ty x} at time instant(s) {\ty
+        t}, using the trapezoidal integration rule.  The result {\ty
+        fnormhat} lies between 0.0 and 0.5.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x} & analytic signal to be analyzed\\
+        {\ty t} & time instants               & {\ty (2:length(x)-1)}\\
+        {\ty l} & if {\ty l=1}, computes the estimation of the (normalized)
+		instantaneous frequency of {\ty x}, defined as {\ty
+		angle(x(t+1)*conj(x(t-1))} ; 
+            if {\ty l>1}, computes a Maximum Likelihood estimation of the
+            instantaneous frequency of the deterministic part of the signal
+            blurried in a white gaussian noise.
+            {\ty l} must be an integer        & {\ty 1}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                        & {\ty 0}\\
+ \hline {\ty fnormhat} & output (normalized) instantaneous frequency\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Consider a linear frequency modulation and estimate its instantaneous
+frequency law with {\ty instfreq}\,:
+\begin{verbatim}
+         [x,ifl]=fmlin(70,0.05,0.35,25); 
+         [instf,t]=instfreq(x); 
+         plotifl(t,[ifl(t) instf]);
+\end{verbatim}
+\end{minipage}
+
+\newpage
+
+\begin{minipage}[t]{13.5cm}
+Now consider a noisy sinusoidal frequency modulation with a signal to noise
+ratio of 10 dB\,:
+\begin{verbatim}
+         N=64; SNR=10.0; L=4; t=L+1:N-L; 
+         x=fmsin(N,0.05,0.35,40);
+         sig=sigmerge(x,hilbert(randn(N,1)),SNR);
+         plotifl(t,[instfreq(sig,t,L),instfreq(x,t)]); 
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+ifestar2, kaytth, sgrpdlay.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] I. Vincent, F. Auger, C. Doncarli ``A Comparative Study Between Two
+Instantaneous Frequency Estimators'', Proc Eusipco-94, Vol. 3,
+pp. 1429-1432, 1994.\\
+
+[2] P. Djuric, S. Kay ``Parameter Estimation of Chirp Signals''
+IEEE Trans. on Acoust. Speech and Sig. Proc., Vol. 38, No. 12, 1990.\\
+
+[3] S.M. Tretter ``A Fast and Accurate Frequency Estimator'', IEEE
+Trans. on ASSP, Vol. 37, No. 12, pp. 1987-1990, 1989.
+
+\end{minipage}
+
+
+

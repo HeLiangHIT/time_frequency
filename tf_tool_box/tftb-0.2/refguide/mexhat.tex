@@ -1,0 +1,69 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{mexhat}
+\section*{\hspace*{-1.6cm} mexhat}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Mexican hat wavelet in time domain.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+h = mexhat
+h = mexhat(nu)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty mexhat} returns the mexican hat wavelet, with central
+        frequency {\ty nu} ({\ty nu} is a normalized frequency). Its
+        expression writes
+\[h(t)=\nu\ \frac{\sqrt{\pi}}{2}\ (1-2(\pi\nu t)^2)\ \exp[-(\pi\nu\ t)^2].\]
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty nu} & any real between 0 and 0.5         & {\ty 0.05} \\
+ \hline {\ty h}  & time vector containing the mexhat samples\\ 
+                 & {\ty length(h)=2*ceil(1.5/nu)+1}\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         plot(mexhat);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+klauder.
+\end{verbatim}
+\end{minipage}

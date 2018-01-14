@@ -1,0 +1,74 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{movpwjph}
+\hspace*{-1.6cm}{\Large \bf movpwjph}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Influence of a jump of phase on the interferences of the PWVD.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+M = movpwjph(N)
+M = movpwjph(N,Np)
+M = movpwjph(N,Np,typesig)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty movpwjph} generates the movie frames illustrating the 
+        influence of a jump of phase in different frequency modulations
+        on the interference terms of the pseudo Wigner-Ville distribution.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N} & number of points for the signal\\
+        {\ty Np} & number of snapshots & {\ty 8}\\
+        {\ty typesig} & type of signal & {\ty 'C'}\\
+         &  {\ty 'C'} : constant frequency modulation\\
+         &  {\ty 'L'} : linear frequency modulation\\
+         &  {\ty 'S'} : sinusoidal frequency modulation\\
+ \hline {\ty M} & matrix of movie frames\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         M=movpwjph(128,8,'S'); 
+         movie(M,10);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+movcw4at, movpwdph, movsc2wv, movsp2wv, movwv2at.
+\end{verbatim}
+\end{minipage}

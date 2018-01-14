@@ -1,0 +1,73 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{anastep}
+\section*{\hspace*{-1.6cm} anastep}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Analytic projection of unit step signal.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+y = anastep(N)
+y = anastep(N,ti)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty anastep} generates the analytic projection of a unit step
+        signal : \centerline{$y(t)=0$ for $t<t_i$, and $y(t)=1$ for $t\geq
+        t_i$.}\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points\\
+        {\ty ti} & starting position of the unit step & {\ty N/2}\\
+  \hline {\ty y}  & output signal\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}
+\begin{verbatim}
+         signal=anastep(256,128);      plot(real(signal));
+         signal=-2.5*anastep(512,301); plot(real(signal));
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+anasing, anafsk, anabpsk, anaqpsk, anaask.
+\end{verbatim}
+\end{minipage}
+
+
+
+

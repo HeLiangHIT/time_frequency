@@ -1,0 +1,70 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{movcw4at}
+\section*{\hspace*{-1.6cm} movcw4at}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Four atoms rotating, analyzed by the Choi-Williams distribution.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+M = movcw4at(N)
+M = movcw4at(N,Np)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty movcw4at} generates the movie frames illustrating the
+influence of an overlapping in time and/or frequency of different
+components of a signal on the interferences of the Choi-Williams
+distribution between these components.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points of the analyzed signal\\
+        {\ty Np} & number of snapshots & {\ty 7}\\
+\hline  {\ty M}  & matrix of movie frames\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+          M=movcw4at(128,15); 
+          movie(M,10);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+movpwjph, movpwdph, movsc2wv, movsp2wv, movwv2at.
+\end{verbatim}
+\end{minipage}

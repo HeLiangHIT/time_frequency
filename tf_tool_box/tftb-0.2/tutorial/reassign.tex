@@ -1,0 +1,426 @@
+% This is part of the TFTB Tutorial.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file tutorial.tex for copying conditions.
+
+\section{The reassignment method}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\index{reassignment} 
+\subsection{Introduction}
+%''''''''''''''''''''''''
+
+  Bilinear time-frequency distributions, presented in the previous two
+sections, offer a wide range of methods designed for the analyze of non
+stationary signals. Nevertheless, a critical point of these methods is
+their readability, which means both a good concentration of the signal
+components and no misleading interference terms. Some efforts have been
+made recently in that direction, and in particular a general methodology
+referred to as {\it reassignment}. The purpose of this section is to
+present this methodology, to illustrate it on different examples, and to
+make the link with connected approaches (see \cite{AUG94}, \cite{KOD76} and
+\cite{AUG95} for more details on reassignment).
+
+
+\subsection{The reassignment of the spectrogram}
+%'''''''''''''''''''''''''''''''''''''''''''''''
+
+  The original idea of reassignment was introduced in an attempt to
+improve the spectrogram. Indeed, as any other bilinear energy
+distribution, the spectrogram is faced with an unavoidable trade-off
+between the reduction of misleading interference terms and a sharp
+localization of the signal components.
+
+  Let us recall the expression of the spectrogram as a 2D-convolution
+of the Wigner-Ville distribution of the signal by the WVD of the
+analysis window :
+\begin{eqnarray}
+\label{spectro2}
+S_x(t,\nu;h)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} W_x(s,\xi)\
+W_h(t-s,\nu-\xi)\ ds\ d\xi.	 
+\end{eqnarray}
+Therefore, this distribution reduces the interference terms of the signal's
+WVD, but at the expense of opposed time and frequency resolutions, and of
+biased marginals and first order moments. However, a closer look at
+expression (\ref{spectro2}) shows that $W_h(t-s,\nu-\xi)$ delimits a
+time-frequency domain at the vicinity of the $(t,\nu)$ point, inside which
+a weighted average of the signal's WVD values is performed. The key point
+of the reassignment principle is that these values have no reason to be
+symmetrically distributed around $(t,\nu)$, which is the geometrical center
+of this domain. Therefore, their average should not be assigned at this
+point, but rather at the center of gravity of this domain, which is much
+more representative of the local energetic distribution of the
+signal. Reasoning with a mechanical analogy, the local energy distribution
+$W_h(t-s,\nu-\xi) W_x(s,\xi)$ (as a function of $s$ and $\xi$) can be
+considered as a mass distribution, and it is much more accurate to assign
+the total mass (i.e. the spectrogram value) to the center of
+gravity of the domain rather than to its geometrical center.
+
+  This is exactly how the reassignment method proceeds : it moves each
+value of the spectrogram computed at any point $(t,\nu)$ to another point
+$(\hat{t},\hat{\nu})$ which is the center of gravity of the signal energy
+distribution around $(t,\nu)$ :
+\begin{eqnarray}
+\label{hatt}
+\hat{t}(x;t,\nu)={
+\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} s\ 
+W_h(t-s,\nu-\xi)\ W_x(s,\xi)\ ds\ d\xi
+\over
+\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} W_h(t-s,\nu-\xi)\
+W_x(s,\xi)\ ds\ d\xi}\\ 
+\label{hatnu}
+\hat{\nu}(x;t,\nu)=\frac{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+\xi\ W_h(t-s,\nu-\xi)\ W_x(s,\xi)\ ds\ d\xi} 
+ {\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} W_h(t-s,\nu-\xi)\
+W_x(s,\xi)\ ds\ d\xi}	         
+\end{eqnarray}
+and thus leads to a reassigned spectrogram, whose value at any point
+$(t',\nu')$ is the sum of all the spectrogram values reassigned to this
+point :
+\begin{eqnarray}
+\label{reasspectro}
+ S_x^{(r)}(t',\nu';h)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+S_x(t,\nu;h)\ \delta(t'-\hat{t}(x;t,\nu))\ \delta(\nu'-\hat{\nu}(x;t,\nu))\
+dt\ d\nu \ \  
+\end{eqnarray}
+One of the mostly interesting properties of this new
+distribution is that it also uses the phase information of the
+short-time Fourier transform, and not only its squared modulus as in
+the spectrogram. This can be seen from the following expressions of
+the reassignment operators : 
+\begin{eqnarray*}
+	\hat{t}(x;t,\nu)  = -\frac{d\Phi_x(t,\nu;h)}{d\nu}\\
+	\hat{\nu}(x;t,\nu) = \nu+\frac{d\Phi_x(t,\nu;h)}{dt}
+\end{eqnarray*}
+where $\Phi_x(t,\nu;h)$ is the phase of the STFT of $x$ :
+$\Phi_x(t,\nu;h)=\arg(F_x(t,\nu;h))$. However, these expressions do not
+lead to an efficient implementation, and have to be replaced by the
+following ones :
+\begin{eqnarray*}
+\hat{t}(x;t,\nu)=t-\Re\left\{\frac{F_x(t,\nu;T_h)\
+ F_x^*(t,\nu;h)}{|F_x(t,\nu;h)|^2}\right\}\\ 
+\hat{\nu}(x;t,\nu)=\nu-\Im\left\{\frac{F_x(t,\nu;D_h)\
+ F_x^*(t,\nu;h)}{|F_x(t,\nu;h)|^2}\right\} 
+\end{eqnarray*}
+where $T_h(t)=t\times h(t)$ and $D_h(t)=\frac{dh}{dt}(t)$. Reassigned
+spectrograms are therefore very easy to implement, and do not require a
+drastic increase in computational complexity.
+
+  Finally, it should also be underlined that the reassigned spectrogram,
+though no longer bilinear, satisfies the time and frequency shifts
+covariance, the energy conservation (provided that $h(t)$ is of unit
+energy), and the non-negativity property. It cans also be shown that, since
+the WVD is perfectly localized on linear chirp signals and impulses, any
+reassigned spectrogram also satisfies this property :
+\begin{eqnarray*}
+x(t)=A\ \exp\left\{j\{\nu_0 t+\alpha
+t^2/2\}\right\}&\Rightarrow&\hat{\nu}=\nu_0+\alpha\hat{t}\\ 
+x(t)=A\ \delta(t-t_0)&\Rightarrow&\hat{t}=t_0.
+\end{eqnarray*}
+  Before presenting the generalization of this method to the Cohen's class
+and to the affine class, let us have a look at the readability improvement
+obtained by the reassigned spectrogram on an example of multi-component
+signal. The reassigned spectrogram is available thanks to the M-file
+\index{\ttfamily tfrrsp}{\ttfamily tfrrsp.m}. The result is compared to the
+spectrogram and to the "ideal" representation \index{\ttfamily
+tfrideal}({\ttfamily tfrideal.m}) based on the knowledge of the
+instantaneous frequency law of each component :
+\begin{verbatim}
+     >> N=128; [sig1 ifl1]=fmsin(N,0.15,0.45,100,1,0.4,-1);
+     >> [sig2 ifl2]=fmhyp(N,[1 .5],[32 0.05]);
+     >> sig=sig1+sig2;
+     >> tfrideal([ifl1 ifl2]);
+     >> figure; tfrrsp(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=12cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/re1fig1.eps}}
+\caption{\label{Re1fig1}Reassignment of the spectrogram on a synthetic
+signal composed of a sinusoidal frequency modulation simultaneously with a
+hyperbolic frequency modulation : comparison with the ``ideal''
+time-frequency representation and with the spectrogram}
+\end{figure}
+
+The file \index{\ttfamily tfrrsp}{\ttfamily tfrrsp.m} allows you to display
+the spectrogram itself or its reassigned version. The improvement given by
+the reassignment method is obvious : the two components are much better
+localized and almost perfectly concentrated, and there are very few
+cross-terms.
+
+
+\subsection{Reassignment of the Cohen's class representations}
+%'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  The presentation of the reassignment principle done above allows a
+straightforward extension of its use to other distributions. Indeed,
+if we consider the general expression of a distribution of the Cohen's
+class as a 2D-convolution of the WVD, 
+\begin{eqnarray*}
+C_x(t,\nu;\Pi)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+\Pi(t-s,\nu-\xi)\ W_x(s,\xi)\ ds\ d\xi, 
+\end{eqnarray*}
+replacing the particular smoothing kernel $W_h(u,\xi)$ in expressions
+(\ref{hatt}), (\ref{hatnu}) and (\ref{reasspectro}) by an arbitrary kernel
+$\Pi(s,\xi)$ simply defines the reassignment of any member of the Cohen's
+class :
+\begin{eqnarray*}
+\hat{t}(x;t,\nu) &=&
+\frac{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} s\
+\Pi(t-s,\nu-\xi)\ W_x(s,\xi)\ ds\ d\xi} 
+ {\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \Pi(t-s,\nu-\xi)\
+W_x(s,\xi)\ ds\ d\xi}\\ 
+\hat{\nu}(x;t,\nu)&=&
+\frac{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \xi\
+\Pi(t-s,\nu-\xi)\ W_x(s,\xi)\ ds\ d\xi} 
+ {\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \Pi(t-s,\nu-\xi)\
+W_x(s,\xi)\ ds\ d\xi}\\ 
+C_x^{(r)}(t',\nu';\Pi)&=&\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+C_x(t,\nu;\Pi)\ \delta(t'-\hat{t}(x;t,\nu))\
+\delta(\nu'-\hat{\nu}(x;t,\nu))\ dt\ d\nu.	       
+\end{eqnarray*}
+The resulting reassigned distributions efficiently combine a reduction of
+the interference terms provided by a well adapted smoothing kernel and an
+increased concentration of the signal components achieved by the
+reassignment. From a theoretical point of view, these distributions are
+covariant by time and frequency shifts, and are perfectly localized for
+linear chirp signals and impulses. Finally, for the most common cases, such
+as the SPWVD and the Reduced Interference Distributions (see section
+\ref{SPWVD} and \ref{RID}), the reassignment operators $\hat{t}(x;t,\nu)$ and
+$\hat{\nu}(x;t,\nu)$ are almost as easy to compute as for the spectrogram.
+
+
+\subsection{Reassignment of the affine class representations}  
+%''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  Similarly, the reassignment method can also be applied to the
+time-scale energy distributions. Starting from the general 
+expression :
+\begin{eqnarray*}
+\Omega_x(t,a;\Pi)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+\Pi(s/a,\nu_0-a \xi)\ W_x(t-s,\xi)\ ds\ d\xi 
+\end{eqnarray*}
+we can see that the representation value at any point $(t,a=\nu_0/\nu)$ is
+the average of the weighted WVD values on the points $(t-s,\xi)$ located in
+a domain centered on $(t,\nu)$ and bounded by the essential support of
+$\Pi$. In order to avoid the resultant signal components broadening while
+preserving the cross-terms attenuation, it seems once again appropriate to
+assign this average to the center of gravity of these energy measures,
+whose coordinates are :
+\begin{eqnarray*}
+\hat{t}(x;t,\nu) &=&
+t-\frac{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} s\
+\Pi(s/a,\nu_0-a \xi)\ W_x(t-s,\xi)\ ds\ d\xi} 
+ {\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \Pi(s/a,\nu_0-a \xi)\
+W_x(t-s,\xi)\ ds\ d\xi}	\\ 
+\hat{\nu}(x;t,\nu) &=& \frac{\nu_0}{\hat{a}(x;t,\nu)}\\
+ &=& \frac{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \xi\
+\Pi(s/a,\nu_0-a \xi)\ W_x(t-s,\xi)\ ds\ d\xi} 
+   {\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \Pi(s/a,\nu_0-a \xi)\
+W_x(t-s,\xi)\ ds\ d\xi}	 
+\end{eqnarray*}
+rather than to the point $(t,a=\nu_0/\nu)$ where it is computed. The value
+of the resulting modified time-scale representation on any point
+$(t',a')$ is then the sum of all the representation values moved to this
+point :
+\begin{eqnarray*}
+\Omega_x^{(r)}(t',a';\Pi)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+{a'}^2\ \Omega_x(t,a;\Pi)\  
+ \delta(t'-\hat{t}(x;t,a))\ \delta(a'-\hat{a}(x;t,a))\ dt\ \frac{da}{a^2}.
+\end{eqnarray*}
+As for the Cohen's class, it can be shown that these modified
+distributions are no longer bilinear, but are covariant by time shifts
+and time scalings, distribute the energy of the signal on the whole
+time-scale plane, and are also perfectly localized for chirps and
+impulses. 
+
+
+\subsection{Numerical examples}
+%''''''''''''''''''''''''''''''
+  In order to evaluate the benefits of the reassignment method in practical
+applications, a comparison of the experimental results provided by some
+time-frequency representations and their modified versions is shown in this
+section. The analyzed signal is a 128-points signal made up of a sinusoidal
+frequency modulation followed by a pure tone simultaneously with a chirp
+component :
+\begin{verbatim}
+     >> [sig1 ifl1]=fmsin(60,0.15,0.35,50,1,0.35,1);
+     >> [sig2 ifl2]=fmlin(60,0.3,0.1);
+     >> [sig3 ifl3]=fmconst(60,0.4);
+     >> sig=[sig1;zeros(8,1);sig2+sig3];
+     >> iflaw=zeros(128,2);
+     >> iflaw(:,1)=[ifl1;NaN*ones(8,1);ifl2];
+     >> iflaw(:,2)=[NaN*ones(68,1);ifl3];
+\end{verbatim}
+We first plot the instantaneous frequency laws (obtained by {\ttfamily
+tfrideal}), to which the proposed solutions should be as near as possible,
+and the WVD of this signal (see the first two plots of figure
+\ref{Re1fig2})\,:
+\begin{verbatim}
+     >> tfrideal(iflaw);
+     >> figure; tfrwv(sig);
+\end{verbatim}
+With the WVD, the signal components are well localized, but the numerous
+cross-terms make the figure hardly readable. If we now consider the
+smoothed pseudo-WVD and its reassigned version (see the third and fourth
+plots of fig. \ref{Re1fig2}),
+\begin{verbatim}
+     >> tfrrspwv(sig);
+\end{verbatim}
+we can see that the smoothing done by the SPWVD almost completely suppress
+the cross terms, but the signal components localization becomes
+coarser. The improvement given by the reassignment method is obvious : all
+components are much better localized, leading to a nearly ideal
+representation.
+\begin{figure}[htb]
+\epsfxsize=12cm
+\epsfysize=12cm
+\centerline{\epsfbox{figure/re1fig2.eps}}
+\caption{\label{Re1fig2}Comparison of different time-frequency
+distributions and their reassigned version (1/3) : the analyzed signal is
+composed of three components, as can be clearly seen on the first plot
+representing the instantaneous frequency laws of the components. The other
+plots are the Wigner-Ville distribution, the smoothed pseudo Wigner-Ville
+distribution and its reassigned version}
+\end{figure}
+The next distributions we consider are the spectrogram (see the first two
+plots of fig. \ref{Re1fig3}) and the Morlet scalogram (see the third and
+fourth plots of fig. \ref{Re1fig3})\,:
+\begin{verbatim}
+     >> figure(1); tfrrsp(sig);
+     >> figure(2); tfrrmsc(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=12cm
+\epsfysize=12cm
+\centerline{\epsfbox{figure/re1fig3.eps}}
+\caption{\label{Re1fig3}Comparison of different time-frequency
+distributions and their reassigned version (2/3) : the spectrogram and the
+Morlet scalogram}
+\end{figure}
+These two distributions present nearly no cross terms, except at
+the bottom of the sinusoid and around time $t=64$. But the time and
+frequency resolutions are not good, especially at low frequencies in the
+case of the scalogram. The reassignment method improves considerably these
+localizations, and the reassigned spectrogram is even perfectly
+concentrated for the chirp components. The result obtained with the
+modified scalogram is less good, especially at low frequencies where the
+time-resolution is really inadequate. 
+
+Finally, we represent the pseudo-Page and the pseudo Margenau-Hill
+distributions with their reassigned version (see fig. \ref{Re1fig4})\,:  
+\begin{verbatim}
+     >> figure(1); tfrrppag(sig);
+     >> figure(2); tfrrpmh(sig);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=12cm
+\epsfysize=12cm
+\centerline{\epsfbox{figure/re1fig4.eps}}
+\caption{\label{Re1fig4}Comparison of different time-frequency
+distributions and their reassigned version (3/3) : the pseudo Page
+distribution and the pseudo Margenau-Hill distribution}
+\end{figure}
+These representations (before reassignment) are hardly readable since some
+cross-terms are superimposed on the signal components. Their modified
+versions give much better localized signal components, but less
+concentrated than in the case of the spectrogram or the SPWVD.
+
+
+\subsection{Connected approaches}
+%''''''''''''''''''''''''''''''''
+  Connections of the reassignment method has been found with other
+techniques which extract relevant information from the time-frequency
+plane. 
+
+\subsubsection{Friedman's instantaneous frequency density}
+\index{instantaneous frequency density}
+A first example is the instantaneous frequency density : so as to take
+advantage of the phase structure of the short-time Fourier transform
+(STFT), Friedman simply computed at each time $t$ the histogram of the
+frequency displacements $\hat{\nu}(x;t,\nu)$ of the spectrogram. The
+resulting time-frequency representation is no more an energy
+distribution, and could be derived as well from any other reassigned
+distribution.
+
+Here is an example of this instantaneous frequency density, obtained with
+the M-file \index{\ttfamily friedman}{\ttfamily friedman.m} on the
+pseudo-WVD of the previous signal (see fig. \ref{Re1fig5})\,:
+\begin{verbatim}
+     >> t=1:2:127; [tfr,rtfr,hat]=tfrrpwv(sig,t);
+     >> friedman(tfr,hat,t,'tfrrsp',1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/re1fig5.eps}}
+\caption{\label{Re1fig5}Instantaneous frequency density defined by
+Friedman, computed from the frequency displacements $\hat{\nu}(x;t,\nu)$ of
+the pseudo-WVD}
+\end{figure}
+Although some cross terms are still present, the localization of the
+components is quite good, especially for the chirp components.
+
+
+\subsubsection{Extraction of ridges and skeleton}
+\index{ridges}\index{skeleton} Another related approach is the extraction
+of {\it ridges} and {\it skeleton}. This method extracts from either the
+STFT or the continuous wavelet transform (CWT) some particular sets of
+curves deduced from the stationary points of their phase (see \cite{FLA93}
+for more information about the stationary phase principle). Indeed,
+applying the stationary phase theorem to the signal reconstruction formula
+of the CWT $T_x(t,a;\Psi)$ expressed in the frequency domain :
+\[X(\nu)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \sqrt{a}\ H(a
+\nu)\ T_x(t,a;\Psi)\ e^{-j2\pi \nu t}\ dt\ 
+\frac{da}{a^2}\] 
+leads to particular points such that 
+\begin{eqnarray}
+\label{hatt1}
+\hat{t}(x;t,a)=t-\Phi'_h(\nu_0)\ \ \mbox{ and }\ \ \hat{a}(x;t,a)=a,	
+\end{eqnarray}
+with $\Phi_h(\nu)=\arg\{H(\nu)\}$, and which constitute a set of curves
+called the {\it horizontal ridges} of the representation. 
+
+Similarly, applying the stationary phase principle to the signal
+reconstruction formula of the CWT expressed in the time domain leads to
+particular points such that
+\begin{eqnarray}
+\label{hatt2}
+\hat{t}(x;t,a)=t\ \ \mbox{ and }\ \ \hat{a}(x;t,a)=a\
+\frac{\nu_0}{\phi'_h(0)},  
+\end{eqnarray}
+with $\phi_h(t)=\arg\{h(t)\}$, and which constitute a set of curves called
+the {\it vertical ridges} of the representation. These relations between
+the ridges and the reassignment operators suggest to extract the ridges of
+any reassigned distribution by a straightforward generalization of
+expressions (\ref{hatt1}), (\ref{hatt2}).
+
+For example, let us extract the ridges from the spectrogram of the previous
+signal (see fig. \ref{Re1fig6})\,:\index{\ttfamily ridges}
+\begin{verbatim}
+     >> [tfr,rtfr,hat]=tfrrsp(sig); 
+     >> ridges(tfr,hat);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/re1fig6.eps}}
+\caption{\label{Re1fig6}Extraction of ridges from the spectrogram} 
+\end{figure}
+The result is interesting : apart from some ``gaps'' present in particular
+on the sinusoidal frequency modulation, this method concentrates and
+localizes nearly ideally the signal in the time-frequency plane, even when
+there are two components present at the same time (or at the same
+frequency).
+
+
+\subsection{Conclusion}
+%''''''''''''''''''''''
+
+  The reassignment method creates a modified version of a
+time-frequency representation by moving the representation values away
+from where they are computed. These displacements depend on the signal
+and on the representation, forcing the bilinearity to be lost, but
+they are still consistent with many of the representation
+properties. The principle of reassignment exploits the local
+structures of a distribution in both time and frequency
+directions. The experimental results show that this method provides a
+higher concentration in the time-frequency plane, but of course does
+not remove all the cross terms.

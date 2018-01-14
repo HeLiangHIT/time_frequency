@@ -1,0 +1,93 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{gdpower}
+\section*{\hspace*{-1.6cm} gdpower}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with a power-law group delay.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[x,gpd,f] = gdpower(N)
+[x,gpd,f] = gdpower(N,k)
+[x,gpd,f] = gdpower(N,k,c)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty gdpower} generates a signal with a power-law group delay of
+        the form \[t_x(f) = t_0 + c\ f^{k-1}.\] The output signal is of
+        unit energy.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}   & number of points in time          (must be even)\\
+        {\ty k}   & degree of the power-law           & {\ty 0}\\
+        {\ty c}   & rate-coefficient of the power-law group delay.  
+              {\ty c} must be non-zero.               & {\ty 1} \\  
+  \hline {\ty x}   & time row vector containing the signal samples\\
+        {\ty gpd} & output vector containing the group delay samples, of
+	length {\ty round(N/2)}\\ 
+        {\ty f}   & frequency bins\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Consider a hyperbolic group-delay law, and compute the Bertrand
+distribution of it :
+\begin{verbatim}
+         sig=gdpower(128); 
+         tfrbert(sig,1:128,0.01,0.3,128,1);
+\end{verbatim}
+We note that the perfect localization property of the Bertrand distribution
+on hyperbolic group-delay signals is checked in that case. \\
+\end{minipage}
+\newpage
+\hspace*{1.5cm}\begin{minipage}[t]{13.5cm}
+Plot the instantaneous frequency law on which the D-Flandrin distribution
+is perfectly concentrated :
+\begin{verbatim}
+         [sig,gpd,f]=gdpower(128,1/2); 
+         plot(gpd,f); 
+         tfrdfla(sig,1:128,.01,.3,218,1);
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmpower.
+\end{verbatim}
+\end{minipage}
+

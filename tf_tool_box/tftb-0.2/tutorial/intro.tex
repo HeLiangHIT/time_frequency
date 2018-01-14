@@ -1,0 +1,273 @@
+% This is part of the TFTB Tutorial.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file tutorial.tex for copying conditions.
+
+\section{Presentation}
+%~~~~~~~~~~~~~~~~~~~~~:eps:
+
+  The Time-Frequency Toolbox is a collection of M-files developed for the
+analysis of non-stationary signals using time-frequency distributions.
+This toolbox includes two groups of files :
+
+\begin{itemize}
+\item the signal generation files, which allow the synthesis of
+numerous kinds of non-stationary signals ;
+\item the processing files, including the time-frequency distributions
+and other related processing functions.
+\end{itemize}
+	
+  As usual under MATLAB, each function of the toolbox has a help entry that
+you can refer to by typing
+\begin{verbatim}
+      >> help name_of_the_file
+\end{verbatim}
+at the prompt of the matlab command window. In almost every case, a simple
+example is given, which facilitates the use of the function.
+
+  Seven demonstration M-files are also available, which provide sequences
+of examples illustrating the possibilities of the Time-Frequency Toolbox,
+and following closely the plan of this tutorial. These files are :
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline tfdemo  & Main menu of the demonstration\\
+\hline \hline tfdemo1 & Introduction\\
+\hline tfdemo2 & Non-stationary signals\\
+\hline tfdemo3 & Linear time-frequency representations\\
+\hline tfdemo4 & Cohen's class time-frequency distributions\\
+\hline tfdemo5 & Affine class time-frequency distributions\\
+\hline tfdemo6 & Reassigned time-frequency distributions\\
+\hline tfdemo7 & Extraction of information\\
+\hline
+\end{tabular}
+\end{center}
+
+  The aim of this Tutorial is to present the way to use the Time-Frequency
+Toolbox, and also to introduce the reader in an illustrative and friendly
+way to the theory of time-frequency analysis. We advise the reader, when
+looking at a chapter of this tutorial, to run simultaneously the
+corresponding demonstration file. In this way, he will have a good
+understanding of the Toolbox.
+
+
+\section{Background, system requirements and\\ installation}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  This Toolbox is primarily intended for researchers and engineers with
+some knowledge on signal processing theory. In particular, the concepts of
+Fourier transform, Shannon sampling and stationarity are important to
+understand the following features.
+
+  The Time-Frequency Toolbox assumes that MATLAB v.4.2c (or a later version)
+is present on your system, as well as the Signal Processing Toolbox v.3.0
+(or a later version).
+
+  Instructions for installing this toolbox on a workstation or a large
+machine are found in the MATLAB Installation Guide. Instructions for
+installing on micro computers are found in the MATLAB User's Guide.
+
+
+\section{Introductory examples}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Example 1}
+%'''''''''''''''''''''
+
+ Let us consider first a signal with constant amplitude, and with a linear
+frequency modulation varying from 0 to 0.5 in normalized frequency (ratio
+of the frequency in Hertz to the sampling frequency, with respect to the
+Shannon sampling theorem). This signal is called a chirp, and as its
+frequency content is varying with time, it is a non-stationary signal. To
+obtain such a signal, we can use the M-file \index{\ttfamily
+fmlin}{\ttfamily fmlin.m}, which generates a linear frequency modulation
+(see fig. \ref{In2fig1})\,:
+\begin{verbatim}
+     >> sig1=fmlin(128,0,0.5);
+     >> plot(real(sig1));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/in2fig1.eps}}
+\caption{\label{In2fig1}Linear frequency modulation (chirp)}
+\end{figure}
+From this time-domain representation, it is difficult (except for
+experienced specialists) to say what kind of modulation is contained in
+this signal : what are the initial and final frequencies, is it a linear,
+parabolic, hyperbolic\ldots frequency modulation ?
+
+If we now consider the energy spectrum of this signal {\ttfamily sig1} by
+squaring the modulus of its Fourier transform (using the {\ttfamily fft}
+function) (see fig. \ref{In2fig2}),
+\begin{verbatim}
+     >> dsp1=fftshift(abs(fft(sig1)).^2); 
+     >> plot((-64:63)/128,dsp1);        
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/in2fig2.eps}}
+\caption{\label{In2fig2}Energy spectrum of the chirp}
+\end{figure}
+we still can not say, from this plot, anything about the evolution in time
+of the frequency content. This is due to the fact that the Fourier
+transform is a decomposition on complex exponentials, which are of infinite
+duration and completely unlocalized in time. Time information is in fact
+encoded in the phase of the Fourier transform (which is simply ignored by
+the energy spectrum), but their interpretation is not straightforward and
+their direct extraction is faced with a number of difficulties such as
+phase unwrapping.  In order to have a more informative description of such
+signals, it would be better to directly represent their frequency content
+while still keeping the time description parameter : this is precisely the
+aim of time-frequency analysis. To illustrate this, let us try the
+Wigner-Ville distribution on this signal (see fig. \ref{In2fig3})\,:
+\begin{verbatim}
+     >> tfrwv(sig1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/in2fig3.eps}}
+\caption{\label{In2fig3}Wigner-Ville distribution of the chirp}
+\end{figure}
+Without going into details about this representation (it will be developed
+in the following), we can see that the linear progression of the frequency
+with time, from 0 to 0.5, is clearly shown.
+
+  If we now add some complex white gaussian noise on this signal, using the
+M-files \index{\ttfamily noisecg}{\ttfamily noisecg.m} and \index{\ttfamily
+sigmerge}{\ttfamily sigmerge.m}, with a 0\,dB signal to noise ratio (see
+fig. \ref{In2fig4}),
+\begin{verbatim}
+     >> sig2=sigmerge(sig1,noisecg(128),0);
+     >> plot(real(sig2));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/in2fig4.eps}}
+\caption{\label{In2fig4}Chirp embedded in a 0 dB white gaussian noise}
+\end{figure}
+and consider the spectrum of it (see fig. \ref{In2fig5})\,:
+\begin{verbatim}
+     >> dsp2=fftshift(abs(fft(sig2)).^2); 
+     >> plot((-64:63)/128,dsp2);        
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/in2fig5.eps}}
+\caption{\label{In2fig5}Energy spectrum of the noisy chirp}
+\end{figure}
+it is worse than before to interpret these plots. On the other hand, the
+Wigner-Ville distribution still show quite clearly the linear progression
+of the frequency with time (see fig. \ref{In2fig6})\,: 
+\begin{verbatim}
+     >> tfrwv(sig2);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/in2fig6.eps}}
+\caption{\label{In2fig6}Wigner-Ville distribution of the noisy chirp}
+\end{figure}
+
+
+\subsection{Example 2} 
+%'''''''''''''''''''''
+
+The second example we consider is a bat sonar signal, recorded with a
+sampling frequency of 230.4\,kHz and an effective bandwidth of [8\,kHz,
+80\,kHz] (this recording was part of the research program RCP 445
+supported by CNRS (Centre National de la Recherche Scientifique, France)
+\cite{FLA86}).
+
+  First, load the signal from the MAT-file {\ttfamily bat.mat} (see
+fig. \ref{In2fig7})\,: 
+\begin{verbatim}
+     >> load bat
+     >> t0=linspace(0,2500/2304,2500);   
+     >> plot(t0,bat); xlabel('Time [ms]');
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/in2fig7.eps}}
+\caption{\label{In2fig7}Sonar signal from a bat}
+\end{figure}
+From this plot, we can not say precisely what is the frequency content at
+each time instant $t$ ; similarly, if we look at its spectrum (see
+fig. \ref{In2fig8}), 
+\begin{verbatim}
+     >> dsp=fftshift(abs(fft(bat)).^2);
+     >> f0=(-1250:1249)*230.4/2500;
+     >> plot(f0,dsp); xlabel('Frequency [kHz]');
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/in2fig8.eps}}
+\caption{\label{In2fig8}Energy spectrum of the bat sonar signal}
+\end{figure}
+we can not say at what time the signal is located around 38\,kHz, and at
+what time around 40\,kHz (you can use the zoom function to see more
+precisely what is happening around these frequencies ; see the Matlab
+Reference Guide). Let us now consider a representation called the pseudo
+Wigner-Ville distribution, applied on the most interesting part of this
+signal (this distribution was obtained with the M-file \index{\ttfamily
+tfrpwv}{\ttfamily tfrpwv.m}, stored in the matrix {\ttfamily tfr} and saved
+with the signal in the MAT-file {\ttfamily bat.mat} ; the corresponding
+time- and frequency- samples {\ttfamily t} and {\ttfamily f} where also
+saved on {\ttfamily bat.mat}) (see fig. \ref{In2fig9})\,:
+\begin{verbatim}
+     >> contour(t,f,tfr,5); axis('xy'); 
+     >> xlabel('Time [ms]'); ylabel('Frequency [kHz]'); 
+     >> title('TFRPWV of a bat signal');  
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/in2fig9.eps}}
+\caption{\label{In2fig9}Pseudo-WVD of the bat sonar signal}
+\end{figure}
+We then have a nice description of its spectral content varying with time :
+it is a narrow-band signal, whose frequency content is decreasing from
+around 55\,kHz to 38\,kHz, with a non-linear frequency modulation
+(approximately of hyperbolic shape).
+
+\subsection{Example 3} 
+%'''''''''''''''''''''
+
+The last introductory example presented here is a transient signal embedded
+in a -5\,dB white gaussian noise. This transient signal is a constant
+frequency modulated by a one-sided exponential amplitude (see
+fig. \ref{In2fig10})\,: 
+\begin{verbatim}
+     >> trans=amexpo1s(64).*fmconst(64);
+     >> sig=[zeros(100,1) ; trans ; zeros(92,1)];
+     >> sign=sigmerge(sig,noisecg(256),-5);
+     >> plot(real(sign));
+     >> dsp=fftshift(abs(fft(sign)).^2);
+     >> plot((-128:127)/256,dsp);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/in2fig10.eps}}
+\caption{\label{In2fig10}Time- and frequency- representation of a noisy
+transient signal}
+\end{figure}
+From these representations, it is difficult to localize precisely the
+signal in the time-domain as well as in the frequency domain.  Now let us
+have a look at the spectrogram of this signal calculated using the M-file
+\index{\ttfamily tfrsp}{\ttfamily tfrsp.m} (see fig. \ref{In2fig11})\,:
+\begin{verbatim}
+     >> tfrsp(sign);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/in2fig11.eps}}
+\caption{\label{In2fig11}Spectrogram of the noisy transient signal}
+\end{figure}
+the transient signal appears distinctly around the normalized frequency
+0.25, and between time points 125 and 160.
+

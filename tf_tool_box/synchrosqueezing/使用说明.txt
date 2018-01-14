@@ -1,0 +1,112 @@
+# synchrosqueezing(同步压缩) 工具箱 和使用
+
+下载地址：https://ebrevdo.github.io/synsq/ 或者 
+https://github.com/ebrevdo/synchrosqueezing
+算法原理和应用参考文献：
+[1] Daubechies I, Lu J, Wu H-T. Synchrosqueezed wavelet transforms: An empirical mode decomposition-like tool [J]. Applied and Computational Harmonic Analysis, 2011, 30(2): 243-61.
+[2] Thakur G, Brevdo E, Fučkar N S, et al. The Synchrosqueezing algorithm for time-varying spectral analysis: Robustness properties and new paleoclimate applications [J]. Signal Process, 2013, 93(5): 1079-94.
+
+使用说明：将./synchrosqueezing添加到pathtool下，然后到synchrosqueezing下面运行compile_synsq.m脚本编译mex文件(如何编译参考下节)，之后即可运行该工具箱。
+
+
+# 编译工具箱
+
+>之前看的博客：http://blog.csdn.net/ayw_hehe/article/details/7865358 下面的方法并没有配置成功，总是出现错误
+
+参考 http://stackoverflow.com/questions/8552580/using-gcc-mingw-as-matlabs-mex-compiler 下的第二条回复！
+
+1. 安装 [mingw-w64-install.exe](https://sourceforge.net/projects/mingw-w64/) 或者作者提到的[TDM Mingw64](http://tdm-gcc.tdragon.net/)。
+2. 配置 mexopts.bat 文件，我安装的 matlab2014a，该文件存在于：C:\Users\XZ\AppData\Roaming\MathWorks\MATLAB\R2014a 位置，其他版本对号入座（若不存在则新建该文件），编辑如下：
+
+```
+@echo off
+
+set MINGWPATH=D:\MinGW64\mingw64
+set PATH=%MINGWPATH%\bin;%PATH%
+
+set COMPILER=gcc
+set COMPFLAGS=-c -m64 -I"%MATLAB%\extern\include" -DMATLAB_MEX_FILE -Wall -std=c99
+set OPTIMFLAGS=-O3 -DNDEBUG
+set DEBUGFLAGS=-g
+set NAME_OBJECT=-o
+
+set LINKER=gcc
+set LINKFLAGS=-shared -L"%MATLAB%\bin\win64" -L"%MATLAB%\extern\lib\win64\microsoft" -lmex -lmx -leng -lmat -lmwlapack -lmwblas
+set NAME_OUTPUT=-o "%OUTDIR%%MEX_NAME%%MEX_EXT%"
+```
+>注：此处我的MinGW 64-bit安装位置是D:\MinGW64\mingw64，因此设置该参数时如此设置。
+
+3. 测试：到D:\Program Files\MATLAB\R2014a\extern\examples\mex 下输入` mex yprime.c `或者`mex -v yprime.c`编译测试（后者会输出编译信息），测试成功则可，输入yprime(1,1:4) 查看输出结果。
+
+4. 以后对于FOR循环等matlab耗时的运算就可以使用C语言编写加快仿真速度了，之后编译为mex即可在matlab里面调用。
+
+
+
+更多详细的细节如下：http://www.damtp.cam.ac.uk/research/afha/bogdan/#code
+作者是图像处理的研究。
+作者改进的写法如下：
+```
+@echo off
+
+:: NOTE: this is actually not a proper .bat file executed by Windows. MEX
+::       parses it and only understands a very reduced set of commands:
+::       "set" and "rem" apparently, everything else is ignored (behaves as
+::       "rem"), so don't do any fancy batch stuff in here. There are some
+::       undocumented special vars you can set here that will trigger MEX
+::       to do fancy stuff.
+
+:: You can use MinGW64 builds (win32 threads + seh unwinding) from here:
+:: http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/
+
+:: Tested with the following:
+:: http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.9.1/threads-win32/seh/x86_64-4.9.1-release-win32-seh-rt_v3-rev1.7z
+
+:: Set this to your Mingw64 top folder, where you extracted the above
+set MINGWPATH=【p:\mingw64】
+
+:: Leave these alone unless you know what you're doing.
+set PATH=%MINGWPATH%\bin;%PATH%
+set PRELINK_CMDS=echo.>%TEMP%\mexstaticlibs
+
+:: You can have MEX run some commands before calling the linker.
+:: The two examples below will cause gcc to output the full path to some
+:: static libraries so you can link statically to them (see the
+:: LINGFLAGSPOST special var below). You can set any command here, however.
+rem set PRELINK_CMDS1=gcc -print-file-name=libwinpthread.a >> %TEMP%\mexstaticlibs
+rem set PRELINK_CMDS2=gcc -print-file-name=libquadmath.a >> %TEMP%\mexstaticlibs
+rem set PRELINK_CMDS3=...
+
+:: You can have MEX run some commands also after calling the linker
+:: (e.g. upx compress the output .mex)
+rem set POSTLINK_CMDS1=upx -9 "%OUTDIR%%MEX_NAME%%MEX_EXT%"
+rem set POSTLINK_CMDS2=...
+
+:: You can change these if you really need to.
+set COMPILER=g++
+set COMPFLAGS=-c -I"%MATLAB%\extern\include" -DMATLAB_MEX_FILE
+set OPTIMFLAGS=-O3 -funroll-loops -DNDEBUG
+set DEBUGFLAGS=-g
+set NAME_OBJECT=-o
+
+set LINKER=g++
+set LINKFLAGS=-shared -static-libstdc++ -static-libgcc -L"%MATLAB%\bin\win64" -L"%MATLAB%\extern\lib\win64\microsoft" -lmex -lmx -leng -lmat -lmwlapack -lmwblas
+
+set LINKFLAGSPOST=@%TEMP%\mexstaticlibs
+set NAME_OUTPUT=-o "%OUTDIR%%MEX_NAME%%MEX_EXT%"
+
+
+:: EXAMPLES
+:: ========
+
+:: You can compile simple files using "mex file.cpp". To support more than 2^32 elements, use
+:: "mex -largeArrayDims file.cpp" ... use this by default, unless you know what you're doing.
+
+:: To add include dirs, lib dirs, or compile/link flags, do:
+:: mex COMPFLAGS="$COMPFLAGS -std=gnu99 -Ix:/include/dir" LINKFLAGS="$LINKFLAGS -Lx:/libs/dir -lmylib" -largeArrayDims file.cpp
+
+
+```
+
+
+
+

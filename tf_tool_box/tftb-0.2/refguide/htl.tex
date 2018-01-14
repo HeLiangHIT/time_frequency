@@ -1,0 +1,94 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{htl}
+\section*{\hspace*{-1.6cm} htl}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Hough transform for detection of lines in images.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[HT,rho,theta] = htl(IM).
+[HT,rho,theta] = htl(IM,M).
+[HT,rho,theta] = htl(IM,M,N).
+[HT,rho,theta] = htl(IM,M,N,trace).
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        From an image {\ty IM}, computes the integration of the values of
+        the image over all the lines. The lines are parametrized using
+        polar coordinates. The origin of the coordinates is fixed at the
+        center of the image, and {\ty theta} is the angle between the {\it
+        vertical} axis and the perpendicular (to the line) passing through
+        the origin. Only the values of {\ty IM} exceeding 5 \% of the
+        maximum are taken into account (to speed up the algorithm). \\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty IM}    & image to be analyzed (size {\ty (Xmax,Ymax)})\\
+        {\ty M}     & desired number of samples along the radial axis &
+                                         {\ty Xmax}\\
+        {\ty N}     & desired number of samples along the azimutal (angle) axis&
+                                         {\ty Ymax}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown&
+                                         {\ty 0}\\
+\hline  {\ty HT}    & output matrix ({\ty MxN} matrix)\\
+        {\ty rho}   & sequence of samples along the radial axis\\
+        {\ty theta} & sequence of samples along the azimutal axis\\
+
+\hline
+\end{tabular*}
+\vspace*{.1cm}
+
+When called without output arguments, {\ty htl} displays {\ty HT} using
+{\ty mesh}.
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+The Wigner-Ville distribution of a linear frequency modulation is almost
+perfectly concentrated (in the discrete case) on a straight line in the
+time-frequency plane. Thus, applying the Hough transform on this image will
+produce a representation with a peak, whose coordinates give estimates of
+the linear frequency modulation parameters (initial frequency and sweep rate)\,:
+\end{minipage}
+
+%\newpage
+
+\begin{verbatim}
+         N=64; t=(1:N); y=fmlin(N,0.1,0.3); 
+         IM=tfrwv(y,t,N); imagesc(IM); pause(1); 
+         htl(IM,N,N,1); 
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] H. Maître ``Un Panorama de la Transformation de Hough'', Traitement du
+Signal, Vol 2, No 4, pp. 305-317, 1985.
+\end{minipage}
+
+

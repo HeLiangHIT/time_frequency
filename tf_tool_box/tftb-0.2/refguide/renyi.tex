@@ -1,0 +1,109 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{renyi}
+\section*{\hspace*{-1.6cm} renyi}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Measure Renyi information.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+R = renyi(tfr)
+R = renyi(tfr,t)
+R = renyi(tfr,t,f)
+R = renyi(tfr,t,f,alpha)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty renyi} measures the Renyi information relative to a 2-D
+        density function {\ty tfr} (which can be eventually a
+        time-frequency representation). Renyi information of order $\alpha$
+        is defined as\,:
+\begin{eqnarray*}
+R_x^{\alpha} = \frac{1}{1-\alpha}\
+log_2\left\{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}
+\mbox{tfr}_x^{\alpha}(t,\nu)\ dt\ d\nu\right\}
+\end{eqnarray*}
+
+The result produced by this measure is expressed in {\it bits} : if one
+elementary signal yields zero bit of information ($2^0$), then two well
+separated elementary signals will yield one bit of information ($2^1$),
+four well separated elementary signals will yield two bits of information
+($2^2$), and so on.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr} & {\ty (M,N)} 2-D density function (or mass function). Eventually
+             {\ty tfr} can be a time-frequency representation, in which case
+             its first row must correspond to the lower frequencies\\
+        {\ty t} & abscissa vector parametrizing the {\ty tfr} matrix. {\ty t} can be a
+            non-uniform sampled vector (eventually a time vector)
+                                                & {\ty (1:N)}\\     
+        {\ty f} & ordinate vector parametrizing the {\ty tfr} matrix. {\ty f} can be a
+            non-uniform sampled vector (eventually a frequency vector)
+                                                & {\ty (1:M)}\\      
+        {\ty alpha} & rank of the Renyi measure        & {\ty 3}\\
+ \hline {\ty R} & the alpha-rank Renyi measure (in bits if {\ty tfr} is a time- 
+            frequency matrix).\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Examples}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+
+\begin{verbatim}
+         s=atoms(64,[32,.25,16,1]); [tfr,t,f]=tfrsp(s); 
+         R1=renyi(tfr,t,f,3) 
+         ans =
+               0.9861
+
+         s=atoms(64,[16,.2,16,1;48,.3,16,1]); [tfr,t,f]=tfrsp(s); 
+         R2=renyi(tfr,t,f,3) 
+         ans =
+               1.9890
+         
+\end{verbatim}
+We can see that if {\ttfamily R} is set to 0 for one elementary atom by
+subtracting {\ttfamily R1}, we obtain a result close to 1 bit for two atoms
+({\ttfamily R2-R1}=1.0029).
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] W. Williams, M. Brown, A. Hero III, ``Uncertainty, information and
+   time-frequency distributions'', SPIE Advanced Signal Processing
+   Algorithms, Architectures and Implementations II, Vol. 1566,
+   pp. 144-156, 1991.
+\end{minipage}
+
+

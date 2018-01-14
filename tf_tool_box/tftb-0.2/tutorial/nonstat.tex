@@ -1,0 +1,451 @@
+% This is part of the TFTB Tutorial.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file tutorial.tex for copying conditions.
+
+  This chapter presents some useful definitions that constitute the
+background of time-frequency analysis (most of the information presented in
+this tutorial are extracted from \cite{FLA93}). After a brief recall on
+time-domain and frequency-domain representations, we introduce the concepts
+of time and frequency localizations, time-bandwidth product and the
+constraint associated to this product (the Heisenberg-Gabor
+inequality). Then, the instantaneous frequency and the group delay are
+presented as a first solution to the problem of time localization of the
+spectrum. We carry on by defining non-stationarity from its opposite,
+stationarity, and show how to synthesize such non-stationary signals with
+the toolbox. Finally, we show that in the case of multi-component signals,
+these mono-dimensional functions (instantaneous frequency and group delay)
+are not sufficient to represent these signals ; a two-dimensional
+description (function of time {\em and} frequency) is necessary.
+
+
+\section{Time representation and frequency representation}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  The time representation is usually the first (and the most natural)
+description of a signal we consider, since almost all physical signals are
+obtained by receivers recording variations with time.
+
+  The frequency representation, obtained by the {\it Fourier transform}
+\index{Fourier transform}
+\[X(\nu) = \int_{-\infty}^{+\infty} x(t)\ e^{-j2\pi \nu t}\ dt,\]
+is also a very powerful way to describe a signal, mainly because the
+relevance of the concept of frequency is shared by many domains (physics,
+astronomy, economics, biology \ldots) in which periodic events occur.
+
+  But if we look more carefully at the spectrum $X(\nu)$, it can be viewed
+as the coefficient function obtained by expanding the signal $x(t)$ into
+the family of infinite waves, $\exp\{j2\pi \nu t\}$, which are completely
+unlocalized in time. Thus, the spectrum essentially tells us which
+frequencies are contained in the signal, as well as their corresponding
+amplitudes and phases, but does not tell us at which times these
+frequencies occur.
+
+
+\section{Localization and the Heisenberg-Gabor\\ principle}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\markright{Localization and the Heisenberg-Gabor principle}
+  A simple way to characterize a signal simultaneously in time and in
+frequency is to consider its mean localizations and dispersions in each of
+these representations. This can be obtained by considering $|x(t)|^2$ and
+$|X(\nu)|^2$ as probability distributions, and looking at their mean values
+and standard deviations : \index{average time}\index{average
+frequency}\index{time spreading}\index{frequency spreading}
+%\begin{xalignat}{2}
+$$
+\begin{array}{rcll}
+t_m   &=& \frac{1}{E_x}\ \int_{-\infty}^{+\infty} t\ |x(t)|^2\ dt  & 
+\mbox{\it average time}\\	  
+\nu_m &=& \frac{1}{E_x}\ \int_{-\infty}^{+\infty} \nu\ |X(\nu)|^2\ d\nu  & 
+\mbox{\it average frequency}\\ 
+T^2   &=& \frac{
+4\pi}{E_x}\ \int_{-\infty}^{+\infty} (t-t_m)^2\ |x(t)|^2\ dt
+&  \mbox{\it time spreading}\\ 
+B^2   &=& \frac{4\pi}{E_x}\ \int_{-\infty}^{+\infty} (\nu-\nu_m)^2\
+|X(\nu)|^2\ d\nu &  \mbox{\it frequency spreading}
+\end{array}
+$$
+%\end{eqnarray*}
+%\end{xalignat}
+
+where $E_x$ is the \index{energy} {\it energy} of the signal, assumed to be
+finite (bounded) :
+\[E_x = \int_{-\infty}^{+\infty} |x(t)|^2\ dt < + \infty.\]
+Then a signal can be characterized in the time-frequency plane by its mean
+position $(t_m, \nu_m)$ and a domain of main energy localization whose area
+is proportional to the {\it time-bandwidth product} $T\times B$.\\
+\index{time-bandwidth product}
+
+\subsection{Example 1} 
+%'''''''''''''''''''''
+\label{ex1}
+These time and frequency localizations can be evaluated thanks to the
+M-files \index{\ttfamily loctime}{\ttfamily loctime.m} and \index{\ttfamily
+locfreq}{\ttfamily locfreq.m} of the Toolbox. The first one gives the
+average time center ($t_m$) and the duration ($T$) of a signal, and the
+second one the average normalized frequency ($\nu_m$) and the normalized
+bandwidth ($B$). For example, for a linear chirp with a gaussian amplitude
+modulation, we obtain (see fig. \ref{Ns2fig1})\,:
+\begin{verbatim}
+     >> sig=fmlin(256).*amgauss(256);
+     >> [tm,T]=loctime(sig)           --->  tm=128     T=32
+     >> [num,B]=locfreq(sig)          --->  num=0.249  B=0.0701
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/ns2fig1.eps}}
+\caption{\label{Ns2fig1}Linear chirp with a gaussian amplitude modulation}
+\end{figure}
+
+  One interesting property of this product $T\times B$ is that it is lower
+bounded :
+\[T \times B \geq 1.\]
+\index{Heisenberg-Gabor inequality} This constraint, known as the {\it
+Heisenberg-Gabor inequality}, illustrates the fact that a signal can not
+have simultaneously an arbitrarily small support in time and in
+frequency. This property is a consequence of the definition of the Fourier
+transform. The lower bound $T\times B = 1$ is reached for gaussian
+functions :
+\[x(t) = C \exp{[-\alpha(t - t_m)^2 + j2\pi \nu_m(t-t_m)]}\]
+%with $C \in \mathbb{R}$, $\alpha \in \mathbb{R}_{+}$. Therefore, the
+with $C \in \Rset$, $\alpha \in \Rset_{+}$. Therefore, the
+gaussian signals are those which minimize the time-bandwidth product
+according to the Heisenberg-Gabor inequality.\\
+
+\subsection{Example 2}
+%'''''''''''''''''''''
+
+ To check the Heisenberg-Gabor inequality numerically, we consider a
+gaussian signal and calculate its time-bandwidth product (see
+fig. \ref{Ns2fig2})\,: 
+\begin{verbatim}
+     >> sig=amgauss(256);
+     >> [tm,T]=loctime(sig); 
+     >> [fm,B]=locfreq(sig);
+     >> [T,B,T*B]             --->  T=32  B=0.0312  T*B=1	       
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/ns2fig2.eps}}
+\caption{\label{Ns2fig2}gaussian signal : lower bound of the
+Heisenberg-Gabor inequality}
+\end{figure}
+Hence, the time-bandwidth product obtained, when using the file
+\index{\ttfamily amgauss}{\ttfamily amgauss.m}, is minimum.
+
+\section{Instantaneous frequency}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\label{anasig}
+\index{instantaneous frequency}
+\index{analytic signal}
+\index{Hilbert transform}
+  Another way to describe a signal simultaneously in time and in frequency
+is to consider its {\it instantaneous frequency}. In order to introduce such a
+function, we must define first the concept of {\it analytic signal}.
+
+  For any real valued signal $x(t)$, we associate a complex valued signal
+$x_a(t)$ defined as
+\[x_a(t) = x(t) + j HT(x(t))\]
+where $HT(x)$ is the {\it Hilbert transform} of $x$ ($x_a$ can be obtained
+using the M-file {\ttfamily hilbert.m} of the Signal Processing
+Toolbox). $x_a(t)$ is called the analytic signal associated to $x(t)$. This
+definition has a simple interpretation in the frequency domain since $X_a$
+is a single-sided Fourier transform where the negative frequency values
+have been removed, the strictly positive ones have been doubled, and the DC
+component is kept unchanged :
+\begin{eqnarray*}
+	X_a(\nu) = 0 \ \ \ \ \ \ &\mbox{if}& \nu < 0 \\
+	X_a(\nu) = X(0)\ \ &\mbox{if}& \nu = 0 \\
+	X_a(\nu) = 2X(\nu) &\mbox{if}& \nu > 0 
+\end{eqnarray*}
+($X$ is the Fourier transform of $x$, and $X_a$ the Fourier transform of
+$x_a$). Thus, the analytic signal can be obtained from the real signal by
+forcing to zero its spectrum for the negative frequencies, which do not
+alter the information content since for a real signal, $X(-\nu)=X^*(\nu)$.
+
+\index{instantaneous amplitude}
+ From this signal, it is then possible to define in a unique way the
+concepts of {\it instantaneous amplitude} and {\it instantaneous frequency} by :
+\begin{eqnarray*}
+a(t) &=& |x_a(t)| \ \ \ \ \ \ \ \ \ \ \ \mbox{\it  instantaneous amplitude} \\
+f(t) &=& \frac{1}{2\pi} \frac{d\arg{x_a(t)}}{dt}\ \mbox{\it  instantaneous
+frequency}  
+\end{eqnarray*}
+An estimation of the instantaneous frequency is given by the M-file
+\index{\ttfamily instfreq}{\ttfamily instfreq.m} of the Time-Frequency
+toolbox :\\
+
+   {\bf Example} (see fig. \ref{Ns3fig1})
+
+\begin{verbatim}
+     >> sig=fmlin(256); t=(3:256);
+     >> ifr=instfreq(sig); plotifl(t,ifr);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns3fig1.eps}}
+\caption{\label{Ns3fig1}Estimation of the instantaneous frequency of a
+linear chirp}
+\end{figure}
+As we can see from this plot, the instantaneous frequency shows with
+success the evolution with time of the frequency content of this signal.
+
+
+\section{Group delay}
+%~~~~~~~~~~~~~~~~~~~~
+\index{group delay}
+  The instantaneous frequency characterizes a local frequency behavior as a
+function of time. In a dual way, the local time behavior as a function of
+frequency is described by the {\it group delay} :
+\[t_x(\nu) = -\frac{1}{2\pi}  \frac{d\arg{X_a(\nu)}}{d \nu}.\]
+This quantity measures the average time arrival of the frequency $\nu$. The
+M-file \index{\ttfamily sgrpdlay}{\ttfamily sgrpdlay.m} of the
+Time-Frequency Toolbox gives an estimation of the group delay of a signal
+(do not mistake it for the file {\ttfamily grpdelay.m} of the signal
+processing toolbox which gives the group delay of a digital filter). For
+example, with signal {\ttfamily sig} of the previous example, we obtain
+(see fig. \ref{Ns4fig1})\,:
+\begin{verbatim}
+     >> sig=fmlin(256); fnorm=0:.05:.5;
+     >> gd=sgrpdlay(sig,fnorm); plot(gd,fnorm);
+\end{verbatim}
+
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns4fig1.eps}}
+\caption{\label{Ns4fig1}Estimation of the group delay of the previous chirp}
+\end{figure}
+
+Be careful of the fact that in general, instantaneous frequency and group
+delay define two different curves in the time-frequency plane. They are
+approximatively identical only when the time-bandwidth product $T\times B$
+is large. To illustrate this point, let us consider a simple example. We
+calculate the instantaneous frequency and group delay of two signals, the
+first one having a large $T\times B$ product, and the second one a small
+$T\times B$ product (see fig. \ref{Ns4fig2})\,:
+\begin{verbatim}
+     >> t=2:255; 
+     >> sig1=amgauss(256,128,90).*fmlin(256,0,0.5);
+     >> [tm,T1]=loctime(sig1); [fm,B1]=locfreq(sig1); 
+     >> T1*B1              --->  T1*B1=15.9138
+     >> ifr1=instfreq(sig1,t); f1=linspace(0,0.5-1/256,256);
+     >> gd1=sgrpdlay(sig1,f1); plot(t,ifr1,'*',gd1,f1,'-')
+     >> sig2=amgauss(256,128,30).*fmlin(256,0.2,0.4);
+     >> [tm,T2]=loctime(sig2); [fm,B2]=locfreq(sig2); 
+     >> T2*B2              --->  T2*B2=1.224
+     >> ifr2=instfreq(sig2,t); f2=linspace(0.2,0.4,256);
+     >> gd2=sgrpdlay(sig2,f2); plot(t,ifr2,'*',gd2,f2,'-')
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/ns4fig2.eps}}
+\caption{\label{Ns4fig2}Estimation of the instantaneous frequency (stars)
+and group delay (line) of two different chirps with different amplitude
+modulations. The first plot corresponds to a large $T\times B$ product
+while the second corresponds to a small one}
+\end{figure}
+On the first plot, the two curves are almost superimposed (i.e. the
+instantaneous frequency is the inverse transform of the group delay),
+whereas on the second plot, the two curves are clearly different.
+
+
+\section{About stationarity}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\index{stationarity}
+  Before talking about non-stationarity, which is a 'non-property', we must
+define what we call {\it stationarity}.
+
+  A deterministic signal is said to be {\it stationary} if it can be
+written as a discrete sum of sinusoids :
+
+\begin{eqnarray*}
+x(t)&=&\sum_{k \in \Nset} A_k \cos{[2\pi \nu_k t + \Phi_k]} \ \ \ \
+\mbox{ for a real signal} \\   
+x(t)&=&\sum_{k \in \Nset} A_k \exp{[j(2\pi \nu_k t + \Phi_k)]} 
+\mbox{for a complex signal}  
+\end{eqnarray*}
+i.e. as a sum of elements which have constant instantaneous amplitude and
+instantaneous frequency.
+
+  In the random case, a signal $x(t)$ is said to be {\it wide-sense
+stationary} (or stationary up to the second order) if its expectation is
+independent of time and its autocorrelation function $E[x(t_1)x^*(t_2)]$
+depends only on the time difference $t_2-t_1$. We can then show that the
+associated analytic signal has constant instantaneous amplitude and
+frequency expectations, which can be connected to the deterministic case.
+
+\index{non-stationarity} 
+So a signal is said to be {\it non-stationary} if one of these fundamental
+assumptions is no longer valid. For example, a finite duration signal, and
+in particular a {\it transient signal} (for which the length is short
+compared to the observation duration), is non-stationary.
+
+
+\section{How to synthesize a mono-component non-stationary signal}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  One part of the Time-Frequency Toolbox is dedicated to the generation of
+non-stationary signals. In that part, three groups of M-files are available\,:
+
+\begin{enumerate}
+\item The first one allows to synthesize different amplitude
+modulations. These M-files begin with the prefix '{\ttfamily am}'. For
+example, {\ttfamily amrect.m} computes a rectangular amplitude modulation,
+{\ttfamily amgauss.m} a gaussian amplitude modulation \ldots
+
+\item The second one proposes different frequency modulations.  These
+M-files begin with '{\ttfamily fm}'. For example, {\ttfamily fmconst.m} is
+a constant frequency modulation, {\ttfamily fmhyp.m} a hyperbolic frequency
+modulation \ldots
+
+\item The third one is a set of pre-defined signals. Some of them begin
+with '{\ttfamily ana}' because these signals are analytic (for example
+{\ttfamily anastep, anabpsk, anasing} \ldots), other have special names
+({\ttfamily doppler, atoms} \ldots).
+\end{enumerate}
+
+  The first two groups of files can be combined to produce a large class of
+non-stationary signals, multiplying an amplitude modulation and a frequency
+modulation.\\
+
+ {\bf Examples}  
+
+We can multiply the linear frequency modulation of Example 1 (see page
+\pageref{ex1}) by a gaussian amplitude modulation (see
+fig. \ref{Ns6fig1})\,:
+\begin{verbatim}
+     >> fm1=fmlin(256,0,0.5);
+     >> am1=amgauss(256);
+     >> sig1=am1.*fm1; plot(real(sig1));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns6fig1.eps}}
+\caption{\label{Ns6fig1}Mono-component non-stationary signal with a linear
+frequency modulation and a gaussian amplitude modulation}
+\end{figure}
+By default, the signal is centered on the middle (256/2=128), and its
+spread is $T=32$. If you want to center it at an other position {\ttfamily
+t0}, just replace {\ttfamily am1} by {\ttfamily amgauss(256,t0)}. A second
+example can be to multiply a pure frequency (constant frequency modulation)
+by a one-sided exponential window starting at {\ttfamily t=100} (see
+fig. \ref{Ns6fig2})\,:
+\begin{verbatim}
+     >> fm2=fmconst(256,0.2);
+     >> am2=amexpo1s(256,100);
+     >> sig2=am2.*fm2; plot(real(sig2));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns6fig2.eps}}
+\caption{\label{Ns6fig2}Mono-component non-stationary signal with a
+constant frequency modulation and a one-sided exponential amplitude
+modulation} 
+\end{figure}
+
+As a third example of mono-component non-stationary signal, we can consider
+the M-file \index{\ttfamily doppler}{\ttfamily doppler.m} : this function
+generates a modelization of the signal received by a fixed observer from a
+moving target emitting a pure frequency (see fig. \ref{Ns6fig3}).
+\begin{verbatim}
+     >> [fm3,am3]=doppler(256,200,4000/60,10,50);
+     >> sig3=am3.*fm3; plot(real(sig3));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns6fig3.eps}}
+\caption{\label{Ns6fig3}Doppler signal}
+\end{figure}
+This example corresponds to a target (a car for instance) moving straightly
+at the speed of 50\,m/s, and passing at 10\,m from the observer (the
+radar\,!). The rotating frequency of the engine is 4000\,revolutions per
+minute, and the sampling frequency of the radar is 200\,Hz.\\
+
+  In order to have a more realistic modelization of physical signals, we
+may need to add some complex noise on these signals. To do so, two M-files
+\index{\ttfamily noisecg}({\ttfamily noisecg} an \index{\ttfamily
+noisecu}{\ttfamily noisecu}) of the Time-Frequency Toolbox are proposed :
+{\ttfamily noisecg.m} generates a complex white or colored gaussian noise,
+and {\ttfamily noisecu.m}, a complex white uniform noise. For example, if
+we add complex colored gaussian noise on the signal {\ttfamily sig1} with a
+signal to noise ratio of -10\,dB (see fig. \ref{Ns6fig4})
+\begin{verbatim}
+     >> noise=noisecg(256,.8);
+     >> sign=sigmerge(sig1,noise,-10); plot(real(sign));
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns6fig4.eps}}
+\caption{\label{Ns6fig4}Gaussian transient signal ({\ttfamily sig1})
+embedded in a -10\,dB colored gaussian noise} 
+\end{figure}
+the deterministic signal {\ttfamily sig1} is now almost imperceptible from
+the noise.
+
+
+\section{What about multi-component non-stationary signals ?}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+  The notion of instantaneous frequency implicitly assumes that, at each
+time instant, there exists only a single frequency component. A dual
+restriction applies to the group delay : the implicit assumption is that a
+given frequency is concentrated around a single time instant. Thus, if
+these assumptions are no longer valid, which is the case for most of the
+multi-component signals, the result obtained using the instantaneous
+frequency or the group delay is meaningless.\\
+
+  {\bf Example} 
+
+For example, let us consider the superposition of two linear frequency
+modulations :
+\begin{verbatim}
+     >> N=128; x1=fmlin(N,0,0.2); x2=fmlin(N,0.3,0.5);
+     >> x=x1+x2;
+\end{verbatim}
+At each time instant $t$, an ideal time-frequency representation should
+represent two different frequencies with the same amplitude. The results
+obtained using the instantaneous frequency and the group delay are of
+course completely different, and therefore irrelevant (see
+fig. \ref{Ns7fig1})\,: 
+\begin{verbatim}
+     >> ifr=instfreq(x); subplot(211); plot(ifr);
+     >> fn=0:0.01:0.5; gd=sgrpdlay(x,fn); 
+     >> subplot(212); plot(gd,fn);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/ns7fig1.eps}}
+\caption{\label{Ns7fig1}Estimation of the instantaneous frequency (first
+plot) and group-delay (second plot) of a multi-component signal}
+\end{figure}
+So these one-dimensional representations, instantaneous frequency and group
+delay, are not sufficient to represent all the non-stationary signals. A
+further step has to be made towards two-dimensional mixed representations,
+jointly in time and in frequency. Even if no gain of information can be
+expected since it is all contained in the time or in the frequency
+representation, we can obtain a better structuring of this information, and
+an improvement in the intelligibility of the representation.
+
+  To have an idea of what can be made with a time-frequency decomposition,
+let us anticipate the following and have a look at the result obtained on
+this signal with the Short Time Fourier Transform (see
+fig. \ref{Ns7fig2})\,:
+\begin{verbatim}
+     >> tfrstft(x);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/ns7fig2.eps}}
+\caption{\label{Ns7fig2}Squared modulus of the short-time Fourier transform
+of the previous multi-component non-stationary signal}
+\end{figure}
+Here two ``time-frequency components'' can be clearly seen, located around
+the locus of the two frequency modulations.
+

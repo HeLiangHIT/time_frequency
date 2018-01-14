@@ -1,0 +1,63 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrparam}
+\section*{\hspace*{-1.6cm} tfrparam}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Return the paramaters needed to display (or save) a TF-representation.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tfrparam(method)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrparam} returns on the screen the meaning of the parameters
+        {\ty p1..p5} used in the files {\ty tfrqview, tfrview} and {\ty
+        tfrsave}, to view or save a time-frequency representation.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty method} & chosen representation (name of the corresponding M-file)\\   
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         tfrparam('tfrspwv');
+ 
+          P1 : time      smoothing window (odd length, column vector)
+          P2 : frequency smoothing window (odd length, column vector)
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tfrqview, tfrview, tfrsave.
+\end{verbatim}
+\end{minipage}
+

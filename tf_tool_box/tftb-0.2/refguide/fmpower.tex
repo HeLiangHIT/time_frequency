@@ -1,0 +1,83 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{fmpower}
+\section*{\hspace*{-1.6cm} fmpower}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with power-law frequency modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[x,iflaw] = fmpower(N,k,P1)
+[x,iflaw] = fmpower(N,k,P1,P2)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmpower} generates a signal with a
+        power-law frequency modulation :
+        \[x(t) = \exp(j2\pi(f_0 t + \frac{c}{1-k} |t|^{1-k})).\] 
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}  & number of points in time\\
+        {\ty k}  & degree of the power-law ({\ty k}$\neq$1)\\
+        {\ty P1} & if {\ty nargin==3, P1} is a 
+            vector containing the two coefficients {\ty (f0 c)} for a
+            power-law instantaneous frequency (sampling frequency is set to 1).
+            If {\ty nargin=4, P1} (as {\ty P2}) is a time-frequency point of the 
+            form {\ty (ti fi)}. {\ty ti} is in seconds and {\ty fi} is a
+	    normalized frequency (between 0 and 0.5). The coefficients {\ty f0} 
+            and {\ty c} are then deduced such that the frequency modulation 
+            law fits the points {\ty P1} and {\ty P2}\\
+        {\ty P2} & same as {\ty P1} if {\ty nargin=4}         & optional\\
+  \hline {\ty x}  & time row vector containing the modulated signal samples\\
+        {\ty iflaw} & instantaneous frequency law\\
+ 
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         [x,iflaw]=fmpower(200,0.5,[1 0.5],[180 0.1]);
+         subplot(211); plot(real(x));
+         subplot(212); plot(iflaw);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+gdpower, fmconst, fmlin, fmhyp, fmpar, fmodany, fmsin.
+\end{verbatim}
+\end{minipage}
+
+

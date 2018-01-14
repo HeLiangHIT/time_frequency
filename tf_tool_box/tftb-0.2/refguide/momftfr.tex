@@ -1,0 +1,76 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{momftfr}
+\section*{\hspace*{-1.6cm} momftfr}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Frequency moments (order 1 and 2) of a time-frequency representation.
+\end{minipage}
+\vspace*{.35cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tm,T2] = momftfr(tfr)
+[tm,T2] = momftfr(tfr,tmin)
+[tm,T2] = momftfr(tfr,tmin,tmax)
+[tm,T2] = momftfr(tfr,tmin,tmax,time)
+\end{verbatim}
+\end{minipage}
+\vspace*{.35cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty momftfr} computes the frequeny moments of order 1 and 2 of a
+        time-frequency representation\,:
+\[t_m(f) = \frac{1}{E}\ \int_{-\infty}^{+\infty} t\ \mbox{tfr}(t,f)\ dt\ \
+;\ \ T^2(f) = \frac{1}{E}\ \int_{-\infty}^{+\infty} t^2\ \mbox{tfr}(t,f)\
+dt - t_m(f)^2.\]
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c} Name &
+Description & Default value\\ \hline {\ty tfr} & time-frequency
+representation (size {\ty (N,M)}). \\ {\ty tmin} & smallest column
+element of {\ty tfr} taken into account & {\ty 1} \\ {\ty tmax} & highest
+column element of {\ty tfr} taken into account & {\ty M}\\ {\ty time} &
+true time instants & {\ty (1:M)}\\ \hline {\ty tm} & averaged time (first order
+moment)\\ {\ty T2} & squared time duration (second order moment)\\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+         sig=fmlin(200,0.1,0.4); [tfr,t,f]=tfrwv(sig); 
+         [tm,T2]=momftfr(tfr); 
+         subplot(211); plot(f,tm); subplot(212); plot(f,T2); 
+\end{verbatim}
+The first order moment represents an estimation of the group delay, and the
+second order moment the variance of this estimator. We can see that the
+estimation is better around the time center position than at the edges of
+the observation interval.
+\end{minipage}
+\vspace*{.35cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+momttfr, margtfr.
+\end{verbatim}
+\end{minipage}
+

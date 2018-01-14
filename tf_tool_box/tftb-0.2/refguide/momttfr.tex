@@ -1,0 +1,99 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{momttfr}
+\section*{\hspace*{-1.6cm} momttfr}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Time moments of a time-frequency representation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[fm,B2] = momttfr(tfr,method)
+[fm,B2] = momttfr(tfr,method,fbmin)
+[fm,B2] = momttfr(tfr,method,fbmin,fbmax)
+[fm,B2] = momttfr(tfr,method,fbmin,fbmax,freqs)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty momttfr} computes the time moments of order 1 and 2 of a
+        time-frequency representation\,:
+\[f_m(t) = \frac{1}{E}\ \int_{-\infty}^{+\infty} f\ \mbox{tfr}(t,f)\ df\ \
+;\ \ B^2(t) = \frac{1}{E}\ \int_{-\infty}^{+\infty} f^2\ \mbox{tfr}(t,f)\ df -
+f_m(t)^2.\] 
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr}   & time-frequency representation (size {\ty (N,M)})\\
+        {\ty method}& chosen representation (name of the corresponding M-file). \\ 
+        {\ty fbmin} & smallest frequency bin & {\ty 1}\\
+        {\ty fbmax} & highest  frequency bin & {\ty M}\\
+        {\ty freqs} & true frequency of each frequency bin. {\ty freqs} must be of
+                length {\ty fbmax-fbmin+1} & auto\footnote{{\ty freqs} goes
+		from 0 to 0.5 or from -0.5 to 0.5 depending on {\ty method}.}\\
+ \hline {\ty fm}    & averaged frequency     (first order moment)\\
+        {\ty B2}    & squared frequency bandwidth (second order moment)\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Examples}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+         sig=fmlin(200,0.1,0.4); tfr=tfrwv(sig);
+         [fm,B2]=momttfr(tfr,'tfrwv'); 
+         subplot(211); plot(fm); subplot(212); plot(B2);
+         freqs=linspace(0,99/200,100); tfr=tfrsp(sig); 
+         [fm,B2]=momttfr(tfr,'tfrsp',1,100,freqs); 
+         subplot(211); plot(fm); subplot(212); plot(B2);
+\end{verbatim}
+\end{minipage}
+
+%\newpage
+
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+The first order moment represents an estimation of the instantaneous
+frequency, and the second order moment the variance of this estimator. We
+can see that the estimation is better around the time center position than
+at the edges of the observation interval. Besides, the second estimator
+(using the spectrogram) has a lower variance than the first one (using the
+Wigner-Ville distribution), but presents an important bias.
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+momftfr, margtfr.
+\end{verbatim}
+\end{minipage}
+

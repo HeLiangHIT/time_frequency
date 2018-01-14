@@ -1,0 +1,70 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{plotifl}
+\section*{\hspace*{-1.6cm} plotifl}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Plot normalized instantaneous frequency laws.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+plotifl(t,iflaws)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty plotifl} plot the normalized instantaneous frequency 
+        laws of each signal component.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c} Name &
+Description & Default value\\ \hline {\ty t} & time instants (size {\ty
+(M,1)})\\ {\ty iflaws} & {\ty (M,P)}-matrix where each column corresponds
+to the instantaneous frequency law of an {\ty (M,1)}-signal. These {\ty P}
+signals do not need to be present at the same time instants. The values of
+{\ty iflaws} must be between -0.5 and 0.5.\\ \hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         N=140; t=0:N-1; [x1,if1]=fmlin(N,0.05,0.3); 
+         [x2,if2]=fmsin(70,0.35,0.45,60);
+         if2=[zeros(35,1)*NaN;if2;zeros(35,1)*NaN];
+         plotifl(t,[if1 if2]);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+plotsid, tfrqview, tfrview.
+\end{verbatim}
+\end{minipage}
+
+ 

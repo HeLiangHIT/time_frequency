@@ -1,0 +1,83 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{margtfr}
+\section*{\hspace*{-1.6cm} margtfr}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Marginals and energy of a time-frequency representation.
+\end{minipage}
+\vspace*{.2cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[margt,margf,E] = margtfr(tfr)
+[margt,margf,E] = margtfr(tfr,t)
+[margt,margf,E] = margtfr(tfr,t,f)
+\end{verbatim}
+\end{minipage}
+\vspace*{.3cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty margtfr} calculates the time and frequency marginals and the
+        energy of a time-frequency representation. The definitions used for
+        the computation are the following\,:
+\begin{eqnarray*}
+m_f(t)=\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ df && \mbox{\it time
+marginal}\\ 
+m_t(f)=\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ dt && \mbox{\it frequency
+marginal}\\
+E= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ df\ dt && \mbox{\it energy}
+\end{eqnarray*}
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr} & time-frequency representation {\ty (M,N)}\\
+        {\ty t}   & vector containing the time samples in sec. 
+               & {\ty (1:N)}\\
+        {\ty f}   & vector containing the frequency samples in Hz, not
+               necessary uniformly sampled & {\ty (1:M)}\\
+ \hline {\ty margt} & time marginal\\
+        {\ty margf} & frequency marginal\\
+        {\ty E}     & energy of {\ty tfr}\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Example}
+\vspace*{-.1cm}
+\begin{verbatim}
+         S=amgauss(128).*fmlin(128); 
+         [tfr,t,f]=tfrscalo(S,1:128,8,.05,.45,128,1);
+         [margt,margf,E] = margtfr(tfr); 
+         subplot(211); plot(t,margt); 
+         subplot(212); plot(f,margf);
+\end{verbatim}
+\vspace*{.3cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+momttfr, momftfr.
+\end{verbatim}
+\end{minipage}
+

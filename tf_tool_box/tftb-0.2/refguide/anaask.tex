@@ -1,0 +1,82 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{anaask}
+\section*{\hspace*{-1.6cm} anaask}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Amplitude Shift Keyed (ASK) signal.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,am] = anaask(N)
+[y,am] = anaask(N,ncomp)
+[y,am] = anaask(N,ncomp,f0)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty anaask} returns a complex amplitude modulated signal of
+        normalized frequency {\ty f0}, with a uniformly distributed random
+        amplitude.  Such signal is only 'quasi'-analytic.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N }    & number of points\\
+        {\ty ncomp} & number of points of each component & {\ty N/5}\\
+        {\ty f0}    & normalized frequency               & {\ty 0.25}\\
+  \hline {\ty y}     & signal\\
+        {\ty am }   & resulting amplitude modulation     \\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         [signal,am]=anaask(512,64,0.05); 
+         subplot(211); plot(real(signal)); 
+         subplot(212); plot(am);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+anafsk, anabpsk, anaqpsk.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] W. Gardner {\it Statistical Spectral Analysis - A Nonprobabilistic
+Theory} Englewood Cliffs, N.J. Prentice Hall, 1987.
+\end{minipage}

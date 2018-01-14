@@ -1,0 +1,764 @@
+% This is part of the TFTB Tutorial.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file tutorial.tex for copying conditions.
+
+  As we have seen in the previous chapter, the Fourier transform is not
+adapted to the analysis of non-stationary signals since it projects the
+signal on infinite waves (sinusoids) which are completely delocalized in
+time.  The concepts of instantaneous frequency and group delay are also
+inherently unadapted to a large number of non-stationary signals, those
+containing more than one elementary component, and in particular noisy
+signals. Thus mono-dimensional solutions seem not to be sufficient, and one
+has to consider bi-dimensional functions (functions of the variables time
+and frequency).
+
+\index{atomic decomposition} \index{short-time Fourier transform} A first
+class of such time-frequency representations is given by the {\it atomic
+decompositions} (also known as the {\it linear time-frequency
+representations}). To introduce this concept, we begin with the {\it
+short-time Fourier transform} which has a very intuitive interpretation.
+
+
+\section{The Short-Time Fourier Transform}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Definition}
+%''''''''''''''''''''''
+  In order to introduce time-dependency in the Fourier transform, a simple
+and intuitive solution consists in pre-windowing the signal $x(u)$ around a
+particular time $t$, calculating its Fourier transform, and doing that for
+each time instant $t$. The resulting transform, called the {\it short-time
+Fourier transform} (STFT, or {\it short-time spectrum}), is
+\[F_x(t,\nu;h) = \int_{-\infty}^{+\infty} x(u)\ h^*(u-t)\ e^{-j2\pi \nu u}\
+du\] where $h(t)$ is a {\it short time analysis window} (see fig. \ref{At1fig1})
+localized around $t=0$ and $\nu=0$.
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/at1fig1.eps}}
+\caption{\label{At1fig1}non-stationary signal $x(u)$ and the short-time
+window $h^*(u-t)$ centered at time $t$}
+\end{figure}
+Because multiplication by the relatively short window $h^*(u-t)$
+effectively suppresses the signal outside a neighborhood around the
+analysis time point $u=t$, the STFT is a "local" spectrum of the signal
+$x(u)$ around $t$. Provided that the short-time window is of finite energy,
+the STFT is invertible according to
+\[x(t) = \frac{1}{E_h}\ \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}
+F_x(u,\xi;h)\ h(t-u)\ e^{j2\pi t \xi}\ du\ d\xi,\] 
+with $E_h=\int_{-\infty}^{+\infty} |h(t)|^2\ dt$.  This relation expresses
+that the total signal can be decomposed as a weighted sum of elementary
+waveforms
+\[h_{t,\nu}(u) = h(u-t)\ \exp{[j2\pi \nu u]}\]
+\index{atom} which can be interpreted as ``building blocks" or ``{\it
+atoms}". Each atom is obtained from the window $h(t)$ by a translation in
+time and a translation in frequency (modulation). The corresponding
+transformation group of translations in both time and frequency is called
+the {\it Weyl-Heisenberg group}. \label{WHG} \index{Weyl-Heisenberg
+group} Fig. \ref{At1fig2} shows two such atoms corresponding to a gaussian
+window.
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/at1fig2.eps}}
+\caption{\label{At1fig2}Time-frequency atoms\,: two atoms corresponding to
+a gaussian window. The STFT is a projection of the analyzed signal on such
+atoms which are relatively well localized in time and in frequency}
+\end{figure}
+The STFT may also be expressed in terms of signal and window spectra\,:
+\[F_x(t,\nu;h)=\int_{-\infty}^{+\infty} X(\xi)\ H^*(\xi-\nu)\ \exp{[j\
+2\pi(\xi-\nu)t]}\ d\xi\] 
+where $X$ and $H$ are respectively the Fourier transforms of $x$ and
+$h$. Thus, the STFT $F_x(t,\nu;h)$ can be considered as the result of
+passing the signal $x(u)$ through a band-pass filter whose frequency
+response is $H^*(\xi-\nu)$, and is therefore deduced from a mother filter
+$H(\xi)$ by a translation of $\nu$. So the STFT is similar to a bank of
+band-pass filters with constant bandwidth.
+
+
+\subsection{An example}
+%''''''''''''''''''''''
+  Let us have a look at the result obtained by applying the STFT on a
+speech signal. The signal we consider is a speech signal containing the
+word 'GABOR', recorded on 338\,points with a sampling frequency of 1\,kHz
+(with respect to the Shannon criterion) (see fig. \ref{At1fig3}).
+\begin{verbatim}
+     >> load gabor
+     >> time=0:337; subplot(211); plot(time,gabor); 
+     >> dsp=fftshift(abs(fft(gabor)).^2);
+     >> freq=(-169:168)/338*1000; subplot(212); plot(freq,dsp); 
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/at1fig3.eps}}
+\caption{\label{At1fig3}Speech signal corresponding to the word
+'GABOR'. Time signal (first plot) and its energy spectral density (second
+plot)}
+\end{figure}
+We can not say from this representation what part of the word is
+responsible for that peak around 140\,Hz.
+
+Now if we look at the squared modulus of the STFT of this signal, using a
+hamming analysis window of 85\,points, we can see some interesting features
+(the time-frequency matrix is loaded from the MAT-file because it takes a
+long time to be calculated ; we represent only the frequency domain where
+the signal is present) (see fig. \ref{At1fig4})\,:
+\begin{verbatim}
+     >> contour(time,(0:127)/256*1000,tfr); grid;
+     >> xlabel('Time [ms]'); ylabel('Frequency [Hz]'); 
+     >> title('Squared modulus of the STFT of the word GABOR');
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at1fig4.eps}}
+\caption{\label{At1fig4}Speech signal analyzed in the time-frequency plane}
+\end{figure}
+The first pattern in the time-frequency plane, located between 30\,ms and
+60\,ms, and centered around 150\,Hz, corresponds to the first syllable
+'GA'. The second pattern, located between 150\,ms and 250\,ms, corresponds
+to the last syllable 'BOR', and we can see that its mean frequency is
+decreasing from 140\,Hz to 110\,Hz with time. Harmonics corresponding to
+these two fundamental signals are also present at higher frequencies, but
+with a lower amplitude.
+
+
+\subsection{Some properties}
+%'''''''''''''''''''''''''''
+\begin{itemize}
+\item The STFT preserves frequency shifts and time shifts up to a modulation:
+\begin{eqnarray*}
+y(t) = x(t)\ e^{j2\pi \nu_0 t} &\ \Rightarrow\ & F_y(t,\nu;h)=F_x(t,\nu-\nu_0;h)\\ 
+y(t) = x(t-t_0) &\ \Rightarrow\ & F_y(t,\nu;h)=F_x(t-t_0,\nu;h)\ e^{j2\pi t_0 \nu}  
+\end{eqnarray*}
+     
+\item Generalizing what has been said previously, the signal $x(t)$ can be
+reconstructed from its STFT with a synthesis window $g(t)$ different from the
+analysis window $h(t)$\,:
+\[x(t)=\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} F_x(u,\xi;h)\
+g(t-u)\ e^{j2\pi t \xi}\ du\ d\xi\] 
+providing that the windows $g$ and $h$ validate the constraint 
+\[\int_{-\infty}^{+\infty} g(t)\ h^*(t)\ dt =1.\]
+\end{itemize}
+
+\subsection{Time-frequency resolution}
+%''''''''''''''''''''''''''''''''''''''
+ The time resolution of the STFT can be obtained by considering for $x$ a
+Dirac impulse\,:
+\[x(t)=\delta(t-t_0) \ \Rightarrow\  F_x(t,\nu;h)=\exp{[-j2\pi t_0 \nu]}
+\ h(t-t_0).\]  
+Thus, the time resolution of the STFT is proportional to the effective
+duration of the analysis window $h$. Similarly, to obtain the
+frequency-resolution, we have to consider a complex sinusoid (a Dirac
+impulse in the frequency domain)\,:
+\[x(t)=\exp{[j2\pi \nu_0 t]} \ \Rightarrow\  F_x(t,\nu;h)=\exp{[-j2\pi t
+\nu_0]}\ H(\nu-\nu_0).\] So the frequency-resolution of the STFT is
+proportional to the effective bandwidth of the analysis window
+$h$. Consequently, for the STFT, we have a {\it trade-off} between time and
+frequency resolutions\,: on one hand, a good time resolution requires a
+short window $h(t)$ ; on the other hand, a good frequency resolution
+requires a narrow-band filter i.e. a long window $h(t)$. But unfortunately,
+these wishes can not be simultaneously granted. This limitation is a
+consequence of the Heisenberg-Gabor inequality. Two instructive cases can
+be considered\,:
+  
+\begin{enumerate}
+\item The first one corresponds to a perfect time resolution\,: the window
+$h(t)$ is chosen as a Dirac impulse\,:
+\[h(t)=\delta(t) \ \Rightarrow\  F_x(t,\nu;h)=x(t)\ \exp{[-j2\pi \nu t]}\]   
+the STFT is perfectly localized in time, but does not provide any frequency
+resolution.\\
+
+  * {\it Example}\,: This can be computed easily using the Time-Frequency
+Toolbox\,: we consider for $x$ a linear frequency modulation with a gaussian
+amplitude modulation (see fig. \ref{At1fig5}).
+\begin{verbatim}
+     >> x=real(amgauss(128).*fmlin(128));
+     >> h=1;
+     >> tfrstft(x,1:128,128,h);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at1fig5.eps}}
+\caption{\label{At1fig5}Perfect time resolution with the STFT, but with no
+frequency resolution : the window $h$ is chosen as a Dirac impulse}
+\end{figure}
+The signal is perfectly localized in time (a section for a given frequency
+of the modulus of the STFT corresponds exactly to the modulus of the
+signal), but the frequency resolution is null.
+
+\item The second is that of perfect frequency resolution, obtained with a
+constant window
+\[h(t)=1\ (H(\nu)=\delta(\nu))\ \ \Rightarrow\ \ F_x(t,\nu;h)=X(\nu)\]
+here the STFT reduces to the Fourier transform of $x(t)$, and does not
+provide any time resolution (see fig. \ref{At1fig6}).
+\begin{verbatim}
+     >> h=ones(127,1);
+     >> tfrstft(x,1:128,128,h);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at1fig6.eps}}
+\caption{\label{At1fig6}Perfect frequency resolution with the STFT : the window
+$h$ is chosen as a constant}
+\end{figure}
+The result obtained for $F_x(t,\nu;h)$ is not exactly $X(\nu)$, because the
+window $h$ has not an infinite duration. Thus, some side effects appear.
+\end{enumerate}
+
+  To illustrate the influence of the shape and length of the analysis
+window $h$, we consider two transient signals having the same gaussian
+amplitude and constant frequency, with different arrival times (using the
+M-file \index{\ttfamily atoms}{\ttfamily atoms.m})\,:
+\begin{verbatim}
+     >> sig=atoms(128,[45,.25,32,1;85,.25,32,1]);
+\end{verbatim}
+Here is the result obtained with a Hamming analysis window of 65\,points
+(see fig. \ref{At1fig7})\,: 
+\begin{verbatim}
+     >> h=window(65,'hamming');
+     >> tfrstft(sig,1:128,128,h);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at1fig7.eps}}
+\caption{\label{At1fig7}Two gaussian atoms analyzed by the STFT using a
+Hamming window $h$ of 65\,points : it is difficult to discriminate the two
+components in time}
+\end{figure}
+The frequency resolution is very good, but it is almost impossible to
+discriminate the two components in time. If we now consider a short Hamming
+window of 17\,points (see fig. \ref{At1fig8})
+\begin{verbatim}
+     >> h=window(17,'hamming');
+     >> tfrstft(sig,1:128,128,h);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at1fig8.eps}}
+\caption{\label{At1fig8}Same gaussian atoms analyzed by the STFT using a
+Hamming window $h$ of 17\,points : frequency resolution is poorer, but the
+two components can be easily distinguished}
+\end{figure}
+the frequency resolution is poorer, but the time resolution is sufficiently
+good to distinguish the two components. For more information on the choice
+of the window, see \cite{HAR78}.
+
+
+\section{Time-scale analysis and the wavelet transform}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Since the Wavelet Toolbox is fully dedicated to this problem, we will
+merely give here some basic definitions which are essential in the next
+part to introduce the affine quadratic time-frequency distributions.
+
+\subsection{Definitions and interpretation}
+%''''''''''''''''''''''''''''''''''''''''''
+\label{CWT}
+\index{continuous wavelet transform} \index{wavelets} The idea of the {\it
+continuous wavelet transform} (CWT) is to project a signal $x$ on a family
+of zero-mean functions (the {\it wavelets}) deduced from an elementary
+function (the {\it mother wavelet}) by translations and dilations:
+\[T_x(t,a;\Psi)=\int_{-\infty}^{+\infty} x(s)\ \Psi^*_{t,a}(s)\ ds\,:
+\mbox{\it Continuous Wavelet Transform}\] where $\Psi_{t,a}(s)=|a|^{-1/2}\
+\Psi\left({s-t\over a}\right)$. \index{scale} The variable $a$
+corresponds now to a {\it scale} factor, in the sense that taking $|a|>1$
+dilates the wavelet $\Psi$ and taking $|a|<1$ compresses $\Psi$. By
+definition, the wavelet transform is more a time-scale than a
+time-frequency representation. However, for wavelets which are
+well localized around a non-zero frequency $\nu_0$ at scale $a = 1$, a
+time-frequency interpretation is possible thanks to the formal
+identification $\nu={\nu_0\over a}$.
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/at2fig1.eps}}
+\caption{\label{At2fig1}Time-scale atoms. The CWT is a projection of the
+analyzed signal on such atoms whose time duration is inversely proportional
+to the central frequency}
+\end{figure}
+
+\label{Qana}
+  The basic difference between the wavelet transform and the short-time
+Fourier transform is as follows\,: when the scale factor $a$ is changed, the
+duration and the bandwidth of the wavelet are both changed but its shape
+remains the same. And in contrast to the STFT, which uses a single analysis
+window, the CWT uses short windows at high frequencies and long windows at
+low frequencies. This partially overcomes the resolution limitation of the
+STFT\,: the bandwidth $B$ is proportional to $\nu$, or
+\[\frac{B}{\nu}=Q\,: \mbox{ constant}.\]
+\index{constant-Q analysis}
+We call it a {\it constant-Q analysis}. The CWT can also be seen as a filter
+bank analysis composed of band-pass filters with constant relative
+bandwidth.
+
+
+\subsection{Properties}
+%''''''''''''''''''''''
+\label{affinegroup}
+\index{affine group}
+\begin{itemize}
+\item The wavelet transform is covariant by translation in time and scaling,
+which means that
+\[ y(t) = \sqrt{|a_0|}\ x(a_0(t-t_0)) \ \Rightarrow\  T_y(t,a;\Psi) =
+T_x(a_0^*(t-t_0),a/a_0;\Psi).\] 
+The corresponding group of transforms is called the {\it affine group} (to
+be compared to the Weyl-Heisenberg group).
+  
+\item The signal $x$ can be recovered from its continuous wavelet transform
+according to the formula
+\[x(t) = \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} T_x(s,a;\Phi)\
+\Psi_{s,a}(t)\ ds\ \frac{da}{a^2}\] 
+where $\Phi$ is the {\it synthesis wavelet}, if the following admissibility
+condition is verified by $\Phi$ and $\Psi$\,:
+\[\int_{-\infty}^{+\infty} \Psi(\nu)\ \Phi^*(\nu)\ \frac{d\nu}{|\nu|}\ =\
+1.\] 
+ 
+\item Time and frequency resolutions, like in the STFT case, are related via
+the Heisenberg-Gabor inequality. However, in the present case, these two
+resolutions depend on the frequency\,: the frequency resolution (resp. time
+resolution) becomes poorer (resp. better) as the analysis frequency grows.
+\end{itemize}
+
+\section{Sampling considerations}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{The discrete STFT}
+%'''''''''''''''''''''''''''''
+  To reduce the redundancy of the continuous STFT, we can sample it in the
+time-frequency plane. Since the atoms used can be deduced from the window
+$h(t)$ by translation in time and in frequency, it is natural to sample the
+STFT on a rectangular grid\,:
+\[F_x[n,m;h]=F_x(nt_0,m\nu_0;h)=\int_{-\infty}^{+\infty} x(u)\
+h^*(u-nt_0) \exp{[-j2\pi m \nu_0 u]}\ du \]
+$m,n \in \Zset$. The problem is then to choose the values of $t_0$ and $\nu_0$
+so as to minimize the redundancy without loosing any information. For that,
+we must have
+\[t_0\times \nu_0\ \leq\ 1.\]
+Then, the atoms ${h_{nt_0,m\nu_0}}$ constitute a discrete over-sampled
+family of non orthonormal elements, which is called a {\it frame} : when
+$t_0\times \nu_0>1$, the time-frequency plane is not sufficiently "covered" by
+the atoms $h_{nt_0,m\nu_0}$, i.e.  there are "gaps" between adjacent
+atoms.
+
+  When $t_0\times \nu_0 = 1$, the family of atoms ${h_{nt_0,m\nu_0}}$ can
+constitute an {\it orthonormal basis} for an appropriate choice of the
+window. But it can be shown that it is impossible to obtain such a basis
+with a window $h$ which is well localized in time and in frequency (this
+property is known as the {\it Balian-Low obstruction}
+\cite{DAU92}). \index{Balian-Low obstruction}Therefore, for a well localized
+window $h$ (for example a gaussian window), the reconstruction formula will
+not be numerically stable.
+
+  In the discrete case, the reconstruction (synthesis) formula of the
+signal from the STFT is then given by
+\[x(t) = \sum_n \sum_m F_x[n,m;h]\ g_{n,m}(t)\]
+where $g_{n,m}(t)=g(t-nt_0)\ \exp{[j2\pi m \nu_0 t]}$.
+
+This relation is valid provided that the sampling periods $t_0$ and
+$\nu_0$, the analysis window $h$ and the synthesis window $g$ are chosen
+such that
+\[\frac{1}{\nu_0} \sum_n g(t+\frac{k}{\nu_0}-nt_0)\ h^*(t-nt_0)\ =\
+\delta_k\ \ \forall t\]
+with $\delta_k$ defined as $\delta_0=1$ and $\delta_k=0$ for $k\neq
+0$. This condition is far more restrictive than the condition
+$\int_{-\infty}^{+\infty} g(t)\ h^*(t)\ dt=1$ required in the continuous case.
+
+  For a sampled signal $x[n]$ whose sampling period is noted $T$, $t_0$ has
+to be chosen so that $t_0 = kT$, $k\in \Nset^*$. We then have the
+following analysis and synthesis formulae
+\begin{eqnarray}
+\label{gabcoef}
+F_x[n,m;h] &=& \sum_k x[k]\ h^*[k-n]\ \exp{[-j2\pi m k]} \mbox{   for   }
+-\frac{1}{2} \leq  m \leq  \frac{1}{2} \\
+\label{gabsynth}
+      x[k] &=& \sum_n \sum_m F_x[n,m;h]\ g[k-n]\ \exp{[j2\pi m k]}.
+\end{eqnarray}
+These two relations can be implemented efficiently using a Fast Fourier
+Transform (FFT) algorithm.
+
+
+\subsection{The Gabor Representation}
+%''''''''''''''''''''''''''''''''''''
+  The reconstruction (synthesis) formula of the STFT is given in the discrete
+case by
+\[x(t) = \sum_n \sum_m F_x[n,m;h]\ g_{n,m}(t)\]
+where $g_{n,m}(t)=g(t-nt_0)\ \exp{[j2\pi m \nu_0 t]}$ defines the {\it
+Gabor representation}. \index{Gabor representation}Originally, the
+synthesis window $g(t)$ was chosen by Gabor as a gaussian window, because
+it maximizes the concentration in the time-frequency plane. But now we
+speak of Gabor representation for any normalized window $g$.
+
+\index{Gabor logons} \index{Gabor coefficients} The atoms $g_{n,m}(t)$ are
+called the {\it Gabor logons}, and the coefficients $F_x[n,m;h]$, noted
+$G_x[n,m]$ in the following, the {\it Gabor coefficients}. Each coefficient
+contains an information relative to the time-frequency content of the signal
+around the time-frequency location $(n t_0,m \nu_0)$.  The logon $g_{n,m}$
+is associated in the time-frequency plane to a rectangular unit area
+centered on $(n t_0,m \nu_0)$.
+
+  What about completeness of the Gabor logons $g_{n,m}(t)$ ? As we have
+seen before, a necessary but not sufficient condition is that $t_0\
+\nu_0\leq 1$. At the critical sampling case $t_0\ \nu_0=1$, the logons are
+linearly independent, but are not orthogonal in general (Balian-Low
+obstruction). This means that the Gabor coefficients $G_x[n,m]$ are not
+simply the projections of $x(t)$ onto the corresponding logons $g_{n,m}(t)$
+(i.e. the analysis and synthesis windows $h$ and $g$ can not be the
+same). A theoretical solution to this problem is obtained if the windows
+$g$ and $h$ are chosen biorthonormal, i.e. if they validate the
+{\it biorthonormal condition}
+\[ \int_{-\infty}^{+\infty} g_{n,m}(t)\ h^*_{n',m'}(t)\ dt = \delta_{n-n'}\
+\ \delta_{m-m'}\] 
+
+\index{biorthonormal window} \index{Zak transform} Then the analysis
+formula given before (expression (\ref{gabcoef})) allows the computation of
+the Gabor coefficients, and the synthesis formula (expression
+(\ref{gabsynth})) the reconstruction of the signal $x(t)$ (to compute the
+{\it biorthonormal window} $h$ associated to a given synthesis window $g$,
+one can use the {\it Zak transform} \cite{AUS91} : this is the approach
+followed in the file \index{\ttfamily tfrgabor}{\ttfamily tfrgabor}, and
+the file \index{\ttfamily zak}{\ttfamily zak.m} computes this
+transform). From an implementation point of view, this solution is not fully
+satisfactory since the computation of the biorthonormal window $h$ is
+numerically unstable. So in general, some degree of {\it oversampling} is
+considered $(t_0\times \nu_0<1)$, which introduces redundancy in the
+coefficients, in order to "smooth" the biorthonormal window $h$, for the
+sake of numerical stability. These considerations are closely connected to
+the theory of frames.\\
+
+  {\bf Example}
+
+ Let us consider the Gabor coefficients of a linear chirp of N1=256 points
+at the critical sampling case, and for a gaussian window of
+Ng=33\,points\,:
+\begin{verbatim}
+     >> N1=256; Ng=33; Q=1; % degree of oversampling.
+     >> sig=fmlin(N1); g=window(Ng,'gauss'); g=g/norm(g);
+     >> [tfr,dgr,h]=tfrgabor(sig,16,Q,g);
+\end{verbatim}
+({\ttfamily tfrgabor} generates as first output the squared modulus of the
+Gabor representation, as second output the complex Gabor representation,
+and as third output the biorthonormal window). When we look at the
+biorthonormal window $h$ (see fig. \ref{At3fig1}),
+\begin{verbatim}
+     >> plot(h); 
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/at3fig1.eps}}
+\caption{\label{At3fig1}Biorthonormal window corresponding to the critical
+sampling case and to a gaussian synthesis window : numerically unsteady}
+\end{figure}
+we can see how "bristling" this function is. The corresponding Gabor
+decomposition contains all the information about {\ttfamily sig}, but is
+not easy to interpret (see fig. \ref{At3fig2})\,:
+\begin{verbatim}
+     >> t=1:256; f=linspace(0,0.5,128); imagesc(t,f,tfr(1:128,:)); 
+     >> xlabel('Time'); ylabel('Normalized frequency'); axis('xy'); 
+     >> title('Squared modulus of the Gabor coefficients');
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at3fig2.eps}}
+\caption{\label{At3fig2}Gabor representation of a chirp, at the critical
+sampling rate : we have as many coefficients in the time-frequency plane as
+in the signal (no redundancy)}
+\end{figure}
+If we now consider a degree of oversampling of {\ttfamily Q=4} (there are
+four times more Gabor coefficients than signal samples), the biorthogonal
+function is then smoother (the greater $Q$, the closer $h$ from $g$) (see
+fig. \ref{At3fig3}), 
+\begin{verbatim}
+     >> Q=4; [tfr,dgr,h]=tfrgabor(sig,32,Q,g);
+     >> plot(h);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=6cm
+\centerline{\epsfbox{figure/at3fig3.eps}}
+\caption{\label{At3fig3}Biorthonormal window $h$ corresponding to an
+oversampling of $Q=4$, and to a gaussian synthesis window $g$ : the greater
+$Q$, the closer $h$ from $g$}
+\end{figure}
+and the Gabor representation is much more readable (see
+fig. \ref{At3fig4})\,: 
+\begin{verbatim}
+     >> imagesc(t,f,tfr(1:128,:)); 
+     >> xlabel('Time'); ylabel('Normalized frequency'); axis('xy'); 
+     >> title('Squared modulus of the Gabor coefficients');
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at3fig4.eps}}
+\caption{\label{At3fig4}Gabor representation of the same chirp, but with a
+degree of oversampling of 4 : some redundancy improve the readability of
+the representation}
+\end{figure}
+
+
+\subsection{The discrete wavelet transform}
+%''''''''''''''''''''''''''''''''''''''''''
+  In the case of the wavelet transform, the natural way to sample the
+time-frequency plane is to take samples on the non-uniform grid (lattice)
+defined by
+\[{(t,a) = (nt_0\ a_0^{-m},a_0^{-m})\ ;\ t_0>0,\ a_0>0\ ;\ m,n \in
+\Zset}.\]  
+\index{discrete wavelet transform}
+Then, the {\it discrete wavelet transform} (DWT) is defined as
+\[T_x[n,m;\Psi]=a_0^{m/2} \int_{-\infty}^{+\infty} x(u)\ \Psi^*_{n,m}(u)\
+du\ ;\ m,n \in \Zset\] where $\Psi_{n,m}(u)=\Psi(a_0^m u-nt_0)$. The
+common choice $(a_0=2,t_0=1)$ corresponds to a {\it dyadic sampling}
+\index{dyadic sampling} of the time-frequency plane (one set of
+coefficients per octave) (see fig. \ref{At3fig5}).
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=12cm
+\centerline{\epsfbox{figure/at3fig5.eps}}
+\caption{\label{At3fig5}Sampling of the time-frequency plane. Different
+forms of sampling\,: Shannon, Fourier, Gabor, Wavelet}
+\end{figure}
+Thanks to such a sampling, it is now possible to obtain for the family
+$\{\Psi_{n,m}(u)\ ;\ m,n \in \Zset\}$ an {\it orthonormal basis} with a
+wavelet $\Psi$ well localized in time and in frequency (the Balian-Low
+obstruction is no longer valid). This is strongly related to the
+multiresolution analysis theory (we will not develop it here ; see for more
+details the tutorial of the Wavelet Toolbox).
+
+  The main drawback of such a sampling is the loss of time-covariance.
+Indeed, a signal analyzed by the DWT will not have the same pattern on the
+dyadic grid whatever its initial position is.
+
+  As for the Gabor representation, a solution halfway between the
+over-complete family of wavelets ${\Psi_{n,m}(u)}$ used by the CWT and an
+orthonormal basis of wavelets obtained on the dyadic grid and for a
+particular choice of $\Psi$ is given by the theory of frames (see
+\cite{DAU92} for an overview of this theory with application to the wavelet
+transform).
+
+
+
+\section{From atomic decompositions to energy\\ distributions}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\markright{From atomic decompositions to energy distributions}
+  Up to this point, we presented time-frequency representations that
+decompose the signal into elementary components, the atoms, well localized
+in time and in frequency. These representations were linear transforms of
+the signal.
+
+  Another approach to this problem, which will be developed in the next
+chapter, consists in distributing the energy of the signal along the two
+variables time and frequency. This gives rise to energy time-frequency
+distributions, which are naturally quadratic transforms of the signal.
+
+  We present in this section a natural transition between these two
+classes of solutions through the spectrogram (for the Weyl-Heisenberg
+group) and the scalogram (for the affine group).
+
+\subsection{The spectrogram}
+%'''''''''''''''''''''''''''
+\index{spectrogram}
+  If we consider the squared modulus of the STFT, we obtain a spectral
+energy density of the locally windowed signal $x(u)\ h^*(u-t)$\,:
+\[S_x(t,\nu) = \left|\int_{-\infty}^{+\infty} x(u)\ h^*(u-t)\ e^{-j2\pi \nu
+u}\ du\right|^2.\] This defines the {\it spectrogram}, which is a
+real-valued and non-negative distribution. Since the window $h$ of the STFT
+is assumed of unit energy, the spectrogram satisfies the global energy
+distribution property\,:
+\[\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} S_x(t,\nu)\ dt\ d\nu =
+E_x.\] 
+Thus, we can interpret the spectrogram as a measure of the energy of the signal
+contained in the time-frequency domain centered on the point $(t,\nu)$ and
+whose shape is independent of this localization.
+
+\begin{itemize}
+\item {\it Properties}
+
+\begin{itemize}
+\item Time and frequency covariance
+
+A direct consequence of the definition of the spectrogram is that it
+preserves time and frequency shifts\,:
+\begin{eqnarray*}
+y(t)=x(t-t_0) &\ \Rightarrow\ & S_y(t,\nu)=S_x(t-t_0,\nu)\\
+y(t)=x(t)\exp{[j2\pi \nu_0 t]} &\ \Rightarrow\ &
+S_y(t,\nu)=S_x(t,\nu-\nu_0). 
+\end{eqnarray*}
+Thus, the spectrogram is an element of the class of quadratic
+time-frequency distributions that are covariant by translation in time and
+in frequency. This class, developed in the next chapter, is called the
+{\it Cohen's class}\index{Cohen's class}.
+
+\item Time-frequency resolution
+
+The spectrogram being the squared magnitude of the STFT, it is obvious that
+the time-frequency resolution of the spectrogram is limited exactly as it
+is for the STFT. In particular, it exists again a trade-off between time
+resolution and frequency resolution. This poor resolution property is the
+main drawback of this representation.
+
+\item Interference structure
+
+As it is a quadratic (or bilinear) representation, the spectrogram of the
+sum of two signals is not the sum of the two spectrograms ({\it quadratic
+superposition principle})\index{quadratic superposition principle}\,:
+\[y(t)=x_1(t)+x_2(t) \ \Rightarrow\ 
+S_y(t,\nu)=S_{x_1}(t,\nu)+S_{x_2}(t,\nu)+2\Re{\{S_{x_1,x_2}(t,\nu)\}}\]
+where $S_{x_1,x_2}(t,\nu) = F_{x_1}(t,\nu) F_{x_2}^*(t,\nu)$ is the
+cross-spectrogram and $\Re{}$ denotes the real part. Thus, as every
+quadratic distribution, the spectrogram presents interference terms, given
+by $S_{x_1,x_2}(t,\nu)$. However, one can show \cite{HLA91} that these
+interference terms are restricted to those regions of the time-frequency
+plane where the auto-spectrograms $S_{x_1}(t,\nu)$ and $S_{x_2}(t,\nu)$
+overlap. Thus, if the signal components $x_1(t)$ and $x_2(t)$ are
+sufficiently distant so that their spectrograms do not overlap
+significantly, then the interference term will nearly be identically zero.
+This property, which is a practical advantage of the spectrogram, is in fact
+a consequence of the spectrogram's poor resolution.
+\end{itemize}
+
+\item {\it Examples}
+
+To illustrate the resolution trade-off of the spectrogram and its
+interference structure, we consider a two-component signal composed of two
+parallel chirps, and we analyze it with the M-file \index{\ttfamily
+tfrsp}{\ttfamily tfrsp.m} of the Time-Frequency Toolbox (the M-file
+{\ttfamily specgram.m} of the Signal Processing Toolbox is equivalent,
+except that {\ttfamily tfrsp.m} offers the possibility to change the
+analysis window) (see fig. \ref{At4fig1} and fig. \ref{At4fig2}).
+\begin{verbatim}
+     >> sig=fmlin(128,0,0.4)+fmlin(128,0.1,0.5);
+     >> h1=window(23,'gauss'); 
+     >> figure(1); tfrsp(sig,1:128,128,h1);
+     >> h2=window(63,'gauss'); 
+     >> figure(2); tfrsp(sig,1:128,128,h2);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at4fig1.eps}}
+\caption{\label{At4fig1}Spectrogram of two parallel chirps, using a short
+gaussian analysis window : cross-terms are present between the two FM
+components}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at4fig2.eps}}
+\caption{\label{At4fig2}Spectrogram of two parallel chirps, using a long
+gaussian analysis window : cross-terms are still present, due to the too
+small distance in the time-frequency plan between the FM components}
+\end{figure}
+In these two cases, the two FM components of the signal are not
+sufficiently distant to have distinct spectrograms, whatever the window
+length is. Consequently, interference terms are present, and disturb the
+readability of the time-frequency representation. If we consider more
+distant components (see fig. \ref{At4fig3} and fig. \ref{At4fig4}),
+\begin{verbatim}
+     >> sig=fmlin(128,0,0.3)+fmlin(128,0.2,0.5);
+     >> h1=window(23,'gauss'); 
+     >> figure(1); tfrsp(sig,1:128,128,h1);
+     >> h2=window(63,'gauss'); 
+     >> figure(2); tfrsp(sig,1:128,128,h2);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at4fig3.eps}}
+\caption{\label{At4fig3}Spectrogram of two more distant parallel chirps,
+using a short gaussian analysis window}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at4fig4.eps}}
+\caption{\label{At4fig4}Spectrogram of two parallel chirps, using a long
+gaussian analysis window}
+\end{figure}
+the two auto-spectrograms do not overlap and no interference term
+appear. We can also see the effect of a short window ({\ttfamily h1}) and a
+long window ({\ttfamily h2}) on the time-frequency resolution. In the
+present case, the long window {\ttfamily h2} is preferable since as the
+frequency progression is not very fast, the quasi-stationary assumption
+will be correct over {\ttfamily h2} (so time resolution is not as important
+as frequency resolution in this case) and the frequency resolution will be
+quite good ; whereas if the window is short ({\ttfamily h1}), the time
+resolution will be good, which is not very useful, and the frequency
+resolution will be poor.
+\end{itemize}
+
+\subsection{The scalogram}
+%''''''''''''''''''''''''
+\index{scalogram}
+\label{SCALO}
+  A similar distribution to the spectrogram can be defined in the wavelet
+case. Since the continuous wavelet transform behaves like an orthonormal
+basis decomposition, it can be shown that it preserves energy\,:
+\[\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} |T_x(t,a;\Psi)|^2\ dt\
+ \frac{da}{a^2} = E_x\] where $E_x$ is the energy of $x$. This leads us to
+define the {\it scalogram} of $x$ as the squared modulus of the continuous
+wavelet transform. It is an energy distribution of the signal in the
+time-scale plane, associated with the measure $dt\ {da\over a^2}$.
+
+  As for the wavelet transform, time and frequency resolutions of the
+scalogram are related via the Heisenberg-Gabor principle\,: time and
+frequency resolutions depend on the considered frequency. To illustrate
+this point, we represent the scalograms of two different signals. The
+M-file \index{\ttfamily tfrscalo}{\ttfamily tfrscalo.m} generates this
+representation. The chosen wavelet is a Morlet wavelet of 12\,points. The
+first signal is a Dirac pulse at time $t_0=64$\,:
+\begin{verbatim}
+     >> sig1=anapulse(128);
+     >> tfrscalo(sig1,1:128,6,0.05,0.45,128,1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at4fig5.eps}}
+\caption{\label{At4fig5}Morlet scalogram of a Dirac impulse at time $t=64$
+: time resolution depends on the considered frequency (or scale)}
+\end{figure}
+Figure \ref{At4fig5} shows that the influence of the behavior of the signal
+around $t=t_0$ is limited to a cone in the time-scale plane\,: it is "very"
+localized around $t_0$ for small scales (large frequencies), and less and
+less localized as the scale increases (as the frequency decreases).
+
+The second signal is the sum of two sinusoids of different frequencies (see
+fig. \ref{At4fig6})\,:
+\begin{verbatim}
+     >> sig2=fmconst(128,.15)+fmconst(128,.35);
+     >> tfrscalo(sig2,1:128,6,0.05,0.45,128,1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/at4fig6.eps}}
+\caption{\label{At4fig6}Morlet scalogram of two simultaneous complex
+sinusoids : frequency resolution depends on the considered frequency (or
+scale)}
+\end{figure}
+Here again, we notice that the frequency resolution is clearly a function
+of the frequency\,: it increases with $\nu$.
+
+  The interference terms of the scalogram, as for the spectrogram, are also
+restricted to those regions of the time-frequency plane where the
+corresponding auto-scalograms (signal terms) overlap. Hence, if two signal
+components are sufficiently far apart in the time-frequency plane, their
+cross-scalogram will be essentially zero.
+
+
+\subsection{Conclusion}
+%''''''''''''''''''''''
+  Through this chapter, we presented a first class of time-frequency
+distributions of non-stationary signals. These distributions decompose
+the signal on a basis of elementary signals (the atoms) which have to
+be well localized in time and in frequency. Two well known examples of
+such decompositions are the short-time Fourier transform and the
+wavelet transform. After having considered their properties, we
+discussed their formulation in the discrete case. Finally, we
+presented a natural transition from this class of representations to
+the class of energy distributions.

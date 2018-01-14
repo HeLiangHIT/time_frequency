@@ -1,0 +1,99 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrmmce}
+\section*{\hspace*{-1.6cm} tfrmmce}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Minimum mean cross-entropy combination of spectrograms.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrmmce(x)
+[tfr,t,f] = tfrmmce(x,h)
+[tfr,t,f] = tfrmmce(x,h,t)
+[tfr,t,f] = tfrmmce(x,h,t,N)
+[tfr,t,f] = tfrmmce(x,h,t,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrmmce} computes the minimum mean cross-entropy combination
+        of spectrograms using as windows the columns of the matrix {\ty
+        h}. The expression of this distribution writes 
+
+\[\Pi_x(t,\nu)=\dfrac{E}{\| \Pi_{k=1}^N |F_x(t,\nu;h_k)|^{2/N}\|_1}\
+{\displaystyle \Pi_{k=1}^N} |F_x(t,\nu;h_k)|^{2/N}, \]
+
+where $\|\ \|_1$ denotes the $L_1$ norm, $E$ the energy of the signal\,:
+\[E=\int_{-\infty}^{+\infty} |x(t)|^2\ dt=\iint_{-\infty}^{+\infty}
+\Pi_x(t,\nu)\ dt\ d\nu=\|\Pi_x(t,\nu)\|_1,\] and $F_x(t,\nu;h_k)$ the
+short-time Fourier transform of $x$, with analysis window $h_k(t)$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal ({\ty Nx=length(x)})\\
+        {\ty h}     & frequency smoothing windows, the {\ty h(:,i)} being normalized
+                so as to be of unit energy\\
+        {\ty t}     & time instant(s)          & {\ty (1:Nx)}\\
+        {\ty  N}    & number of frequency bins & {\ty Nx}\\
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                         & {\ty 0}\\
+     \hline {\ty tfr}   & time-frequency representation \\
+        {\ty f}     & vector of normalized frequencies\\
+ 
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrmmce} runs {\ty tfrqview}.
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Here is a combination of three spectrograms with gaussian analysis windows
+of different lengths :
+\begin{verbatim}
+         sig=fmlin(128,0.1,0.4); h=zeros(19,3);
+         h(10+(-5:5),1)=window(11); 
+         h(10+(-7:7),2)=window(15);  
+         h(10+(-9:9),3)=window(19); 
+         tfrmmce(sig,h);
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.2cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] P. Loughlin, J. Pitton, B. Hannaford ``Approximating Time-Frequency
+Density Functions via Optimal Combinations of Spectrograms'' IEEE Signal
+Processing Letters, Vol. 1, No. 12, Dec. 1994. 
+\end{minipage}

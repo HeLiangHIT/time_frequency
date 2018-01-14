@@ -1,0 +1,86 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{integ2d}
+\section*{\hspace*{-1.6cm} integ2d}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Approximate 2-D integral.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+som = integ2d(MAT)
+som = integ2d(MAT,x)
+som = integ2d(MAT,x,y)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty integ2d} approximates the 2-D integral of matrix {\ty MAT}
+        according to abscissa {\ty x} and ordinate {\ty y}.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty MAT} & {\ty (M,N)} matrix to be integrated\\
+        {\ty x}   & {\ty N}-row-vector indicating the abscissa integration path     
+                                & {\ty (1:N)}\\
+        {\ty y}   & {\ty M}-column-vector indicating the ordinate integration path 
+                                & {\ty (1:M)}\\
+ \hline {\ty som} & result of integration\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Consider the scalogram of a sinusoidal frequency modulation of 128 points,
+and compute the integral over the time-scale plane of the scalogram :
+\begin{verbatim}
+         S = fmsin(128,0.2,0.3);
+         [TFR,t,f] = tfrscalo(S,1:128,8,0.1,0.4,128,1);
+         Etfr = integ2d(TFR,t,f)
+         Etfr = 
+                128.0000
+\end{verbatim}
+We find for {\ty Etfr} the value of the signal energy, which is the
+expected value since the scalogram preserves energy.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+integ.
+\end{verbatim}
+\end{minipage}
+
+
+

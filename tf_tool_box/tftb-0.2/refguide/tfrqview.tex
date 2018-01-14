@@ -1,0 +1,95 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrqview}
+\section*{\hspace*{-1.6cm} tfrqview}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Quick visualization of a time-frequency representation.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tfrqview(tfr)
+tfrqview(tfr,sig)
+tfrqview(tfr,sig,t)
+tfrqview(tfr,sig,t,method)
+tfrqview(tfr,sig,t,method,p1)
+tfrqview(tfr,sig,t,method,p1,p2)
+tfrqview(tfr,sig,t,method,p1,p2,p3)
+tfrqview(tfr,sig,t,method,p1,p2,p3,p4)
+tfrqview(tfr,sig,t,method,p1,p2,p3,p4,p5)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrqview} allows a quick visualization of a time-frequency
+        representation. {\ty tfrqview} is called by any time-frequency
+        representation of the toolbox ({\ty tfr*} functions) when these
+        functions are called without any output argument.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr}     & time-frequency representation {\ty (MxN)}\\
+        {\ty sig}     & signal in time. If unavailable, put {\ty sig=[]} as input
+                  parameter                    & {\ty []}\\
+        {\ty t}       & time instants                 & {\ty (1:N)}\\
+        {\ty method}  & name of chosen representation (see the {\ty tfr*}
+		files for authorized names) & {\ty 'type1'} \\
+                  &  {\ty type1} : the representation {\ty tfr} goes in normalized
+                        frequency from {\ty -0.5} to {\ty 0.5} \\ 
+                  &  {\ty type2} : the representation {\ty tfr} goes in normalized
+                        frequency from {\ty 0} to {\ty 0.5}\\
+        {\ty p1..p5} & optional parameters of the representation : run the 
+                  file {\ty tfrparam(method)} to know the meaning of {\ty p1..p5} 
+                  for your method\\
+\hline
+\end{tabular*}
+\end{minipage}
+
+\newpage
+
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        When you use the {\ty 'save'} option in the main menu, you save all
+        your variables as well as two strings, {\ty TfrQView} and {\ty
+        TfrView}, in a mat file. If you load this file and do {\ty
+        eval(TfrQView)}, you will restart the display session under {\ty
+        tfrqview} ; if you do {\ty eval(TfrView)}, you will obtain the
+        exact layout of the screen you had when clicking on the {\ty
+        'save'} button.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmsin(128); 
+         tfr=tfrwv(sig);
+         tfrqview(tfr,sig,1:128,'tfrwv');
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+tfrview, tfrsave, tfrparam.
+\end{verbatim}
+\end{minipage}

@@ -1,0 +1,105 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{ambifuwb}
+\section*{\hspace*{-1.6cm} ambifuwb}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Wide-band ambiguity function.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[waf,tau,theta] = ambifuwb(x)
+[waf,tau,theta] = ambifuwb(x,fmin,fmax)
+[waf,tau,theta] = ambifuwb(x,fmin,fmax,N)
+[waf,tau,theta] = ambifuwb(x,fmin,fmax,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty ambifuwb} calculates the asymetric wide-band ambiguity
+        function, defined as 
+\begin{eqnarray*}
+\Xi_x(a,\tau) = \frac{1}{\sqrt{a}}\ \int_{-\infty}^{+\infty} x(t)\
+x^*(t/a-\tau)\ dt = \sqrt{a} \int_{-\infty}^{+\infty} X(\nu)\ X^*(a\nu)\
+e^{j2\pi a \tau\nu}\ d\nu. 
+\end{eqnarray*}
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal (in time) to be analyzed (the analytic associated
+                signal is considered), of length {\ty Nx} &\\
+        {\ty fmin, fmax} & respectively lower and upper frequency bounds of
+                the analyzed signal. When specified, these parameters fix
+                the equivalent frequency bandwidth (both are expressed in
+                Hz)             & {\ty 0, 0.5}\\
+        {\ty N}     & number of Mellin points. This number is needed when {\ty fmin}
+                and {\ty fmax} are forced     & {\ty Nx}\\
+        {\ty trace} & if non-zero, the progression of the algorithm is shown
+                                        & 0\\
+\hline
+        {\ty waf}    & matrix containing the coefficients of the ambiguity
+                function. X-coordinate corresponds to the dual variable of 
+                scale parameter ; Y-coordinate corresponds to time delay,
+                dual variable of frequency.\\
+        {\ty tau}   & X-coordinate corresponding to time delay\\
+        {\ty theta} & Y-coordinate corresponding to the $\log(a)$ variable,
+		where $a$ is the scale\\
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty ambifuwb} displays the squared
+modulus of the ambiguity function by means of {\ty contour}.
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Consider a BPSK signal (see {\ty anabpsk}) of 256 points, with a keying
+period of 8 points, and analyze it with the wide-band ambiguity
+function\,:
+\begin{verbatim}
+         sig=anabpsk(256,8);
+         ambifunb(sig);
+\end{verbatim}
+The result, to be compared with the one obtained with the narrow-band
+ambiguity function, presents a thin high peak at the origin of the
+ambiguity plane, but with more important sidelobes than with the
+narrow-band ambiguity function. It means that the narrow-band assumption is
+not very well adapted to this signal, and that the ambiguity in the
+estimation of its arrival time and mean frequency is not so small.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+ambifunb.
+\end{verbatim}
+\end{minipage}
+

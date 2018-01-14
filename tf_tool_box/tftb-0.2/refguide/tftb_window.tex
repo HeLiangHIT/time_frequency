@@ -1,0 +1,103 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tftb\_window}
+\section*{\hspace*{-1.6cm} tftb\_window}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Window generation.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+h = tftb\_window(N)
+h = tftb\_window(N,name)
+h = tftb\_window(N,name,param)
+h = tftb\_window(N,name,param,param2)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tftb\_window} yields a window of length {\ty N} with a given shape.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}      & length of the window\\
+        {\ty name}   & name of the window shape & {\ty 'Hamming'}\\
+        {\ty param}  & optional parameter\\
+        {\ty param2} & second optional parameter\\
+ \hline {\ty h}      & output window\\
+\hline
+\end{tabular*}
+\vspace*{.5cm}
+
+       Possible names are :\\
+        {\ty 'Hamming', 'Hanning', 'Nuttall', 'Papoulis', 'Harris',
+        'Rect', 'Triang', 'Bartlett', 'BartHann', 'Blackman',
+        'Gauss', 'Parzen', 'Kaiser', 'Dolph', 'Hanna', 'Nutbess', 'spline'}\\
+
+        For the gaussian window, an optional parameter {\ty k}
+        sets the value at both extremities. The default value is {\ty 0.005}.\\
+ 
+        For the Kaiser-Bessel window, an optional parameter
+        sets the scale. The default value is {\ty 3*pi}.\\
+ 
+        For the Spline windows, {\ty h=tftb\_window(N,'spline',nfreq,p)}
+        yields a spline weighting function of order {\ty p} and frequency
+        bandwidth proportional to {\ty nfreq}.
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         h=tftb\_window(256,'Gauss',0.005); 
+         plot(h);
+\end{verbatim}
+
+%\newpage
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+dwindow.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] F. Harris ``On the Use of Windows for Harmonic Analysis with the
+Discrete Fourier Transform'', Proceedings of the IEEE, Vol. 66, pp. 51-83,
+1978.\\
+
+[2] A.H. Nuttal, "A Two-Parameter Class of Bessel Weighting 
+	Functions for Spectral Analysis or Array Processing", 
+	IEEE Trans on ASSP, Vol 31, pp 1309-1311, Oct 1983.\\
+
+[3] Y. Ho Ha, J.A. Pearce, "A New Window and Comparison to
+	Standard Windows", Trans IEEE ASSP, Vol 37, No 2, 
+	pp 298-300, February 1989.\\
+
+[4] C.S. Burrus, ``Multiband Least Squares FIR Filter Design'',
+	Trans IEEE SP, Vol 43, No 2, pp 412-421, February 1995.
+\end{minipage}
+

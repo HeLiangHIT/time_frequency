@@ -1,0 +1,103 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{doppler}
+\section*{\hspace*{-1.6cm} doppler}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Complex Doppler signal.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[fm,am,iflaw] = doppler(N,fs,f0,d,v) 
+[fm,am,iflaw] = doppler(N,fs,f0,d,v,t0) 
+[fm,am,iflaw] = doppler(N,fs,f0,d,v,t0,c) 
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+         {\ty doppler} returns the frequency modulation ({\ty fm}), the
+         amplitude modulation ({\ty am}) and the instantaneous frequency
+         law ({\ty iflaw}) of the signal received by a fixed observer from
+         a moving target emitting a pure frequency {\ty f0}.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+         {\ty N}  & number of points\\
+         {\ty fs} & sampling frequency (in Hz)\\
+         {\ty f0} & target   frequency (in Hz)\\
+         {\ty d}  & distance from the line to the observer (in meters)\\
+         {\ty v}  & target velocity    (in m/s)\\
+         {\ty t0} & time center                  & {\ty N/2}\\  
+         {\ty c}  & wave velocity      (in m/s)  & {\ty 340}\\
+ \hline  {\ty fm} & output frequency modulation\\  
+         {\ty am} & output amplitude modulation\\  
+         {\ty iflaw} & output instantaneous frequency law\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+The doppler effect characterizes the fact that a signal returned from a
+moving target is scaled and delayed compared to the transmitted signal. For
+narrow-band signals, this scaling effect can be considered as a frequency
+shift. \\
+
+{\ty [fm,am,iflaw] = doppler(N,fs,f0,d,v,t0,c)} returns the signal received
+by a fixed observer from a moving target emitting a pure frequency {\ty
+f0}. The target is moving along a straight line, which gets closer to the
+observer up to a distance {\ty d}, and then moves away. {\ty t0} is the
+time center (i.e. the time at which the target is at the closest distance
+from the observer), and {\ty c} is the wave velocity in the medium.
+
+\end{minipage}
+
+\newpage
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Plot the signal and its instantaneous frequency law received by an observer
+from a car moving at the speed $v=50 m/s$, passing at 10 meters from the
+observer (the radar). The rotating frequency of the engine is $f_0=65 Hz$,
+and the sampling frequency is $f_s=200 Hz$ :
+\begin{verbatim}
+     N=512; [fm,am,iflaw]=doppler(N,200,65,10,50); 
+     subplot(211); plot(real(am.*fm)); 
+     subplot(212); plot(iflaw);
+     [ifhat,t]=instfreq(sigmerge(am.*fm,noisecg(N),15),11:502,10);
+     hold on; plot(t,ifhat,'g'); hold off;
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+dopnoise.
+\end{verbatim}
+\end{minipage}
+

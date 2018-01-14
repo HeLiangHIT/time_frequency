@@ -1,0 +1,80 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{zak}
+\section*{\hspace*{-1.6cm} zak}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Zak transform.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+dzt = zak(sig)
+dzt = zak(sig,N)
+dzt = zak(sig,N,M)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty zak} computes the Zak transform of a signal. Its definition is
+given by
+\[Z_{sig}(t,\nu)=\sum_{n=-\infty}^{+\infty} sig(t+n)\ e^{-j2\pi n\nu}.\]
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty sig} & Signal to be analyzed {\ty (length(sig)=N1)}\\
+        {\ty N}   & number of Zak coefficients in time ({\ty N1} must be a multiple
+              of {\ty N})          & {\ty divider(N1)}\\
+        {\ty M}   & number of Zak coefficients in frequency ({\ty N1} must be a
+              multiple of {\ty M}) & {\ty N1/N}\\
+ \hline {\ty dzt} & Output matrix {\ty (N,M)} containing the discrete Zak transform\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=fmlin(256); 
+         DZT=zak(sig);
+         imagesc(DZT);
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+izak, tfrgabor.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] L. Auslander, I. Gertner, R. Tolimieri, ``The Discrete Zak Transform
+Application to Time-Frequency Analysis and Synthesis of Nonstationary
+Signals'' IEEE Trans. on Signal Proc., Vol. 39, No. 4, pp. 825-835, April
+1991.
+\end{minipage}
+

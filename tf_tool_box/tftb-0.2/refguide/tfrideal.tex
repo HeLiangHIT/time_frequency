@@ -1,0 +1,76 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrideal}
+\section*{\hspace*{-1.6cm} tfrideal}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Ideal TF-representation for given instantaneous frequency laws.
+\end{minipage}
+\vspace*{.3cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrideal(iflaws)
+[tfr,t,f] = tfrideal(iflaws,t)
+[tfr,t,f] = tfrideal(iflaws,t,N)
+[tfr,t,f] = tfrideal(iflaws,t,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrideal} generates the ideal time-frequency representation
+        corresponding to the instantaneous frequency laws of the components
+        of a signal.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty iflaws} & {\ty (M,P)}-matrix where each column corresponds to
+                 the instantaneous frequency law of an {\ty (M,1)}-signal.
+                 These {\ty P} signals do not need to be present at the same time
+		 instants. The values of {\ty iflaws} must be
+		 between 0 and 0.5\\ 
+        {\ty t}      & time instant(s)      & {\ty (1:M)}\\
+        {\ty N}      & number of frequency bins & {\ty M}\\
+        {\ty trace}  & if nonzero, the progression of the algorithm is shown
+                                          & {\ty 0}\\
+     \hline {\ty tfr}    & output time-frequency matrix, of size {\ty (N,length(t))}\\
+        {\ty f}      & vector of normalized frequencies\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, a contour plot of {\ty tfr} is
+automatically displayed on the screen.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         N=140; t=0:N-1; [x1,if1]=fmlin(N,0.05,0.3); 
+         [x2,if2]=fmsin(70,0.35,0.45,60);
+         if2=[zeros(35,1)*NaN;if2;zeros(35,1)*NaN];
+         tfrideal([if1 if2]); 
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+{\ty plotifl, plotsid} and all the {\ty tfr*} functions.
+\end{minipage}

@@ -1,0 +1,120 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{tfrunter}
+\section*{\hspace*{-1.6cm} tfrunter}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Unterberger time-frequency distribution, active or passive form.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tfr,t,f] = tfrunter(x)
+[tfr,t,f] = tfrunter(x,t)
+[tfr,t,f] = tfrunter(x,t,form)
+[tfr,t,f] = tfrunter(x,t,form,fmin,fmax)
+[tfr,t,f] = tfrunter(x,t,form,fmin,fmax,N)
+[tfr,t,f] = tfrunter(x,t,form,fmin,fmax,N,trace)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty tfrunter} generates the auto- or cross-Unterberger
+        distribution (active or passive form). The expression of the active
+Unterberger distribution writes
+\begin{eqnarray*}
+U^{(a)}_x(t,a)=\frac{1}{|a|}\ \int_0^{+\infty} (1+\frac{1}{\alpha^2})\
+X\left(\frac{\alpha}{a}\right)\  X^*\left(\frac{1}{\alpha a}\right)\
+e^{j2\pi (\alpha-1/\alpha)\frac{t}{a}}\ d\alpha,       
+\end{eqnarray*}
+whereas the passive Unterberger distribution writes
+\begin{eqnarray*}
+U^{(p)}_x(t,a)=\frac{1}{|a|} \int_0^{+\infty} \frac{2}{\alpha}\
+X\left(\frac{\alpha}{a}\right)\ X^*\left(\frac{1}{\alpha a}\right)\
+e^{j2\pi (\alpha-\frac{1}{\alpha})\frac{t}{a}}\ d\alpha.       
+\end{eqnarray*}
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x} & signal (in time) to be analyzed. If {\ty x=[x1 x2]}, {\ty tfrunter} 
+           computes the cross-Unterberger distribution {\ty (Nx=length(x))}\\
+        {\ty t} & time instant(s) on which the {\ty tfr} is evaluated & {\ty (1:Nx)}\\
+        {\ty form} & {\ty 'A'} for active, {\ty 'P'} for passive
+			Unterberger distribution     & {\ty 'A'}\\
+        {\ty fmin, fmax} & respectively lower and upper frequency bounds of 
+           the analyzed signal. These parameters fix the equivalent 
+           frequency bandwidth (expressed in Hz). When unspecified, you
+           have to enter them at the command line from the plot of the
+           spectrum. {\ty fmin} and {\ty fmax} must be $>${\ty 0} and $\leq${\ty 0.5}\\
+        {\ty N} & number of analyzed voices & auto\footnote{This value,
+	determined from {\ty fmin} and {\ty fmax}, is the 
+	next-power-of-two of the minimum value checking the non-overlapping
+	condition in the fast Mellin transform.}\\
+
+\hline\end{tabular*}\end{minipage} 
+%\newpage
+\hspace*{1.5cm}\begin{minipage}[t]{13.5cm}
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\\hline
+
+        {\ty trace} & if nonzero, the progression of the algorithm is shown
+                                                & {\ty 0}\\
+        \hline {\ty tfr} & time-frequency matrix containing the coefficients of the 
+           decomposition (abscissa correspond to uniformly sampled
+           time, and ordinates correspond to a geometrically sampled 
+           frequency). First row of {\ty tfr} corresponds to the lowest 
+           frequency. \\
+        {\ty f} & vector of normalized frequencies (geometrically sampled 
+           from {\ty fmin} to {\ty fmax})\\
+
+\hline
+\end{tabular*}
+\vspace*{.2cm}
+
+When called without output arguments, {\ty tfrunter} runs {\ty tfrqview}.
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=altes(64,0.1,0.45); 
+         tfrunter(sig);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+all the {\ty tfr*} functions.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf References}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] A. Unterberger ``The Calculus of Pseudo-Differential Operators of Fuchs
+Type'' Comm. in Part. Diff. Eq., Vol. 9, pp. 1179-1236, 1984.\\
+
+[2] P. Flandrin, P. Gonçalvès ``Geometry of Affine Time-Frequency
+Distributions'' Applied and Computational Harmonic Analysis, Vol. 3,
+pp. 10-39, January 1996.
+\end{minipage}
+

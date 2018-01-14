@@ -1,0 +1,103 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{holder}
+\section*{\hspace*{-1.6cm} holder}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Hölder exponent estimation through an affine TFR.
+\end{minipage}
+\vspace*{.2cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+h = holder(tfr,f)
+h = holder(tfr,f,n1)
+h = holder(tfr,f,n1,n2)
+h = holder(tfr,f,n1,n2,t)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty holder} estimates the Hölder exponent of a signal through an
+        affine time-frequency representation of it.  \\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty tfr} & affine time-frequency representation\\ 
+        {\ty f}   & frequency values of the spectral analysis\\ 
+        {\ty n1}  & indice of the  minimum frequency for the linear regression  
+                                          & {\ty 1}\\
+        {\ty n2}  & indice of the  maximum frequency for the linear regression  
+                                          & {\ty length(f)}\\
+        {\ty t} & time vector. If {\ty t} is omitted, the function returns the
+            global estimate of the Hölder exponent. Otherwise, it
+            returns the local estimates {\ty h(t)} at the instants specified
+            in {\ty t}\\
+ \hline {\ty h} & output value (if {\ty t} omitted) or vector (otherwise) containing
+            the Hölder estimate(s)\\
+
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+For instance, we consider a 64-points Lipschitz singularity (see {\ty
+  anasing}) of strength {\ty h=0}, centered at {\ty t0=32}, analyze it with the
+  scalogram (Morlet wavelet with half-length = 4), and estimate its Hölder
+  exponent,
+\begin{verbatim}
+         sig=anasing(64);
+         [tfr,t,f]=tfrscalo(sig,1:64,4,0.01,0.5,256,1);
+         h=holder(tfr,f,1,256,1:64);
+\end{verbatim}
+the value obtained at time {\ty t0} is a good estimation of {\ty h} (we obtain
+{\ty h(t0)=-0.0381}).\\ 
+\end{minipage}
+
+%\newpage
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+anastep, anapulse, anabpsk, doppler.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] S. Jaffard ``Exposants de Hölder en des points donnés et coefficients
+d'ondelettes'' C.R. de l'Académie des Sciences, Paris, t. 308, Série I,
+p. 79-81, 1989.\\
+
+[2] P. Gonçalvès, P. Flandrin ``Scaling Exponents Estimation From
+Time-Scale Energy Distributions'' IEEE ICASSP-92, pp. V.157 - V.160, San
+Fransisco 1992.
+\end{minipage}
+

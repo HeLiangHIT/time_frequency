@@ -1,0 +1,72 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{griffitc}
+\hspace*{-1.6cm}{\Large \bf griffitc}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Test signal example C of Griffiths' paper. 
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[sig,iflaws] = griffitc
+[sig,iflaws] = griffitc(N)
+[sig,iflaws] = griffitc(N,SNR)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty griffitc} generates the test signal of the example C of the
+        paper of Griffiths [1].\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}      & signal length         & {\ty 200}\\
+        {\ty SNR}    & signal to noise ratio & {\ty 25 dB}\\
+        {\ty sig}    & output signal\\
+        {\ty iflaws} & instantaneous frequency laws of the 3 components\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         [sig,iflaws]=griffitc; 
+         plotifl(1:200,iflaws); grid;
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] ??
+\end{minipage}
+
+
+

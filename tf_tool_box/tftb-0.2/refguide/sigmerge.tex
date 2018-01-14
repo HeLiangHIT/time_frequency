@@ -1,0 +1,67 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{sigmerge}
+\section*{\hspace*{-1.6cm} sigmerge}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Add two signals with a given energy ratio in dB.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+x = xmerge(x1,x2)
+x = sigmerge(x1,x2,ratio)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty sigmerge} adds two signals so that a given energy ratio
+        expressed in deciBels is satisfied :\\
+ \centerline{\ty x=x1+h*x2,}
+        such that\\ 
+\centerline{\ty 20*log(norm(x1)/norm(h*x2))=ratio.}\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x1, x2} & input signals\\
+        {\ty ratio}  & energy ratio in deciBels       & {\ty 0 dB}\\
+  \hline {\ty x}      & output signal\\ 
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}\begin{verbatim}
+          x=fmlin(64,0.01,0.05,1); noise=hilbert(randn(64,1));
+          SNR=15; xn=sigmerge(x,noise,SNR);
+          Ex=mean(abs(x).^2); Enoise=mean(abs(xn-x).^2);
+          10*log10(Ex/Enoise)
+          ans = 
+                15.0000
+
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+noisecg.
+\end{verbatim}
+\end{minipage}

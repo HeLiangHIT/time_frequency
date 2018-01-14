@@ -1,0 +1,83 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{anabpsk}
+\section*{\hspace*{-1.6cm} anabpsk}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Binary Phase Shift Keyed (BPSK) signal.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,am] = anabpsk(N)
+[y,am] = anabpsk(N,ncomp)
+[y,am] = anabpsk(N,ncomp,f0)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty anabpsk} returns a succession of complex sinusoids of {\ty
+        ncomp} points each, with a normalized frequency {\ty f0} and an
+        amplitude equal to -1 or +1, according to a discrete uniform
+        law. Such signal is only 'quasi'-analytic.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N }    & number of points\\
+        {\ty ncomp} & number of points of each component & {\ty N/5}\\
+        {\ty f0}    & normalized frequency              & {\ty 0.25}\\
+  \hline {\ty y}     & signal\\
+        {\ty am}    & resulting amplitude modulation     \\
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         [signal,am]=anabpsk(300,30,0.1); 
+         subplot(211); plot(real(signal));
+         subplot(212); plot(am);
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+anafsk, anaqpsk, anaask.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Reference}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] W. Gardner {\it Introduction to Random Processes, with Applications to
+Signals and Systems}, 2nd Edition, McGraw-Hill, New-York, p. 360 ,1990.  
+\end{minipage}

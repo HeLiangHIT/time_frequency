@@ -1,0 +1,73 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{izak}
+\section*{\hspace*{-1.6cm} izak}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Inverse Zak transform.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+sig = izak(DZT)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty izak} computes the inverse Zak transform of matrix {\ty DZT}.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty DZT} & {\ty (N,M)} matrix of Zak samples (obtained with {\ty zak})\\
+ \hline {\ty sig} & output signal {\ty (M*N,1)} containing the inverse Zak transform\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+If we compute the discrete Zak transform of a signal and apply on the
+output matrix the inverse Zak transform, we should obtain again the
+original signal\,:
+\begin{verbatim}
+         sig=fmlin(250); DZT=zak(sig); sigr=izak(DZT);
+         plot(real(sigr-sig));
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+zak, tfrgabor.
+\end{verbatim}
+\end{minipage}
+

@@ -1,0 +1,251 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\begin{itemize}
+\item {\bf Signal generation files}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Choice of the Instantaneous Amplitude }\\
+\hline
+ {\ty amexpo1s} &  One-sided exponential amplitude modulation\\
+ {\ty amexpo2s} &  Bilateral exponential amplitude modulation\\
+ {\ty amgauss } &  Gaussian amplitude modulation\\
+ {\ty amrect  } &  Rectangular amplitude modulation\\
+ {\ty amtriang} &  Triangular amplitude modulation\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Choice of the Instantaneous Frequency }\\
+\hline
+ {\ty fmconst } & Signal with constant frequency modulation\\
+ {\ty fmhyp   } & Signal with hyperbolic frequency modulation\\
+ {\ty fmlin   } & Signal with linear frequency modulation\\
+ {\ty fmodany } & Signal with arbitrary frequency modulation\\
+ {\ty fmpar   } & Signal with parabolic frequency modulation\\
+ {\ty fmpower } & Signal with power-law frequency modulation\\
+ {\ty fmsin   } & Signal with sinusoidal frequency modulation\\
+ {\ty gdpower } & Signal with a power-law group delay\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Choice of Particular Signals }\\
+\hline
+ {\ty altes   } & Altes signal in time domain\\
+ {\ty anaask  } & Amplitude Shift Keyed (ASK) signal\\
+ {\ty anabpsk } & Binary Phase Shift Keyed (BPSK) signal\\
+ {\ty anafsk  } & Frequency Shift Keyed (FSK) signal\\
+ {\ty anapulse} & Analytic projection of unit amplitude impulse signal\\
+ {\ty anaqpsk } & Quaternary Phase Shift Keyed (QPSK) signal\\
+ {\ty anasing } & Lipschitz singularity\\
+ {\ty anastep } & Analytic projection of unit step signal\\
+ {\ty atoms   } & Linear combination of elementary Gaussian atoms\\ 
+ {\ty dopnoise} & Complex Doppler random signal\\
+ {\ty doppler } & Complex Doppler signal\\
+ {\ty klauder } & Klauder wavelet in time domain\\
+ {\ty mexhat  } & Mexican hat wavelet in time domain\\
+ {\ty window  } & Window generation\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Noise Realizations}\\
+\hline
+ {\ty noisecg } & Analytic complex gaussian noise\\
+ {\ty noisecu } & Analytic complex uniform white noise\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf  Modification}\\
+\hline
+ {\ty scale   } & Scale a signal using the Mellin transform\\
+ {\ty sigmerge} & Add two signals with a given energy ratio in dB\\
+\hline
+\end{tabular}
+
+
+\item {\bf Processing files}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf  Time-Domain Processing}\\
+\hline
+ {\ty ifestar2} & Instantaneous frequency estimation using AR2 modelisation.\\
+ {\ty instfreq} & Instantaneous frequency estimation\\
+ {\ty loctime } & Time localization characteristics\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf  Frequency-Domain Processing}\\
+\hline
+ {\ty fmt     } & Fast Mellin transform\\
+ {\ty ifmt    } & Inverse fast Mellin transform\\
+ {\ty locfreq } & Frequency localization characteristics\\
+ {\ty sgrpdlay} & Group delay estimation\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Linear Time-Frequency Processing }\\
+\hline
+ {\ty tfrgabor} & Gabor representation\\
+ {\ty tfrstft } & Short time Fourier transform\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}\hline
+\multicolumn{2}{|c|}{\bf Bilinear Time-Frequency Processing in the Cohen's Class }\\
+\hline
+ {\ty tfrbj   } & Born-Jordan distribution\\                     
+ {\ty tfrbud  } & Butterworth distribution\\                   
+ {\ty tfrcw   } & Choi-Williams distribution\\                   
+ {\ty tfrgrd  } & Generalized rectangular distribution\\        
+ {\ty tfrmh   } & Margenau-Hill distribution\\                    
+ {\ty tfrmhs  } & Margenau-Hill-Spectrogram distribution\\     
+ {\ty tfrmmce } & Minimum mean cross-entropy combination of spectrograms\\ 
+ {\ty tfrpage } & Page distribution\\                          
+ {\ty tfrpmh  } & Pseudo Margenau-Hill distribution\\          
+ {\ty tfrppage} & Pseudo Page distribution\\                 
+ {\ty tfrpwv  } & Pseudo Wigner-Ville distribution\\            
+ {\ty tfrri   } & Rihaczek distribution\\                       
+ {\ty tfrridb } & Reduced interference distribution (Bessel window)\\
+ {\ty tfrridbn} & Reduced interference distribution (binomial window)\\
+ {\ty tfrridh } & Reduced interference distribution (Hanning window)\\
+ {\ty tfrridt } & Reduced interference distribution (triangular window)\\
+ {\ty tfrsp   } & Spectrogram distribution\\                     
+ {\ty tfrspwv } & Smoothed Pseudo Wigner-Ville distribution\\   
+ {\ty tfrwv   } & Wigner-Ville distribution\\
+ {\ty tfrzam  } & Zhao-Atlas-Marks distribution\\               
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Bilinear Time-Frequency Processing in the Affine Class }\\
+\hline
+ {\ty tfrbert } & Unitary Bertrand distribution\\
+ {\ty tfrdfla } & D-Flandrin distribution\\
+ {\ty tfrscalo} & Scalogram, for Morlet or Mexican hat wavelet\\
+ {\ty tfrspaw } & Smoothed Pseudo Affine Wigner distributions\\
+ {\ty tfrunter} & Unterberger distribution, active or passive form\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf  Reassigned Time-Frequency Processing}\\
+\hline
+ {\ty tfrrgab } & Reassigned Gabor spectrogram\\
+ {\ty tfrrmsc } & Reassigned Morlet Scalogram time-frequency distribution\\
+ {\ty tfrrpmh } & Reassigned Pseudo Margenau-Hill distribution\\
+ {\ty tfrrppag} & Reassigned Pseudo Page distribution\\
+ {\ty tfrrpwv } & Reassigned Pseudo Wigner-Ville distribution\\
+ {\ty tfrrsp  } & Reassigned Spectrogram\\ 
+ {\ty tfrrspwv} & Reassigned Smoothed Pseudo WV distribution\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Ambiguity Functions }\\
+\hline
+ {\ty ambifunb} & Narrow-band ambiguity function\\
+ {\ty ambifuwb} & Wide-band ambiguity function\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Post-Processing or Help to the Interpretation }\\
+\hline
+ {\ty friedman} & Instantaneous frequency density\\
+ {\ty holder  } & Estimation of the Hölder exponent through an affine TFR\\
+ {\ty htl     } & Hough transform for detection of lines in images\\
+ {\ty margtfr } & Marginals and energy of a time-frequency representation\\
+ {\ty midpoint} & Mid-point construction used in the interference diagram\\ 
+ {\ty momftfr } & Frequency moments of a time-frequency representation\\
+ {\ty momttfr } & Time moments of a time-frequency representation\\
+ {\ty plotsid } & Schematic interference diagram of FM signals\\ 
+ {\ty renyi   } & Measure Renyi information\\
+ {\ty ridges  } & Extraction of ridges from a reassigned TFR\\
+ {\ty tfrideal} & Ideal TFR for given frequency laws\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2.5cm} p{11cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf  Visualization and backup}\\
+\hline
+ {\ty plotifl } & Plot normalized instantaneous frequency laws\\
+ {\ty tfrparam} & Return the paramaters needed to display (or save) a TFR\\
+ {\ty tfrqview} & Quick visualization of a time-frequency representation\\
+ {\ty tfrsave } & Save the parameters of a time-frequency representation\\
+ {\ty tfrview } & Visualization of time-frequency representations\\
+\hline
+\end{tabular}
+%\vspace*{.5cm}
+
+\hspace*{-1cm}
+\begin{tabular}{|p{2cm} p{12cm}|}
+\hline
+\multicolumn{2}{|c|}{\bf Other }\\
+\hline
+ {\ty disprog } & Display the progression of a loop\\
+ {\ty divider } & Find dividers of an integer, closest from the square root
+		  of the integer \\ 
+ {\ty dwindow } & Derive a window\\
+ {\ty integ   } & Approximate an integral\\
+ {\ty integ2d } & Approximate a 2-D integral\\
+ {\ty izak    } & Inverse Zak transform\\
+ {\ty kaytth  } & Computation of the Kay-Tretter filter\\
+ {\ty modulo  } & Congruence of a vector\\
+ {\ty movcw4at} & Four atoms rotating, analyzed by the Choi-Williams distribution\\
+ {\ty movpwdph} & Influence of a phase-shift on the interferences of the PWVD\\
+ {\ty movpwjph} & Influence of a jump of phase on the interferences of the PWVD\\
+ {\ty movsc2wv} & Movie illustrating the passage from the scalogram to the WVD\\
+ {\ty movsp2wv} & Movie illustrating the passage from the spectrogram to the WVD\\
+ {\ty movwv2at} & Oscillating structure of the interferences of the WVD\\  
+ {\ty odd     } & Round towards nearest odd value\\
+ {\ty zak     } & Zak transform\\
+\hline
+\end{tabular}
+\end{itemize}
+

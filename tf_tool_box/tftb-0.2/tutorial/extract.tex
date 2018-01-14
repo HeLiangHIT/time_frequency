@@ -1,0 +1,512 @@
+% This is part of the TFTB Tutorial.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file tutorial.tex for copying conditions.
+
+Up to this point, we have examined the main solutions proposed to
+the problem of representing a non-stationary signal in the
+time-frequency plane. We now consider the problem of the
+interpretation of the time-frequency image which describes the
+evolution with time of the frequency content of the signal. Even if they
+all tend to the same goal, each representation has to be interpreted
+differently, according to its own properties. For example, some of
+them present important interference terms, other are only positive,
+other are perfectly localized on particular signals\ldots So the
+extraction of information has to be done with care, from the knowledge
+of these properties. We give in the following some general guide lines
+to profit from a time-frequency image.
+
+
+\section{Moments and marginals}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  The moments and marginals of some representations provide important
+information about the signal, like its amplitude modulation or its
+instantaneous frequency, for example with the aim of demodulating the
+signal. 
+
+\subsection{Moments}
+%'''''''''''''''''''
+\index{moments}
+  The first and second order moments, in time and in frequency, of a
+time-frequency energy distribution tfr are defined as
+\begin{eqnarray*}
+f_m(t) &=& \frac{\int_{-\infty}^{+\infty} f\ \mbox{tfr}(t,f)\ df}
+{\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ df}\ 
+  \\
+B^2(t)  &=& \frac{\int_{-\infty}^{+\infty} f^2\ \mbox{tfr}(t,f)\ df}
+{\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ df}\  - f_m(t)^2; 
+\end{eqnarray*}
+for the {\it time moments}, and as
+%where $E=\int\int_{-\infty}^{+\infty}\mbox{tfr}(t,f)\ dt\ df$ is the energy 
+%of the signal, 
+\begin{eqnarray*}
+t_m(f) &=& \frac{\int_{-\infty}^{+\infty} t\ \mbox{tfr}(t,f)\ dt}
+{\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ dt}\\ 
+T^2(f)  &=& \frac{\int_{-\infty}^{+\infty} t^2\ \mbox{tfr}(t,f)\ dt}
+{\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ dt}\ - t_m(f)^2; 
+\end{eqnarray*}
+for the {\it frequency moments}. They describe the averaged positions and
+spreads in time and in frequency of the signal. For some particular
+distributions, if the signal is considered in its analytic form, the first
+order moment in time also corresponds to the instantaneous frequency, and
+the first order moment in frequency to the group delay of the signal. These
+moments can be obtained numerically thanks to the functions
+\index{\ttfamily momttfr}{\ttfamily momttfr.m} and \index{\ttfamily
+momftfr}{\ttfamily momftfr.m}.
+  
+\subsection{Marginals}
+%'''''''''''''''''''''
+\index{marginals} It can also be interesting to consider the {\it marginal
+distributions} of a time-frequency representation. These marginals are
+defined as\,:
+\begin{eqnarray*}
+m_f(t)=\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ df && \mbox{\it time
+marginal}\\ 
+m_t(f)=\int_{-\infty}^{+\infty} \mbox{tfr}(t,f)\ dt && \mbox{\it frequency
+marginal} 
+\end{eqnarray*}
+and express, by integrating the representation along one variable, the
+repartition of the energy along the other variable. A natural
+constraint for a time-frequency distribution is that the time marginal
+corresponds to the instantaneous power of the signal, and that the
+frequency marginal corresponds to the energy spectral density\,:
+\begin{eqnarray*}
+m_f(t)=|x(t)|^2\ \ \mbox{ and }\ \ m_t(f)=|X(f)|^2.	
+\end{eqnarray*}
+The M-file \index{\ttfamily margtfr}{\ttfamily margtfr.m} computes the
+marginal distributions of a given time-frequency representation.
+
+
+\section{More on interferences\,: information on phase}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  The interference terms present in any quadratic time-frequency
+representation, even if they disturb the readability of the
+representation, contain some information about the analyzed
+signal. The precise knowledge of their structure and construction rule
+is useful to interpret the information that they contain. 
+
+  For instance, the interference terms contain some information about the
+phase of a signal. Let us consider the pseudo WVD of the superposition of
+two constant frequency modulations, with a phase shift between the two
+sinusoids. If we compare the pseudo WVD for different phase shifts, we can
+observe a time-sliding of the oscillating interferences. The M-file
+\index{\ttfamily movpwdph}{\ttfamily movpwdph.m} illustrates this property
+(see fig. \ref{Ex1fig1})\,:
+\begin{verbatim}
+     >> M=movpwdph(128); movie(M,10);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/ex1fig1.eps}}
+\caption{\label{Ex1fig1}Two simultaneous complex sinusoids analyzed by the
+pseudo-WVD\,: the position of the interferences depends on the phase-shift
+between the two components. These phase-shifts are respectively $\pi/4,\
+3\pi/4,\ 5\pi/4$ and $7\pi/4$} 
+\end{figure}
+Each snapshot corresponds to the pseudo WVD with a different phase
+shift between the two components. 
+
+  A second example of signature of the phase is given by the influence of a
+jump of phase in a signal analyzed by the (pseudo) Wigner-Ville
+distribution\,: for instance, if we consider a constant frequency
+modulation presenting a jump of phase in its middle (see
+fig. \ref{Ex1fig2})\,: 
+\begin{verbatim}
+     >> M=movpwjph(128,'C'); movie(M,10);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/ex1fig2.eps}}
+\caption{\label{Ex1fig2}Complex sinusoid presenting a jump of phase in its
+middle, analyzed by the pseudo-WVD : the shape of the PWVD-pattern changes
+with the importance of the jump. These jumps of phase are respectively $\pi/4,\
+\pi/2,\ 3\pi/4$ and $pi$}
+\end{figure}
+the pseudo WVD presents a pattern around the jump position which is
+all the more important since this jump of phase is close to $\pi$. This
+characteristic can be used to detect a jump of phase in a signal.
+
+
+\section{Renyi information}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~
+\index{Renyi information}
+  Another interesting information that one may need to know about an
+observed non-stationary signal is the number of elementary signals
+composing this observation. This also leads us to the following question\,:
+how much separation between two elementary signals must one achieve in
+order to be able to conclude that there are two signals present rather than
+one ? 
+
+  A solution to this problem is given by applying an information measure to
+a time-frequency distribution of the signal. Unfortunately, the well known
+Shannon information, defined as 
+\begin{eqnarray*}
+I_x = -\int_{-\infty}^{+\infty} f(x)\ \log_2 f(x)\ dx
+\end{eqnarray*}
+where $f(x)$ is the probability density function of $x$, can not be applied
+to some time-frequency distributions due to their negative values. The
+generalized form of information, which admits negative values in the
+distribution, will then be used. This information, known as {\it Renyi
+information}, is given by
+\begin{eqnarray*}
+R_x^{\alpha} =  \frac{1}{1-\alpha}\ log_2\left\{\int_{-\infty}^{+\infty}
+f^{\alpha}(x)\ dx\right\} 
+\end{eqnarray*}
+in the continuous case, where $\alpha$ is the order of the
+information. First order Renyi information ($\alpha=1$) reduces to Shannon
+information. Third order Renyi information, applied to a time-frequency
+distribution $C_x(t,nu)$, is defined as
+\begin{eqnarray*}
+R_C^3 = -\frac{1}{2}\
+log_2\left\{\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} C_x^3(t,\nu)\
+dt\ d\nu\right\}. 
+\end{eqnarray*}
+The result produced by this measure is expressed in {\it bits}\index{bits
+of information}\,: if one elementary signal yields zero bit of information
+($2^0$), then two well separated elementary signals will yield one bit of
+information ($2^1$), four well separated elementary signals will yield two
+bits of information ($2^2$), and so on. This can be observed by considering
+the WVD of one, two and then four elementary atoms, and then by applying
+the Renyi information on them. The file \index{\ttfamily renyi}{\ttfamily
+renyi.m} computes this information measure\,:
+\begin{verbatim}
+     >> sig=atoms(128,[64,0.25,20,1]); 
+     >> [TFR,T,F]=tfrwv(sig);
+     >> R1=renyi(TFR,T,F)       ------> -0.2075
+
+     >> sig=atoms(128,[32,0.25,20,1;96,0.25,20,1]); 
+     >> [TFR,T,F]=tfrwv(sig);
+     >> R2=renyi(TFR,T,F)       ------>  0.779
+
+     >> sig=atoms(128,[32,0.15,20,1;96,0.15,20,1;...
+                       32,0.35,20,1;96,0.35,20,1]);  
+     >> [TFR,T,F]=tfrwv(sig);
+     >> R3=renyi(TFR,T,F)       ------>  1.8029
+\end{verbatim}
+We can see that if {\ttfamily R} is set to 0 for one elementary atom by
+subtracting {\ttfamily R1}, we obtain a result close to 1 for two atoms
+({\ttfamily R2-R1}=0.99) and close to 2 for four atoms ({\ttfamily
+R3-R1}=2.01). If the components are less separated in the time-frequency
+plane, the information measure will be affected by the overlapping of the
+components or by the interference terms between them (see \cite{WIL91} for
+more details on this analysis). In particular, it is possible to show that
+the Renyi information measure provides a good indication of the time
+separation at which the atoms are essentially resolved, with a better
+precision than with the time-bandwidth product.
+
+
+\section{Time-frequency analysis\,: help to decision}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+\subsection{General considerations}
+%''''''''''''''''''''''''''''''''''
+  The decision problem that one can have to solve when analyzing a
+signal is threefold\,:
+\begin{itemize}
+\item detect if an observed signal contains a given information (i.e. say,
+for a given false alarm probability, if {\it yes} or {\it no} the
+information is present)\,;
+\item estimate the parameters of a signal that we know to be present in
+an observation\,;
+\item classify a signal in one among different classes.
+\end{itemize}
+This problem, well known in theory in the general case, can be
+reconsidered when dealing with non-stationary signals, emphasized by
+the theory of time-frequency representations. Without going into
+details, it has been shown that some of the known optimal strategies
+of decision can be reformulated equivalently in the time-frequency
+plane (like the matched-filter with the WVD for example). This result
+is interesting for two reasons\,:
+\begin{itemize}
+\item on one hand, the time-frequency approach, compared to the
+classical one (formulated in the time-domain in general), usually
+provides a simpler interpretation of the decision test\,;
+\item on the other hand, when the optimal solution for a given criterion
+is not known in the decision theory, the time-frequency analysis can
+be useful to formulate a sub-optimal solution based on the better
+comprehension of the analyzed signal (for example, a time-frequency
+detector can be easily modified to take into account variations of the
+non-stationary signal to be detected, in order to improve the
+robustness of the detector).
+\end{itemize}
+  The proposed solutions in the literature construct a decision test
+(statistic) 
+\begin{itemize}
+\item either as a general time-frequency correlation between a
+time-frequency representation of the analyzed signal and some two
+dimensional template, constructed using the {\it a priori} information
+available on the signal,
+\item or by applying a transform on the TF representation of the
+analyzed signal, which brings to the fore some characteristic pattern
+of the signal to be detected (or estimated or classified), and by
+applying a test on this new space of decision. We consider in the
+following an example of such approach, for the problem of the
+detection and estimation of a linear frequency modulated signal
+embedded in some white gaussian noise.
+\end{itemize}
+
+
+\subsection{An example\,: detection and estimation of linear FM signals}
+%''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  As we have seen in section \ref{WVD}, the WVD ideally concentrates the
+linear chirp signals in the time-frequency plane. Thus, the problem of
+detection and estimation of such a signal, which is not easily recognizable
+in the time-domain, is reduced to the problem of detection and estimation
+of a line in an image, which is a well known and easy-to-solve problem in
+pattern recognition. This can be done by using the Hough transform,
+dedicated to the detection of lines (\cite{BAR95}).
+
+\subsubsection{The Hough transform for lines}
+Consider the polar parameterization of a line 
+\[x\ \cos\theta+y\ \sin\theta=\rho\] 
+(this parameterization is much more adapted to this problem than the
+Cartesian one). For each point $(x,y)$ of an image $I$, the Hough transform
+associates a sinusoid in the plane $(\rho,\theta)$, whose points have an
+amplitude equal to the intensity of the pixel $(x,y)$. So to all the points
+in $I$, the Hough transform associates a pencil of sinusoids which
+intersect themselves in the plane $(\rho,\theta)$. In other words, the HT
+performs integrations along lines on the image $I$, and the value of each
+integral is affected to the point $(\rho,\theta)$ corresponding to the
+parameters of this line. Therefore, if on the image $I$ some pixels with
+high intensities are concentrated along a straight line, we will observe in
+the domain $(\rho,\theta)$ a peak whose coordinates are directly related to
+the parameters of the lines.
+
+  This method can be easily applied to other parametric curves, like
+hyperbola for example. This transform is computed in the file
+\index{\ttfamily htl}{\ttfamily htl.m}.
+
+\subsubsection{The Wigner-Hough transform}
+\index{Wigner-Hough transform}
+When applying the Hough transform to the Wigner-Ville distribution of the
+signal
+\begin{eqnarray*}
+x(t)=e^{j2\pi(\nu_0 t+\beta/2 t^2)} + n(t) 
+\end{eqnarray*}
+observed during an observation time $T$ ($n(t)$ is a noise assumed white
+and gaussian), we obtain a new transform called the {\it Wigner-Hough
+transform} (WHT), whose expression is
+\begin{eqnarray}
+\label{WHT}
+WH_x(\nu_0,\beta) &=& \int_T W_x(t,\nu_0+\beta t)\ dt\\
+ &=& \int_{-\infty}^{+\infty}\int_T x(t+\tau/2)\ x^*(t-\tau/2)\ 
+	 e^{-j2\pi(\nu_0+\beta t)\tau}\ dt\ d\tau\nonumber
+\end{eqnarray}
+  The comparison of the WHT to a threshold is the proposed detection test,
+and the estimates of the unknown parameters $\nu_0$ and $\beta$ are given
+by the coordinates of the detected peak in the space of the parameters
+$(\nu_0,\beta)$. Thanks to the unitarity property of the WVD (Moyal's
+formula), it is possible to show that this detection test is {\it
+asymptotically} the {\it optimal detector} (i.e. optimal when $T$ tends to
+infinity). Besides, the {\it estimators} are {\it asymptotically efficient}
+(i.e. they asymptotically reach the Cramer-Rao lower bounds).  Compared to
+the classical decision test usually used in this case, the generalized
+likelihood ratio test (GLRT), this method presents the following advantages
+in the case of multicomponent signals\,:
+\begin{itemize}
+\item it is free from the estimation of the initial phase and amplitude
+of each component, which usually do not bring any information, and
+\item its complexity do not increase with the number of components $N_c$,
+unlike the GLRT whose complexity increases linearly with $N_c$.
+\end{itemize}
+
+  Here is an illustration of this decision test\,: first, we consider
+a linear chirp signal embedded in a white gaussian noise, with a 1\,dB 
+signal-to-noise ratio\,:
+\begin{verbatim}
+     >> N=64; sig=sigmerge(fmlin(N,0,0.3),noisecg(N),1);
+\end{verbatim}
+Now, if we analyze it with the WVD followed by the Hough transform (see
+fig. \ref{Ex1fig3} and \ref{Ex1fig4}),
+\begin{verbatim}
+     >> tfr=tfrwv(sig); contour(tfr,5); grid
+     >> htl(tfr,N,N,1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/ex1fig3.eps}}
+\caption{\label{Ex1fig3}WVD of a noisy chirp signal (SNR=1 dB) : while the
+chirp is hardly readable in the time-representation, the line still clearly
+appear in the WVD}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/ex1fig4.eps}}
+\caption{\label{Ex1fig4}Wigner-Hough transform of the previous noisy
+chirp\,: the peak corresponds to the chirp signal (and the side-lobes to
+the noise), and its coordinates give estimators of the chirp
+parameters. The detection test consists in comparing this peak to a
+threshold (threshold fixed by the chosen criterion)}
+\end{figure}
+we obtain, in the parameters' space $(\rho,\theta)$, a peak representing
+the chirp signal, significantly more energetic than the other peaks
+corresponding to the noise. The decision test is then very simple\,: it
+consists in applying a threshold on this representation, positioned
+according to a detection criterion\,; if the peak is higher than the
+threshold, then the chirp is said to be present, and the coordinates of
+that peak $(\hat{\rho},\hat{\theta})$ provide estimates of the chirp
+parameters (the change from $(\hat{\rho},\hat{\theta})$ to
+$(\hat{\nu_0},\hat{\beta})$ corresponds to the change from polar to
+Cartesian coordinates).
+
+  In the case of a multi-component signal, the problem of interference
+terms appear. However, due to the oscillating structure of these terms, the
+integration (\ref{WHT}) operated by the Hough transform on the WVD will
+attenuate them. This can be observed on the following example\,: we
+superpose two chirp signals with different initial frequencies and sweep
+rates (see fig. \ref{Ex1fig5} and \ref{Ex1fig6})\,:
+\begin{verbatim}
+     >> sig=sigmerge(fmlin(N,0,0.4),fmlin(N,0.3,0.5),1);
+     >> tfr=tfrwv(sig); contour(tfr,5); grid
+     >> htl(tfr,N,N,1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/ex1fig5.eps}}
+\caption{\label{Ex1fig5}WVD of two simultaneous chirp signals :
+interference terms appear between the two components}
+\end{figure}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=8cm
+\centerline{\epsfbox{figure/ex1fig6.eps}}
+\caption{\label{Ex1fig6}Wigner-Hough transform of the two-component chirp
+signal : two main peaks are present, characterizing the two chirp
+components, while the cross terms present in the WVD only introduce small
+side-lobes in the Wigner-Hough transform}
+\end{figure}
+We can see that the components are well separated in the parameter
+space, in spite of the use of a nonlinearity in the WHT. Again, the
+coordinates of the two peaks provide estimates of the different
+parameters. 
+
+
+\section{Analysis of local singularities}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\index{singularity}\index{Holder exponent}\index{regularity} If the
+time-frequency representations are useful to bring to the fore the
+progression with time of the frequency of a signal, the time-scale
+representations are more adapted to the analysis of irregular structures
+and singularities, or of signals presenting self-similarities (such as
+fractional Brownian motion, \cite{GON92}). We give in the following such an
+example with the analysis of {\it local singularities}, thanks to the
+scalogram and the Unterberger distribution.
+
+  The local regularity of a signal can be characterized by its {\it Holder}
+(or {\it Lipschitz} or {\it scaling}) {\it exponent}\,: for a signal $x(t)$
+which is {\it uniformly Holder} $H$, there exists a constant $C$ such that
+\begin{eqnarray*}
+|x(s)-x(t)|\ \ \leq\ \ C\ |s-t|^H,\ \ 0<H<1.
+\end{eqnarray*}
+$H$ then represents the {\it exponent of regularity}\index{exponent of
+regularity} of the signal. If we consider the wavelet transform
+$T_x(t,a;\Psi)$ of this signal, with an analyzing wavelet $\Psi$ such that
+$t\ \Psi(t)$ is absolutely integrable, then one can show that
+\begin{eqnarray*}
+|T_x(t,a;\Psi)|&\leq& C\ |a|^{H+1/2}\ \int_{-\infty}^{+\infty} |t|^H\
+|\Psi(t)|\ dt\\ 
+ &=& O(|a|^{H+1/2})\ \ \forall\ t,
+\end{eqnarray*}
+or, in terms of scalogram and behavior when $a$ tends to 0, 
+\begin{eqnarray*}
+E\left[|T_x(t,a;\Psi)|^2\right] \ \sim\ |a|^{2H+1},\ \ a\rightarrow 0.
+\end{eqnarray*}
+where $E[.]$ refers to the expectation. This means that the regularity
+of the signal can be recovered from the behavior of its scalogram at
+small scales, and it is possible to show that the reciprocal is true.
+
+  Since they are time-dependent in nature, the wavelet-based
+techniques also allow an estimation of the local regularity of a
+signal. In some sense, time-scale methods offer in this respect a
+framework similar to the one provided by time-frequency analysis for
+tracking the time evolution of spectral features. Indeed, if we now
+have, at a given time $t_0$,
+\begin{eqnarray}
+\label{regularity}
+|x(t_0+\tau)-x(t_0)|\ \leq\ C\ |\tau|^{H(t_0)},\ \ 0<H(t_0)<1,
+\end{eqnarray}
+then we can establish the inequality
+\begin{eqnarray*}
+|T_x(t,a;\Psi)|&\leq& C\ |a|^{H(t_0)+1/2}\ \int_{-\infty}^{+\infty}
+|t|^{H(t_0)}\ |\Psi(t)|\ dt \\ 
+ &&+ C\ |t-t_0|^{H(t_0)}\ \int_{-\infty}^{+\infty} |\Psi(t)|\ dt\\ 
+ &=& O(|a|^{H(t_0)+1/2} + |t-t_0|^{H(t_0)}).
+\end{eqnarray*}
+We then obtain an image of the signal's regularity at the small scales
+of its wavelet transform (or scalogram), but accompanied with a time
+localization. The reciprocal is also true, which means that an
+appropriate decrease of the wavelet (scalogram) coefficients in a
+cone-shaped region of the time-frequency plane allows one to estimate
+the local regularity of a signal.
+
+  If we further impose to condition (\ref{regularity}) that the signal
+presents an asymptotic spectral decrease,
+\begin{eqnarray*}
+X(\nu) \ \sim\ |\nu|^{-(1+2H(t_0))}\ e^{j2\pi \nu t_0}\ \ \mbox{ for }\ \
+|\nu|\rightarrow\infty, 
+\end{eqnarray*}
+then we have the following approximation for the active Unterberger
+distribution\,:
+\begin{eqnarray*}
+U_x(t,a) \ \sim\ |a|^{2(1+H(t_0))}\ \delta(t-t_0),\ \ a\rightarrow 0.
+\end{eqnarray*}
+Thus, the Unterberger distribution follows a law along scales which
+gives access to the strength of the singularity ($H$), and along time to
+the localization of this singularity.
+
+  The file \index{\ttfamily holder}{\ttfamily holder.m} estimates the
+Holder exponent of any signal from an affine time-frequency representation
+of it.\\
+
+o {\it Example}\\ For instance, we consider a 64-points Lipschitz
+  singularity (see \index{\ttfamily anasing}{\ttfamily anasing.m}) of
+  strength $H=0$, centered at $t_0=32$,
+\begin{verbatim}
+     >> sig=anasing(64);
+\end{verbatim}
+and we analyze it with the scalogram (Morlet wavelet with half-length = 4, see
+fig. \ref{Ex1fig7}),
+\begin{verbatim}
+     >> [tfr,t,f]=tfrscalo(sig,1:64,4,0.01,0.5,256,1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/ex1fig7.eps}}
+\caption{\label{Ex1fig7}Scalogram of a Lipschitz singularity at time
+$t=32$, of strength $H=0$}
+\end{figure}
+The time-localization of the singularity can be clearly estimated from
+the scalogram distribution at small scales : 
+\begin{verbatim}
+     >> H=holber(tfr,f,1,256,32)    ------>  H=-0.0381
+\end{verbatim}
+
+If we now consider a singularity of strength H=-0.5 (see
+fig. \ref{Ex1fig8}),
+\begin{verbatim}
+     >> sig=anasing(64,32,-0.5);
+     >> [tfr,t,f]=tfrscalo(sig,1:64,4,0.01,0.5,256,1);
+\end{verbatim}
+\begin{figure}[htb]
+\epsfxsize=10cm
+\epsfysize=10cm
+\centerline{\epsfbox{figure/ex1fig8.eps}}
+\caption{\label{Ex1fig8}Scalogram of a Lipschitz singularity at time
+$t=32$, of strength $H=-0.5$}
+\end{figure}
+we notice the different behavior of the scalogram along scales, whose
+decrease is characteristic of the strength $H$. The estimation of the
+Holder exponent at $t=32$ gives :
+\begin{verbatim}
+     >> H=holber(tfr,f,1,256,32)    ------>  H=-0.5107
+\end{verbatim}
+which is close to 0.5.
+
+The same conclusions can be observed from the active Unterberger
+distribution.
+

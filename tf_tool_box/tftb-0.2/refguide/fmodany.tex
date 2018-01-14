@@ -1,0 +1,81 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{fmodany}
+\section*{\hspace*{-1.6cm} fmodany}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Signal with arbitrary frequency modulation.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[y,iflaw] = fmodany(iflaw)
+[y,iflaw] = fmodany(iflaw,t0)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmodany} generates a frequency modulated signal whose
+        instantaneous frequency law is approximately given by the vector
+        {\ty iflaw} (the integral is approximated by {\ty cumsum}).  The
+        phase of this modulation is such that {\ty y(t0)=1}.\\
+  
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty iflaw} & vector of the instantaneous frequency law samples\\
+        {\ty t0}    & time reference          & {\ty 1}\\
+  \hline {\ty y}     & output signal\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+         [y1,ifl1]=fmlin(100); [y2,ifl2]=fmsin(100);
+         iflaw=[ifl1;ifl2]; sig=fmodany(iflaw); 
+         subplot(211); plot(real(sig))
+         subplot(212); plot(iflaw); 
+\end{verbatim}
+This example shows a signal composed of two successive frequency
+modulations\,: a linear FM followed by a sinusoidal FM.\\
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmconst, fmlin, fmsin, fmpar, fmhyp, fmpower.
+\end{verbatim}
+\end{minipage}
+
+
+

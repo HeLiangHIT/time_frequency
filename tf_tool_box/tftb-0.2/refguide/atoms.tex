@@ -1,0 +1,83 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{atoms}
+\section*{\hspace*{-1.6cm} atoms}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Linear combination of elementary Gaussian atoms.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[sig,locatoms] = atoms(N)
+[sig,locatoms] = atoms(N,coord)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty atoms} generates a signal consisting in a linear combination
+        of elementary gaussian atoms. The locations of the time-frequency
+        centers of the different atoms are either fixed by the input
+        parameter {\ty coord} or successively defined by clicking with the
+        mouse (if {\ty nargin==1}), with the help of a menu.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty N}        & number of points of the signal\\
+        {\ty coord}    & matrix of time-frequency centers, of the form
+                   {\ty [t1,f1,T1,A1;...;tM,fM,TM,AM]}. {\ty (ti,fi)} are the 
+                   time-frequency coordinates of atom {\ty i}, {\ty Ti} is its time 
+                   duration and {\ty Ai} its amplitude. Frequencies {\ty f1..fM} should 
+                   be between 0 and 0.5.
+                   If {\ty nargin==1}, the location of the atoms will be defined
+                   by clicking with the mouse& {\ty Ti=N/4, Ai=1}.\\
+ \hline {\ty sig}      & output signal\\
+        {\ty locatoms} & matrix of time-frequency coordinates and durations of the
+                   atoms  \\
+
+\hline
+\end{tabular*}
+\vspace*{.1cm}
+
+When the selection of the atoms is finished (after clicking on the 'Stop'
+buttom, or after having specified the coordinates at the command line with
+the input parameter {\ty coord}), the signal in time together with a
+schematic representation of the atoms in the time-frequency plane are
+displayed on the current figure.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Examples}
+\begin{verbatim}
+         sig=atoms(128);
+         sig=atoms(128,[32,0.3,32,1;56,0.15,48,1.22;102,0.41,20,0.7]); 
+\end{verbatim}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+amgauss, fmconst.
+\end{verbatim}
+\end{minipage}

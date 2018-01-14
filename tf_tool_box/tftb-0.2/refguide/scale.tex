@@ -1,0 +1,91 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\renewcommand{\footnoterule}{}
+\markright{scale}
+\section*{\hspace*{-1.6cm} scale}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Scale a signal using the Mellin transform.
+\end{minipage}
+\vspace*{.2cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+S = scale(x,a,fmin,fmax,N)
+\end{verbatim}
+\end{minipage}
+\vspace*{.3cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty scale} computes the {\ty a}-scaled version of signal {\ty x} :
+        $x_a(t)\ =\ a^{-\frac{1}{2}}\ x(\frac{t}{a})$ using the Mellin
+        transform.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x} & signal in time to be scaled ({\ty Nx=length(x)})\\
+        {\ty a} & scale factor. {\ty a} $<$ 1 corresponds to a compression
+		in the time domain and {\ty a} $>$ 1 to a dilation. {\ty a}
+		can be a vector. 		& {\ty 2}\\ 
+        {\ty fmin, fmax} & respectively lower and upper frequency bounds of 
+           the analyzed signal. These parameters fix the equivalent 
+           frequency bandwidth (expressed in Hz). When unspecified, you
+           have to enter them at the command line from the plot of the
+           spectrum. {\ty fmin} and {\ty fmax} must be $>${\ty 0} and
+	   $\leq${\ty 0.5}\\ 
+        {\ty N} & number of analyzed voices & auto\footnote{This value,
+	determined from {\ty fmin} and {\ty fmax}, is the 
+	next-power-of-two of the minimum value checking the non-overlapping
+	condition in the fast Mellin transform.}\\
+\hline  {\ty S} & the {\ty a}-scaled version of signal {\ty x}. Length of
+		{\ty S} can be larger than length of {\ty x} if {\ty a} $>$
+		1. If {\ty a} is a vector of length {\ty L}, {\ty S} is  
+           a matrix with {\ty L} columns. {\ty S} has the same energy as {\ty x}.\\
+\hline
+\end{tabular*}
+\end{minipage}
+\vspace*{.3cm}
+
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Dilate a Klauder-wavelet by a factor of 2 :
+\begin{verbatim}
+         sig=klauder(100); S=scale(sig,2,.05,.45,100);
+         subplot(211); plot(sig); 
+         subplot(212); plot(real(S(51:150)));
+\end{verbatim}
+\end{minipage}
+\vspace*{.3cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+fmt.
+\end{verbatim}
+\end{minipage}
+
+
+
+

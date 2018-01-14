@@ -1,0 +1,105 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{fmt}
+\section*{\hspace*{-1.6cm} fmt}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Fast Mellin Transform.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[mellin,beta] = fmt(x)
+[mellin,beta] = fmt(x,fmin,fmax)
+[mellin,beta] = fmt(x,fmin,fmax,N)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty fmt} computes the Fast Mellin Transform of signal {\ty x}.\\
+ 
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x} & signal in time\\
+        {\ty fmin, fmax} & respectively lower and upper frequency bounds of 
+         the analyzed signal. These parameters fix the equivalent 
+         frequency bandwidth (expressed in Hz). When unspecified, you
+         have to enter them at the command line from the plot of the
+         spectrum. {\ty fmin} and {\ty fmax} must be between 0 and 0.5\\     
+        {\ty N} & number of analyzed voices. {\ty N} must be even &
+	auto\footnote{This value, determined from {\ty fmin} and {\ty fmax}, is the 
+	next-power-of-two of the minimum value checking the non-overlapping
+	condition in the fast Mellin transform.}\\
+\hline  {\ty mellin} & the {\ty N}-points Mellin transform of signal {\ty x}\\
+        {\ty beta} & the {\ty N}-points Mellin variable\\ 
+\hline
+\end{tabular*}
+\vspace*{.5cm}
+
+The Mellin transform is invariant in modulus to dilations, and decomposes
+the signal on a basis of hyperbolic signals. This transform can be defined
+as\,:
+\[M_x(\beta)=\int_0^{+\infty} x(\nu)\ \nu^{j2\pi \beta-1}\ d\nu\]
+where $x(\nu)$ is the Fourier transform of the analytic signal
+corresponding to $x(t)$. The $\beta$-parameter can be interpreted as a {\it
+hyperbolic modulation rate}, and has no dimension\,; it is called the {\it
+Mellin's scale}. 
+
+In the discrete case, the Mellin transform can be calculated rapidly using
+a fast Fourier transform ({\ty fft}). The fast Mellin transform is  used,
+for example, in the computation of the affine time-frequency distributions.
+\end{minipage}
+
+%\newpage
+
+{\bf \large \sf Example}
+\begin{verbatim}
+         sig=altes(128,0.05,0.45); 
+         [mellin,beta]=fmt(sig,0.05,0.5,128);
+         plot(beta,real(mellin));
+\end{verbatim}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+ifmt, fft, ifft.
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf References}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+[1] J. Bertrand, P. Bertrand, J-P. Ovarlez ``Discrete Mellin Transform for
+Signal Analysis'' Proc IEEE-ICASSP, Albuquerque, NM USA, 1990.\\
+
+[2] J-P. Ovarlez, J. Bertrand, P. Bertrand ``Computation of Affine
+Time-Frequency Representations Using the Fast Mellin Transform'' Proc
+IEEE-ICASSP, San Fransisco, CA USA, 1992.
+\end{minipage}
+
+

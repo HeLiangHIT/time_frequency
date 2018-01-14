@@ -1,0 +1,88 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+
+\markright{loctime}
+\section*{\hspace*{-1.6cm} loctime}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Time localization characteristics.
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[tm,T] = loctime(x)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty loctime} computes the time localization characteristics of
+        signal {\ty x}. The definition used for the averaged time
+        and the time spreading are the following\,:
+\begin{eqnarray*}
+t_m &=& \frac{1}{E_x}\ \int_{-\infty}^{+\infty} t\ |x(t)|^2\ dt \\ T &=&
+2\ \sqrt{\frac{\pi}{E_x}\ \int_{-\infty}^{+\infty} (t-t_m)^2\ |x(t)|^2\ dt}
+\end{eqnarray*}
+where $E_x$ is the energy of the signal. With this definition (and the one
+used in {\ty locfreq}), the Heisenberg-Gabor inequality writes $B\ T\geq
+1$.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{8.5cm} c}
+Name & Description & Default value\\
+\hline
+   {\ty x}   & signal\\
+ \hline       {\ty tm}  & averaged time center\\
+        {\ty T}   & time spreading\\
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Examples}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Here is an example of signal which corresponds to the lower bound of the
+Heisenberg-Gabor inequality.
+\begin{verbatim}
+         z=amgauss(160,80,50); 
+         [tm,T]=loctime(z); 
+         [fm,B]=locfreq(z);
+         [tm,T,fm,B,T*B]
+         ans = 
+               80.0000   50.0000   0.0000   0.0200   1
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+locfreq.
+\end{verbatim}
+\end{minipage}
+
+
+
+

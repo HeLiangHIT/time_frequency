@@ -1,0 +1,74 @@
+% This is part of the TFTB Reference Manual.
+% Copyright (C) 1996 CNRS (France) and Rice University (US).
+% See the file refguide.tex for copying conditions.
+
+
+\markright{sgrpdlay}
+\section*{\hspace*{-1.6cm} sgrpdlay}
+
+\vspace*{-.4cm}
+\hspace*{-1.6cm}\rule[0in]{16.5cm}{.02cm}
+\vspace*{.2cm}
+
+{\bf \large \sf Purpose}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Group delay estimation of a signal.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Synopsis}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+[gd,fnorm] = sgrpdlay(x)
+[gd,fnorm] = sgrpdlay(x,fnorm)
+\end{verbatim}
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf Description}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+        {\ty sgrpdlay} estimates the group delay of a signal {\ty x} at the
+        normalized frequency(ies) {\ty fnorm}.\\
+
+\hspace*{-.5cm}\begin{tabular*}{14cm}{p{1.5cm} p{7.5cm} c}
+Name & Description & Default value\\
+\hline
+        {\ty x}     & signal in the time-domain ({\ty N=length(x)})\\
+        {\ty fnorm} & normalized frequency & {\ty linspace(-.5,.5,N)}\\ 
+\hline  {\ty gd}    & output vector containing the group delay
+	samples. When GD equals zero, it means that the estimation of the
+	group delay for this frequency was outside the interval {\ty [1 xrow]},
+	and therefore meaningless.\\ 
+
+\hline
+\end{tabular*}
+
+\end{minipage}
+\vspace*{1cm}
+
+{\bf \large \sf Example}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+Let us compare the estimated group-delay and instantaneous frequency of a
+linear chirp signal : 
+\begin{verbatim}
+         N=128; x=fmlin(N,0.1,0.4);
+         fnorm=0.1:0.04:0.38; gd=sgrpdlay(x,fnorm); 
+         t=2:N-1; instf=instfreq(x,t);
+         plot(t,instf,gd,fnorm); axis([1 N 0 0.5]); 
+\end{verbatim}
+The two curves are almost superposed, which is normal for a large
+time-bandwidth product signal.
+\end{minipage}
+\vspace*{.5cm}
+
+{\bf \large \sf See Also}\\
+\hspace*{1.5cm}
+\begin{minipage}[t]{13.5cm}
+\begin{verbatim}
+instfreq.
+\end{verbatim}
+\end{minipage}
