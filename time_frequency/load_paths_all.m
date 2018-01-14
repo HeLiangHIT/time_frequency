@@ -10,4 +10,4 @@ paths = [
     ];
 addpath( paths );
 
-
+clear all;
