@@ -11,7 +11,7 @@
 
 先运行 time_frequency\load_paths_all.m 和 tf_tool_box\load_toolbox_all.m 以确保所有文件夹被添加到matlab搜索路径中。
 
-如何输出论文所有图像具体参考: [./doc/程序验收清单_何亮.docx]
+如何输出论文所有图像具体参考: [./doc/程序验收清单_何亮.docx](./doc/程序验收清单_何亮.docx)
 
 目录 time_frequency 下全部是论文核心工作，包括了论文从选题到最终实现的所有代码，能封装都尽量封装成可以通用的函数了。
 
