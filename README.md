@@ -19,6 +19,8 @@
 
 
 
-如果本源码对你有所帮助，可以[点赞支持](./img/URgood.jpg)。
+如果本源码对你有所帮助，可以[点赞支持](./img/URgood.jpg)
+
+也可以关注作者公众号提问~
 
 <img src="./img/owner.jpg" width = "300" height = "300" alt="关注作者" align="center" />
