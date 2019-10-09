@@ -6,6 +6,38 @@
 
 毕业答辩PPT: [./doc/何亮_基于时频分布的多分量信号提取与重建技术研究_结题PPT.ppt](./doc/何亮_基于时频分布的多分量信号提取与重建技术研究_结题PPT.ppt)
 
+引用代码的要求不高，请客观引用论文：
+
+```
+@INPROCEEDINGS{Wu2002:Time,
+AUTHOR="Longwen Wu and Yaqin Zhao and Liang He and Shengyang He and Guanghui Ren",
+TITLE="A Time-varying Filtering Algorithm based on Short-time Fractional Fourier
+Transform",
+BOOKTITLE="2020 International Conference on Computing, Networking and Communications
+(ICNC): Wireless Networks (ICNC'20 WN)",
+ADDRESS="Big Island, USA",
+DAYS=17,
+MONTH=feb,
+YEAR=2020,
+KEYWORDS="time-varying filtering; short-time fractional Fourier transform; order
+time-varying; multi-component signal decomposition",
+ABSTRACT="This paper presents a novel time-varying filtering (TVF) algorithm based on
+order time-varying short-time fractional Fourier transform (OTV-STFrFT) for
+multi-component signal analysis, which can process non-linear frequency
+modulated (NLFM). The idea of combining TVF and the order time-varying
+STFrFT are mainly inspired by the following two aspects: i) NLFM signals
+can be locally regarded as segmented linear frequency modulated (LFM)
+signals; ii) the fractional Fourier transform is the optimal sparse
+representation of LFM signal. The order time-varying STFrFT can overcome
+several defects of the existing TVF algorithms in dealing with
+multi-component signals, of which the mixed components may intersect in the
+time-frequency distribution. The numerical results shows that the proposed
+algorithm is superior to the TVF algorithms based on conventional
+short-time Fourier transform (STFT) and state-of-the-art synchrosqueezed
+wavelet transforms (SsWT) in multi-component signal analysis."
+}
+```
+
 
 ## 程序运行方法
 
